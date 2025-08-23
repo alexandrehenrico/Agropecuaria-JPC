@@ -30,12 +30,12 @@ export default function SenhasPage() {
   if (loading) {
     return (
       <ProtectedRoute>
-        <div className="flex h-screen bg-background">
+        <div className="flex h-screen bg-gradient-to-br from-green-50 to-emerald-100">
           <Sidebar />
           <main className="flex-1 lg:ml-64 p-8">
             <div className="max-w-7xl mx-auto">
               <div className="flex items-center justify-center h-64">
-                <div className="text-muted-foreground">Carregando senhas...</div>
+                <div className="text-green-700">Carregando senhas...</div>
               </div>
             </div>
           </main>
@@ -46,19 +46,19 @@ export default function SenhasPage() {
 
   return (
     <ProtectedRoute>
-      <div className="flex h-screen bg-background">
+      <div className="flex h-screen bg-gradient-to-br from-green-50 to-emerald-100">
         <Sidebar />
         <main className="flex-1 lg:ml-64 p-8 overflow-auto">
           <div className="max-w-7xl mx-auto space-y-8">
             <div>
-              <h1 className="text-3xl font-bold">Gerenciador de Senhas</h1>
-              <p className="text-muted-foreground">Gerencie suas senhas de forma segura</p>
+              <h1 className="text-3xl font-bold text-green-900">Gerenciador de Senhas</h1>
+              <p className="text-green-700">Gerencie suas senhas de forma segura</p>
             </div>
 
             <SenhaForm onSenhaAdicionada={carregarSenhas} />
 
             <div>
-              <h2 className="text-xl font-semibold mb-4">Lista de Senhas ({senhas.length})</h2>
+              <h2 className="text-xl font-semibold mb-4 text-green-900">Lista de Senhas ({senhas.length})</h2>
               <SenhasList senhas={senhas} />
             </div>
           </div>

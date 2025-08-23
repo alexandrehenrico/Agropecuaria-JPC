@@ -111,19 +111,19 @@ export function DespesasList({ despesas }: DespesasListProps) {
       {/* Filtros */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-green-700" />
           <Input
             placeholder="Buscar despesas..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
+            className="pl-10 border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
           />
         </div>
 
         <div className="flex gap-2">
           <Select value={categoriaFiltro} onValueChange={setCategoriaFiltro}>
-            <SelectTrigger className="w-48 flex items-center">
-              <Filter className="h-4 w-4 mr-2" />
+            <SelectTrigger className="w-48 flex items-center border-green-200 focus:border-emerald-500 focus:ring-emerald-500">
+              <Filter className="h-4 w-4 mr-2 text-green-700" />
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -136,7 +136,7 @@ export function DespesasList({ despesas }: DespesasListProps) {
           </Select>
 
           <Select value={periodoFiltro} onValueChange={setPeriodoFiltro}>
-            <SelectTrigger className="w-40">
+            <SelectTrigger className="w-40 border-green-200 focus:border-emerald-500 focus:ring-emerald-500">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -151,14 +151,14 @@ export function DespesasList({ despesas }: DespesasListProps) {
 
       {/* Estatísticas */}
       <div className="grid gap-4 md:grid-cols-2">
-        <div className="flex items-center justify-between p-4 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200 shadow-sm">
-          <span className="text-sm font-medium">{despesasFiltradas.length} despesa(s) encontrada(s)</span>
+        <div className="flex items-center justify-between p-4 bg-gradient-to-br from-green-50 to-emerald-100 rounded-xl border border-green-200 shadow-sm">
+          <span className="text-sm font-medium text-green-900">{despesasFiltradas.length} despesa(s) encontrada(s)</span>
           <span className="text-lg font-bold text-red-600">Total: {formatCurrency(totalDespesas)}</span>
         </div>
 
         {categoriaComMaiorGasto.categoria && (
-          <div className="flex items-center justify-between p-4 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200 shadow-sm">
-            <span className="text-sm font-medium">Maior gasto: {categoriaComMaiorGasto.categoria}</span>
+          <div className="flex items-center justify-between p-4 bg-gradient-to-br from-green-50 to-emerald-100 rounded-xl border border-green-200 shadow-sm">
+            <span className="text-sm font-medium text-green-900">Maior gasto: {categoriaComMaiorGasto.categoria}</span>
             <span className="text-lg font-bold text-red-600">{formatCurrency(categoriaComMaiorGasto.valor)}</span>
           </div>
         )}
@@ -166,8 +166,8 @@ export function DespesasList({ despesas }: DespesasListProps) {
 
       {/* Lista de despesas */}
       {despesasFiltradas.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-muted-foreground">
+        <div className="text-center py-12 bg-gradient-to-br from-green-50 to-emerald-100 rounded-xl border border-green-200">
+          <p className="text-green-700 text-lg">
             {searchTerm || categoriaFiltro !== "Todas" || periodoFiltro !== "Todos"
               ? "Nenhuma despesa encontrada com os filtros aplicados."
               : "Nenhuma despesa cadastrada ainda."}

@@ -65,19 +65,19 @@ export function SenhaCard({ senha, onClick, className }: SenhaCardProps) {
 
   return (
     <Card
-      className={`relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200 shadow-sm transition-all duration-200 ${
+      className={`relative overflow-hidden bg-gradient-to-br from-green-50 to-emerald-100 rounded-xl border border-green-200 shadow-sm transition-all duration-200 ${
         onClick ? "cursor-pointer hover:scale-[1.02] hover:shadow-md" : ""
       } ${className || ""}`}
       onClick={onClick}
     >
       {/* Decorações de fundo */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-gray-300 rounded-full opacity-10 -translate-y-12 translate-x-12" />
-      <div className="absolute bottom-0 left-0 w-24 h-24 bg-black rounded-full opacity-5 translate-y-10 -translate-x-10" />
+      <div className="absolute top-0 right-0 w-32 h-32 bg-green-300 rounded-full opacity-15 -translate-y-12 translate-x-12" />
+      <div className="absolute bottom-0 left-0 w-24 h-24 bg-emerald-500 rounded-full opacity-10 translate-y-10 -translate-x-10" />
 
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-lg leading-tight text-gray-900 truncate">
+            <h3 className="font-semibold text-lg leading-tight text-green-900 truncate">
               {senha.titulo}
             </h3>
           </div>
@@ -89,7 +89,7 @@ export function SenhaCard({ senha, onClick, className }: SenhaCardProps) {
                 e.stopPropagation()
                 openUrl()
               }}
-              className="h-8 w-8 p-0 hover:bg-gray-200"
+              className="h-8 w-8 p-0 hover:bg-green-100"
             >
               <ExternalLink className="h-4 w-4" />
             </Button>
@@ -98,13 +98,13 @@ export function SenhaCard({ senha, onClick, className }: SenhaCardProps) {
       </CardHeader>
 
       <CardContent className="pt-0 space-y-4">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Calendar className="h-4 w-4" />
+        <div className="flex items-center gap-2 text-sm text-green-700">
+          <Calendar className="h-4 w-4 text-green-700" />
           <span>{formatDate(senha.dataRegistro)}</span>
         </div>
 
         <div className="flex items-center gap-2 text-sm">
-          <Tag className="h-4 w-4 text-muted-foreground" />
+          <Tag className="h-4 w-4 text-green-700" />
           <Badge variant="outline" className={`${getCategoriaColor(senha.categoria)} font-medium`}>
             {senha.categoria}
           </Badge>
@@ -113,8 +113,8 @@ export function SenhaCard({ senha, onClick, className }: SenhaCardProps) {
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-sm">
-              <User className="h-4 w-4 text-muted-foreground" />
-              <span className="text-gray-700 truncate">{senha.usuario}</span>
+              <User className="h-4 w-4 text-green-700" />
+              <span className="text-green-700 truncate">{senha.usuario}</span>
             </div>
             <Button
               variant="ghost"
@@ -123,7 +123,7 @@ export function SenhaCard({ senha, onClick, className }: SenhaCardProps) {
                 e.stopPropagation()
                 copyToClipboard(senha.usuario, "Usuário")
               }}
-              className="h-6 w-6 p-0 hover:bg-gray-200"
+              className="h-6 w-6 p-0 hover:bg-green-100"
             >
               <Copy className="h-3 w-3" />
             </Button>
@@ -132,8 +132,8 @@ export function SenhaCard({ senha, onClick, className }: SenhaCardProps) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-sm">
               <div className="flex items-center gap-1">
-                <span className="text-muted-foreground">Senha:</span>
-                <span className="font-mono text-gray-700">
+                <span className="text-green-700">Senha:</span>
+                <span className="font-mono text-green-700">
                   {showPassword ? senha.senha : "••••••••"}
                 </span>
               </div>
@@ -146,7 +146,7 @@ export function SenhaCard({ senha, onClick, className }: SenhaCardProps) {
                   e.stopPropagation()
                   setShowPassword(!showPassword)
                 }}
-                className="h-6 w-6 p-0 hover:bg-gray-200"
+                className="h-6 w-6 p-0 hover:bg-green-100"
               >
                 {showPassword ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
               </Button>
@@ -157,7 +157,7 @@ export function SenhaCard({ senha, onClick, className }: SenhaCardProps) {
                   e.stopPropagation()
                   copyToClipboard(senha.senha, "Senha")
                 }}
-                className="h-6 w-6 p-0 hover:bg-gray-200"
+                className="h-6 w-6 p-0 hover:bg-green-100"
               >
                 <Copy className="h-3 w-3" />
               </Button>
@@ -166,18 +166,18 @@ export function SenhaCard({ senha, onClick, className }: SenhaCardProps) {
         </div>
 
         {senha.observacoes && (
-          <div className="pt-2 border-t border-gray-100">
-            <p className="text-xs text-muted-foreground leading-relaxed">
+          <div className="pt-2 border-t border-green-200">
+            <p className="text-xs text-green-700 leading-relaxed">
               {senha.observacoes}
             </p>
           </div>
         )}
 
         {senha.registradoPor && (
-          <div className="pt-2 border-t border-gray-100">
+          <div className="pt-2 border-t border-green-200">
             <div className="flex items-center gap-2">
-              <UserCheck className="h-3 w-3 text-muted-foreground" />
-              <span className="text-xs text-muted-foreground">
+              <UserCheck className="h-3 w-3 text-green-700" />
+              <span className="text-xs text-green-700">
                 Registrado por {senha.registradoPor}
               </span>
             </div>

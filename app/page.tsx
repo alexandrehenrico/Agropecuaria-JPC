@@ -72,12 +72,12 @@ export default function HomePage() {
   if (loading) {
     return (
       <ProtectedRoute>
-        <div className="flex h-screen bg-background">
+        <div className="flex h-screen bg-gradient-to-br from-green-50 to-emerald-100">
           <Sidebar />
           <main className="flex-1 lg:ml-64 p-8">
             <div className="max-w-7xl mx-auto">
               <div className="flex items-center justify-center h-64">
-                <div className="text-muted-foreground">Carregando...</div>
+                <div className="text-green-700">Carregando...</div>
               </div>
             </div>
           </main>
@@ -89,7 +89,7 @@ export default function HomePage() {
   if (error) {
     return (
       <ProtectedRoute>
-        <div className="flex h-screen bg-background">
+        <div className="flex h-screen bg-gradient-to-br from-green-50 to-emerald-100">
           <Sidebar />
           <main className="flex-1 lg:ml-64 p-8">
             <div className="max-w-7xl mx-auto">
@@ -105,16 +105,16 @@ export default function HomePage() {
 
   return (
     <ProtectedRoute>
-      <div className="flex h-screen bg-background">
+      <div className="flex h-screen bg-gradient-to-br from-green-50 to-emerald-100">
         <Sidebar />
         <main className="flex-1 lg:ml-64 p-8 overflow-auto">
           <div className="max-w-7xl mx-auto space-y-8">
             <UserHeader />
 
             <div>
-              <h1 className="text-3xl font-bold">Visão Geral Fazenda Progresso</h1>
-              <p className="text-muted-foreground">Sistema de Gestão Interna - Visão Geral Financeira</p>
-              <p className="text-xs text-muted-foreground mt-2">
+              <h1 className="text-3xl font-bold text-green-900">Visão Geral Fazenda Progresso</h1>
+              <p className="text-green-700">Sistema de Gestão Interna - Visão Geral Financeira</p>
+              <p className="text-xs text-green-700 mt-2">
                 Debug: {Funcionarios.length} Funcionarios, {receitas.length} receitas, {despesas.length} despesas
               </p>
             </div>

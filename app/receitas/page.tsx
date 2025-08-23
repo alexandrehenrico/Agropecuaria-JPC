@@ -32,12 +32,12 @@ export default function ReceitasPage() {
   if (loading) {
     return (
       <ProtectedRoute>
-        <div className="flex h-screen bg-background">
+        <div className="flex h-screen bg-gradient-to-br from-green-50 to-emerald-100">
           <Sidebar />
           <main className="flex-1 lg:ml-64 p-8">
             <div className="max-w-7xl mx-auto">
               <div className="flex items-center justify-center h-64">
-                <div className="text-muted-foreground">Carregando receitas...</div>
+                <div className="text-green-700">Carregando receitas...</div>
               </div>
             </div>
           </main>
@@ -48,19 +48,19 @@ export default function ReceitasPage() {
 
   return (
     <ProtectedRoute>
-      <div className="flex h-screen bg-background">
+      <div className="flex h-screen bg-gradient-to-br from-green-50 to-emerald-100">
         <Sidebar />
         <main className="flex-1 lg:ml-64 p-8 overflow-auto">
           <div className="max-w-7xl mx-auto space-y-8">
             <div>
-              <h1 className="text-3xl font-bold">Receitas</h1>
-              <p className="text-muted-foreground">Gerencie suas receitas e faturamento</p>
+              <h1 className="text-3xl font-bold text-green-900">Receitas</h1>
+              <p className="text-green-700">Gerencie suas receitas e faturamento</p>
             </div>
 
             <ReceitaForm onReceitaAdicionada={carregarDados} />
 
             <div>
-              <h2 className="text-xl font-semibold mb-4">Lista de Receitas ({receitas.length})</h2>
+              <h2 className="text-xl font-semibold mb-4 text-green-900">Lista de Receitas ({receitas.length})</h2>
               <ReceitasList receitas={receitas} Funcionarios={Funcionarios} />
             </div>
           </div>

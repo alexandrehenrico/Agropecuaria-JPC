@@ -87,13 +87,13 @@ export function ReceitasList({ receitas }: ReceitasListProps) {
             placeholder="Buscar receitas..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 border-green-200 focus-visible:ring-green-600"
+            className="pl-10 border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
           />
         </div>
 
         <div className="flex gap-2">
           <Select value={categoriaFiltro} onValueChange={setCategoriaFiltro}>
-            <SelectTrigger className="w-48 border-green-200 focus:ring-green-600">
+            <SelectTrigger className="w-48 border-green-200 focus:border-emerald-500 focus:ring-emerald-500">
               <Filter className="h-4 w-4 mr-2 text-green-700" />
               <SelectValue />
             </SelectTrigger>
@@ -107,7 +107,7 @@ export function ReceitasList({ receitas }: ReceitasListProps) {
           </Select>
 
           <Select value={periodoFiltro} onValueChange={setPeriodoFiltro}>
-            <SelectTrigger className="w-40 border-green-200 focus:ring-green-600">
+            <SelectTrigger className="w-40 border-green-200 focus:border-emerald-500 focus:ring-emerald-500">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -121,7 +121,7 @@ export function ReceitasList({ receitas }: ReceitasListProps) {
       </div>
 
       {/* Total de receitas */}
-      <div className="flex items-center justify-between p-4 bg-green-50 border border-green-100 rounded-lg">
+      <div className="flex items-center justify-between p-4 bg-gradient-to-br from-green-50 to-emerald-100 border border-green-200 rounded-xl shadow-sm">
         <span className="text-sm font-medium text-green-700">
           {receitasFiltradas.length} receita(s) encontrada(s)
         </span>
@@ -132,8 +132,8 @@ export function ReceitasList({ receitas }: ReceitasListProps) {
 
       {/* Lista de receitas */}
       {receitasFiltradas.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-green-600">
+        <div className="text-center py-12 bg-gradient-to-br from-green-50 to-emerald-100 rounded-xl border border-green-200">
+          <p className="text-green-700 text-lg">
             {searchTerm || categoriaFiltro !== "Todas" || periodoFiltro !== "Todos"
               ? "Nenhuma receita encontrada com os filtros aplicados."
               : "Nenhuma receita cadastrada ainda."}

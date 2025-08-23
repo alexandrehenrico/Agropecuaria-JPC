@@ -93,17 +93,17 @@ export function SenhaForm({ onSenhaAdicionada }: SenhaFormProps) {
   }
 
   return (
-    <Card className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200 shadow-sm">
+    <Card className="relative overflow-hidden bg-gradient-to-br from-green-50 to-emerald-100 rounded-xl border border-green-200 shadow-sm">
       {/* Decorações de fundo */}
-      <div className="absolute top-0 right-0 w-40 h-40 bg-gray-300 rounded-full opacity-10 -translate-y-20 translate-x-20" />
-      <div className="absolute bottom-0 left-0 w-28 h-28 bg-black rounded-full opacity-5 translate-y-14 -translate-x-14" />
+      <div className="absolute top-0 right-0 w-40 h-40 bg-green-300 rounded-full opacity-15 -translate-y-20 translate-x-20" />
+      <div className="absolute bottom-0 left-0 w-28 h-28 bg-emerald-500 rounded-full opacity-10 translate-y-14 -translate-x-14" />
 
       <CardHeader className="relative">
         <div className="flex items-center gap-2">
-          <Shield className="h-5 w-5 text-gray-700" />
-          <CardTitle className="text-xl font-bold text-gray-900">Adicionar Nova Senha</CardTitle>
+          <Shield className="h-5 w-5 text-green-700" />
+          <CardTitle className="text-xl font-bold text-green-900">Adicionar Nova Senha</CardTitle>
         </div>
-        <p className="text-sm text-muted-foreground mt-1">
+        <p className="text-sm text-green-700 mt-1">
           Preencha os campos abaixo para registrar uma nova senha no sistema.
         </p>
       </CardHeader>
@@ -112,7 +112,7 @@ export function SenhaForm({ onSenhaAdicionada }: SenhaFormProps) {
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="titulo">Título *</Label>
+              <Label htmlFor="titulo" className="text-green-900">Título *</Label>
               <Input
                 id="titulo"
                 name="titulo"
@@ -120,15 +120,16 @@ export function SenhaForm({ onSenhaAdicionada }: SenhaFormProps) {
                 onChange={handleChange}
                 required
                 placeholder="Ex: Facebook, Gmail, Banco do Brasil"
+                className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="categoria">Categoria *</Label>
+              <Label htmlFor="categoria" className="text-green-900">Categoria *</Label>
               <Select
                 value={formData.categoria}
                 onValueChange={(value) => setFormData({ ...formData, categoria: value })}
               >
-                <SelectTrigger>
+                <SelectTrigger className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500">
                   <SelectValue placeholder="Selecione uma categoria" />
                 </SelectTrigger>
                 <SelectContent>
@@ -144,7 +145,7 @@ export function SenhaForm({ onSenhaAdicionada }: SenhaFormProps) {
 
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="usuario">Usuário/Email *</Label>
+              <Label htmlFor="usuario" className="text-green-900">Usuário/Email *</Label>
               <Input
                 id="usuario"
                 name="usuario"
@@ -152,10 +153,11 @@ export function SenhaForm({ onSenhaAdicionada }: SenhaFormProps) {
                 onChange={handleChange}
                 required
                 placeholder="usuario@exemplo.com"
+                className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="senha">Senha *</Label>
+              <Label htmlFor="senha" className="text-green-900">Senha *</Label>
               <div className="relative">
                 <Input
                   id="senha"
@@ -165,7 +167,7 @@ export function SenhaForm({ onSenhaAdicionada }: SenhaFormProps) {
                   onChange={handleChange}
                   required
                   placeholder="••••••••"
-                  className="pr-20"
+                  className="pr-20 border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
                 />
                 <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex gap-1">
                   <Button
@@ -173,7 +175,7 @@ export function SenhaForm({ onSenhaAdicionada }: SenhaFormProps) {
                     variant="ghost"
                     size="sm"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="h-6 w-6 p-0"
+                    className="h-6 w-6 p-0 hover:bg-green-100"
                   >
                     {showPassword ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
                   </Button>
@@ -182,7 +184,7 @@ export function SenhaForm({ onSenhaAdicionada }: SenhaFormProps) {
                     variant="ghost"
                     size="sm"
                     onClick={generatePassword}
-                    className="h-6 px-2 text-xs"
+                    className="h-6 px-2 text-xs hover:bg-green-100"
                   >
                     Gerar
                   </Button>
@@ -192,7 +194,7 @@ export function SenhaForm({ onSenhaAdicionada }: SenhaFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="url">URL (Opcional)</Label>
+            <Label htmlFor="url" className="text-green-900">URL (Opcional)</Label>
             <Input
               id="url"
               name="url"
@@ -200,11 +202,12 @@ export function SenhaForm({ onSenhaAdicionada }: SenhaFormProps) {
               value={formData.url}
               onChange={handleChange}
               placeholder="https://exemplo.com"
+              className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="observacoes">Observações (Opcional)</Label>
+            <Label htmlFor="observacoes" className="text-green-900">Observações (Opcional)</Label>
             <Textarea
               id="observacoes"
               name="observacoes"
@@ -212,6 +215,7 @@ export function SenhaForm({ onSenhaAdicionada }: SenhaFormProps) {
               onChange={handleChange}
               placeholder="Informações adicionais sobre esta conta"
               rows={2}
+              className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
             />
           </div>
 

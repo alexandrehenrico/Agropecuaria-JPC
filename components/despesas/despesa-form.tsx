@@ -106,17 +106,17 @@ export function DespesaForm({ onDespesaAdicionada }: DespesaFormProps) {
   }
 
   return (
-    <Card className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200 shadow-sm">
+    <Card className="relative overflow-hidden bg-gradient-to-br from-green-50 to-emerald-100 rounded-xl border border-green-200 shadow-sm">
       {/* Decorações de fundo */}
-      <div className="absolute top-0 right-0 w-40 h-40 bg-gray-300 rounded-full opacity-10 -translate-y-20 translate-x-20" />
-      <div className="absolute bottom-0 left-0 w-28 h-28 bg-black rounded-full opacity-5 translate-y-14 -translate-x-14" />
+      <div className="absolute top-0 right-0 w-40 h-40 bg-green-300 rounded-full opacity-15 -translate-y-20 translate-x-20" />
+      <div className="absolute bottom-0 left-0 w-28 h-28 bg-emerald-500 rounded-full opacity-10 translate-y-14 -translate-x-14" />
 
       <CardHeader className="relative">
         <div className="flex items-center gap-2">
-          <Wallet className="h-5 w-5 text-gray-700" />
-          <CardTitle className="text-xl font-bold text-gray-900">Adicionar Nova Despesa</CardTitle>
+          <Wallet className="h-5 w-5 text-green-700" />
+          <CardTitle className="text-xl font-bold text-green-900">Adicionar Nova Despesa</CardTitle>
         </div>
-        <p className="text-sm text-muted-foreground mt-1">
+        <p className="text-sm text-green-700 mt-1">
           Preencha os campos abaixo para registrar uma nova despesa no sistema.
         </p>
       </CardHeader>
@@ -124,7 +124,7 @@ export function DespesaForm({ onDespesaAdicionada }: DespesaFormProps) {
       <CardContent className="relative">
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-2">
-            <Label htmlFor="descricao">Descrição *</Label>
+            <Label htmlFor="descricao" className="text-green-900">Descrição *</Label>
             <Textarea
               id="descricao"
               name="descricao"
@@ -133,12 +133,13 @@ export function DespesaForm({ onDespesaAdicionada }: DespesaFormProps) {
               required
               placeholder="Descreva a despesa (ex: Hospedagem mensal do servidor)"
               rows={2}
+              className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
             />
           </div>
 
           <div className="grid gap-4 md:grid-cols-3">
             <div className="space-y-2">
-              <Label htmlFor="valor">Valor (R$) *</Label>
+              <Label htmlFor="valor" className="text-green-900">Valor (R$) *</Label>
               <Input
                 id="valor"
                 name="valor"
@@ -149,16 +150,17 @@ export function DespesaForm({ onDespesaAdicionada }: DespesaFormProps) {
                 onChange={handleChange}
                 required
                 placeholder="0,00"
+                className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="categoria">Categoria *</Label>
+              <Label htmlFor="categoria" className="text-green-900">Categoria *</Label>
               <Select
                 value={formData.categoria}
                 onValueChange={(value) => setFormData({ ...formData, categoria: value })}
               >
-                <SelectTrigger>
+                <SelectTrigger className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500">
                   <SelectValue placeholder="Selecione uma categoria" />
                 </SelectTrigger>
                 <SelectContent>
@@ -172,7 +174,7 @@ export function DespesaForm({ onDespesaAdicionada }: DespesaFormProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="data">Data *</Label>
+              <Label htmlFor="data" className="text-green-900">Data *</Label>
               <Input
                 id="data"
                 name="data"
@@ -180,6 +182,7 @@ export function DespesaForm({ onDespesaAdicionada }: DespesaFormProps) {
                 value={formData.data}
                 onChange={handleChange}
                 required
+                className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
               />
             </div>
           </div>

@@ -23,10 +23,10 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
   if (!mounted || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 p-6">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-emerald-100 p-6">
         <div className="flex flex-col items-center gap-3">
-          <Loader2 className="h-8 w-8 animate-spin text-gray-500" />
-          <span className="text-sm text-gray-600 font-medium">Carregando...</span>
+          <Loader2 className="h-8 w-8 animate-spin text-green-700" />
+          <span className="text-sm text-green-700 font-medium">Carregando...</span>
         </div>
       </div>
     )
