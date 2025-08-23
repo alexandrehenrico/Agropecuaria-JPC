@@ -25,27 +25,27 @@ export function FuncionariosList({ Funcionarios }: FuncionariosListProps) {
       {/* Header da listagem */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-2">
-          <Users className="h-5 w-5 text-gray-700" />
-          <h2 className="text-xl font-bold text-gray-900">Lista de Funcionarios</h2>
+          <Users className="h-5 w-5 text-green-700" />
+          <h2 className="text-xl font-bold text-green-900">Lista de Funcionários</h2>
         </div>
         <div className="relative w-full sm:w-80">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-green-600" />
           <Input
-            placeholder="Buscar Funcionarios por nome, email ou serviço..."
+            placeholder="Buscar funcionários por nome, email ou serviço..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 rounded-xl shadow-sm"
+            className="pl-10 rounded-xl shadow-sm border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
           />
         </div>
       </div>
 
       {/* Lista ou mensagem de vazio */}
       {FuncionariosFiltrados.length === 0 ? (
-        <div className="text-center py-16 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200">
-          <p className="text-muted-foreground text-lg">
+        <div className="text-center py-16 bg-green-50 rounded-xl border border-green-100">
+          <p className="text-green-600 text-lg">
             {searchTerm
-              ? "Nenhum Funcionarios encontrado com os critérios de busca."
-              : "Nenhum Funcionarios cadastrado ainda."}
+              ? "Nenhum funcionário encontrado com os critérios de busca."
+              : "Nenhum funcionário cadastrado ainda."}
           </p>
         </div>
       ) : (

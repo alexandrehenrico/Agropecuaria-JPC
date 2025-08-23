@@ -11,7 +11,6 @@ import Image from "next/image"
 const navigation = [
   { name: "Visão Geral", href: "/", icon: LayoutDashboard },
   { name: "Funcionarios", href: "/Funcionarios", icon: Users },
-  { name: "Projetos", href: "/projetos", icon: FolderKanban },
   { name: "Receitas", href: "/receitas", icon: TrendingUp },
   { name: "Despesas", href: "/despesas", icon: TrendingDown },
   { name: "Senhas", href: "/senhas", icon: Shield },
@@ -70,7 +69,7 @@ export function Sidebar() {
           <div className="relative flex flex-col items-center justify-center px-4 py-6 border-b border-green-200 z-10">
             <div className="text-center">
               <h1 className="text-sm font-semibold text-green-900">Sistema de Gestão</h1>
-              <p className="text-xs text-green-700">Interno Agropecuária JPC</p>
+              <p className="text-xs text-green-700">Interno Fazenda Progresso</p>
             </div>
           </div>
 

@@ -163,7 +163,7 @@ export function RecentActivities({ receitas, despesas, Funcionarios, maxItems = 
                     variant="outline" 
                     className={`text-xs font-medium ${getActivityColor(activity.type)}`}
                   >
-                    {activity.type === "receita" ? "Receita" : activity.type === "despesa" ? "Despesa" : "Novo Funcionarios"}
+                    {activity.type === "receita" ? "Receita" : activity.type === "despesa" ? "Despesa" : "Novo Funcionario"}
                   </Badge>
                   
                   {index === 0 && (

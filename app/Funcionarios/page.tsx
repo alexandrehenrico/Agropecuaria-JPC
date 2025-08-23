@@ -52,7 +52,7 @@ export default function FuncionariosPage() {
           <div className="max-w-7xl mx-auto space-y-8">
             <div>
               <h1 className="text-3xl font-bold text-green-900">Funcionários</h1>
-              <p className="text-green-700">Gerencie seus funcionários e projetos</p>
+              <p className="text-green-700">Gerencie seus funcionários e finanças</p>
             </div>
 
             <FuncionariosForm onFuncionariosAdicionado={carregarFuncionarios} />

@@ -37,8 +37,8 @@ export function FuncionariosForm({ onFuncionariosAdicionado }: FuncionariosFormP
       })
 
       toast({
-        title: "Funcionarios adicionado",
-        description: "Funcionarios foi adicionado com sucesso!",
+        title: "Funcionário adicionado",
+        description: "O funcionário foi registrado com sucesso!",
       })
 
       setFormData({
@@ -53,7 +53,7 @@ export function FuncionariosForm({ onFuncionariosAdicionado }: FuncionariosFormP
     } catch (error) {
       toast({
         title: "Erro",
-        description: "Erro ao adicionar Funcionario. Tente novamente.",
+        description: "Não foi possível adicionar o funcionário. Tente novamente.",
         variant: "destructive",
       })
     } finally {
@@ -69,18 +69,18 @@ export function FuncionariosForm({ onFuncionariosAdicionado }: FuncionariosFormP
   }
 
   return (
-    <Card className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200 shadow-sm">
+    <Card className="relative overflow-hidden bg-green-50 rounded-xl border border-green-100 shadow-sm">
       {/* Decorações de fundo */}
-      <div className="absolute top-0 right-0 w-40 h-40 bg-gray-300 rounded-full opacity-10 -translate-y-20 translate-x-20" />
-      <div className="absolute bottom-0 left-0 w-28 h-28 bg-black rounded-full opacity-5 translate-y-14 -translate-x-14" />
+      <div className="absolute top-0 right-0 w-40 h-40 bg-green-100 rounded-full opacity-20 -translate-y-20 translate-x-20" />
+      <div className="absolute bottom-0 left-0 w-28 h-28 bg-green-200 rounded-full opacity-10 translate-y-14 -translate-x-14" />
 
       <CardHeader className="relative">
         <div className="flex items-center gap-2">
-          <UserPlus className="h-5 w-5 text-gray-700" />
-          <CardTitle className="text-xl font-bold text-gray-900">Adicionar Novo Funcionario</CardTitle>
+          <UserPlus className="h-5 w-5 text-green-700" />
+          <CardTitle className="text-xl font-bold text-green-900">Adicionar Novo Funcionário</CardTitle>
         </div>
-        <p className="text-sm text-muted-foreground mt-1">
-          Preencha os campos abaixo para registrar um novo Funcionarios no sistema.
+        <p className="text-sm text-green-600 mt-1">
+          Preencha os campos abaixo para registrar um novo funcionário no sistema.
         </p>
       </CardHeader>
 
@@ -88,18 +88,19 @@ export function FuncionariosForm({ onFuncionariosAdicionado }: FuncionariosFormP
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="nome">Nome *</Label>
+              <Label htmlFor="nome" className="text-green-900">Nome *</Label>
               <Input
                 id="nome"
                 name="nome"
                 value={formData.nome}
                 onChange={handleChange}
                 required
-                placeholder="Nome do Funcionarios"
+                placeholder="Nome do Funcionário"
+                className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email">Email *</Label>
+              <Label htmlFor="email" className="text-green-900">Email *</Label>
               <Input
                 id="email"
                 name="email"
@@ -108,13 +109,14 @@ export function FuncionariosForm({ onFuncionariosAdicionado }: FuncionariosFormP
                 onChange={handleChange}
                 required
                 placeholder="email@exemplo.com"
+                className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
               />
             </div>
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="telefone">Telefone *</Label>
+              <Label htmlFor="telefone" className="text-green-900">Telefone *</Label>
               <Input
                 id="telefone"
                 name="telefone"
@@ -122,10 +124,11 @@ export function FuncionariosForm({ onFuncionariosAdicionado }: FuncionariosFormP
                 onChange={handleChange}
                 required
                 placeholder="(11) 99999-9999"
+                className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="linkSite">Link do Site</Label>
+              <Label htmlFor="linkSite" className="text-green-900">Link do Site</Label>
               <Input
                 id="linkSite"
                 name="linkSite"
@@ -133,29 +136,31 @@ export function FuncionariosForm({ onFuncionariosAdicionado }: FuncionariosFormP
                 value={formData.linkSite}
                 onChange={handleChange}
                 placeholder="https://exemplo.com"
+                className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="servico">Serviço Prestado *</Label>
+            <Label htmlFor="servico" className="text-green-900">Serviço Prestado *</Label>
             <Textarea
               id="servico"
               name="servico"
               value={formData.servico}
               onChange={handleChange}
               required
-              placeholder="Descreva o serviço prestado para este Funcionarios"
+              placeholder="Descreva o serviço prestado para este funcionário"
               rows={3}
+              className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
             />
           </div>
 
           <Button
             type="submit"
             disabled={loading}
-            className="w-full bg-green-600 hover:bg-green-700 text-white transition-colors duration-200"
+            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white transition-colors duration-200"
           >
-            {loading ? "Adicionando..." : "Adicionar Funcionario"}
+            {loading ? "Adicionando..." : "Adicionar Funcionário"}
           </Button>
         </form>
       </CardContent>

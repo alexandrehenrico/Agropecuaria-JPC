@@ -1,67 +1,48 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { adicionarReceita, obterFuncionarios } from "@/lib/database"
+import { adicionarReceita } from "@/lib/database"
 import { useToast } from "@/hooks/use-toast"
 import { DollarSign } from "lucide-react"
-import type { Funcionarios } from "@/lib/types"
 
 interface ReceitaFormProps {
   onReceitaAdicionada: () => void
 }
 
 const categorias = [
-  "Desenvolvimento Web",
-  "Desenvolvimento Mobile",
-  "Consultoria",
-  "Manutenção",
-  "Design",
-  "SEO/Marketing",
-  "Hospedagem",
-  "Outros",
+  "Venda de Leite",
+  "Venda de Gado",
+  "Aluguel de Pasto",
+  "Outros Produtos",
 ]
 
 export function ReceitaForm({ onReceitaAdicionada }: ReceitaFormProps) {
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
-  const [Funcionarios, setFuncionarios] = useState<Funcionarios[]>([])
   const [formData, setFormData] = useState({
     descricao: "",
     valor: "",
-    FuncionariosId: "none",
-    categoria: "Desenvolvimento Web",
+    categoria: "Venda de Leite",
     data: new Date().toISOString().split("T")[0],
   })
-
-  useEffect(() => {
-    const carregarFuncionarios = async () => {
-      const FuncionariosData = await obterFuncionarios()
-      setFuncionarios(FuncionariosData)
-    }
-    carregarFuncionarios()
-  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
 
     try {
-      const receitaData: any = {
+      const receitaData = {
         descricao: formData.descricao,
         valor: Number.parseFloat(formData.valor),
         categoria: formData.categoria,
         data: new Date(formData.data),
-      }
-
-      if (formData.FuncionariosId !== "none") {
-        receitaData.FuncionariosId = formData.FuncionariosId
       }
 
       await adicionarReceita(receitaData)
@@ -74,8 +55,7 @@ export function ReceitaForm({ onReceitaAdicionada }: ReceitaFormProps) {
       setFormData({
         descricao: "",
         valor: "",
-        FuncionariosId: "none",
-        categoria: "Desenvolvimento Web",
+        categoria: "Venda de Leite",
         data: new Date().toISOString().split("T")[0],
       })
 
@@ -99,17 +79,19 @@ export function ReceitaForm({ onReceitaAdicionada }: ReceitaFormProps) {
   }
 
   return (
-    <Card className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200 shadow-sm">
+    <Card className="relative overflow-hidden bg-green-50 rounded-xl border border-green-100 shadow-sm">
       {/* Decorações de fundo */}
-      <div className="absolute top-0 right-0 w-40 h-40 bg-gray-300 rounded-full opacity-10 -translate-y-20 translate-x-20" />
-      <div className="absolute bottom-0 left-0 w-28 h-28 bg-black rounded-full opacity-5 translate-y-14 -translate-x-14" />
+      <div className="absolute top-0 right-0 w-40 h-40 bg-green-200 rounded-full opacity-10 -translate-y-20 translate-x-20" />
+      <div className="absolute bottom-0 left-0 w-28 h-28 bg-green-100 rounded-full opacity-20 translate-y-14 -translate-x-14" />
 
       <CardHeader className="relative">
         <div className="flex items-center gap-2">
-          <DollarSign className="h-5 w-5 text-gray-700" />
-          <CardTitle className="text-xl font-bold text-gray-900">Adicionar Nova Receita</CardTitle>
+          <DollarSign className="h-5 w-5 text-green-700" />
+          <CardTitle className="text-xl font-bold text-green-900">
+            Adicionar Nova Receita
+          </CardTitle>
         </div>
-        <p className="text-sm text-muted-foreground mt-1">
+        <p className="text-sm text-green-600 mt-1">
           Preencha os campos abaixo para registrar uma nova receita no sistema.
         </p>
       </CardHeader>
@@ -117,7 +99,7 @@ export function ReceitaForm({ onReceitaAdicionada }: ReceitaFormProps) {
       <CardContent className="relative">
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-2">
-            <Label htmlFor="descricao">Descrição *</Label>
+            <Label htmlFor="descricao" className="text-green-900">Descrição *</Label>
             <Textarea
               id="descricao"
               name="descricao"
@@ -126,12 +108,13 @@ export function ReceitaForm({ onReceitaAdicionada }: ReceitaFormProps) {
               required
               placeholder="Descreva a receita (ex: Desenvolvimento do site institucional)"
               rows={2}
+              className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
             />
           </div>
 
           <div className="grid gap-4 md:grid-cols-3">
             <div className="space-y-2">
-              <Label htmlFor="valor">Valor (R$) *</Label>
+              <Label htmlFor="valor" className="text-green-900">Valor (R$) *</Label>
               <Input
                 id="valor"
                 name="valor"
@@ -142,16 +125,17 @@ export function ReceitaForm({ onReceitaAdicionada }: ReceitaFormProps) {
                 onChange={handleChange}
                 required
                 placeholder="0,00"
+                className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="categoria">Categoria *</Label>
+              <Label htmlFor="categoria" className="text-green-900">Categoria *</Label>
               <Select
                 value={formData.categoria}
                 onValueChange={(value) => setFormData({ ...formData, categoria: value })}
               >
-                <SelectTrigger>
+                <SelectTrigger className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500">
                   <SelectValue placeholder="Selecione uma categoria" />
                 </SelectTrigger>
                 <SelectContent>
@@ -165,7 +149,7 @@ export function ReceitaForm({ onReceitaAdicionada }: ReceitaFormProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="data">Data *</Label>
+              <Label htmlFor="data" className="text-green-900">Data *</Label>
               <Input
                 id="data"
                 name="data"
@@ -173,34 +157,15 @@ export function ReceitaForm({ onReceitaAdicionada }: ReceitaFormProps) {
                 value={formData.data}
                 onChange={handleChange}
                 required
+                className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
               />
             </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="FuncionariosId">Funcionarios (Opcional)</Label>
-            <Select
-              value={formData.FuncionariosId}
-              onValueChange={(value) => setFormData({ ...formData, FuncionariosId: value })}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Selecione um Funcionarios (opcional)" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="none">Nenhum Funcionarios</SelectItem>
-                {Funcionarios.map((Funcionarios) => (
-                  <SelectItem key={Funcionarios.id} value={Funcionarios.id}>
-                    {Funcionarios.nome}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
           </div>
 
           <Button
             type="submit"
             disabled={loading}
-            className="w-full bg-green-600 hover:bg-green-700 text-white transition-colors duration-200"
+            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white transition-colors duration-200"
           >
             {loading ? "Adicionando..." : "Adicionar Receita"}
           </Button>

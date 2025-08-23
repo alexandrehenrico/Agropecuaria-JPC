@@ -112,8 +112,8 @@ export default function HomePage() {
             <UserHeader />
 
             <div>
-              <h1 className="text-3xl font-bold">Visão Geral Agropecuária JPC</h1>
-              <p className="text-muted-foreground">Sistema de Gestão Interna - Visão Geral dos projetos e finanças</p>
+              <h1 className="text-3xl font-bold">Visão Geral Fazenda Progresso</h1>
+              <p className="text-muted-foreground">Sistema de Gestão Interna - Visão Geral Financeira</p>
               <p className="text-xs text-muted-foreground mt-2">
                 Debug: {Funcionarios.length} Funcionarios, {receitas.length} receitas, {despesas.length} despesas
               </p>

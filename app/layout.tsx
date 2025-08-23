@@ -6,8 +6,8 @@ import { AuthProvider } from "@/contexts/auth-context"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Sistema Agropecuária JPC",
-  description: "Sistema de Gestão Interno Agropecuária JPC",
+  title: "Sistema Fazenda Progresso",
+  description: "Sistema de Gestão Interno Fazenda Progresso",
   generator: "v0.app",
 }
 

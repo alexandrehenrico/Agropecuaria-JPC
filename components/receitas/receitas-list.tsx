@@ -1,15 +1,18 @@
-"use client"
-
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { ReceitaCard } from "./receita-card"
 import { Search, Filter } from "lucide-react"
-import type { Receita, Funcionarios } from "@/lib/types"
+import type { Receita } from "@/lib/types"
 
 interface ReceitasListProps {
   receitas: Receita[]
-  Funcionarios: Funcionarios[]
 }
 
 const categorias = [
@@ -24,7 +27,7 @@ const categorias = [
   "Outros",
 ]
 
-export function ReceitasList({ receitas, Funcionarios }: ReceitasListProps) {
+export function ReceitasList({ receitas }: ReceitasListProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [categoriaFiltro, setCategoriaFiltro] = useState("Todas")
   const [periodoFiltro, setPeriodoFiltro] = useState("Todos")
@@ -34,7 +37,8 @@ export function ReceitasList({ receitas, Funcionarios }: ReceitasListProps) {
       receita.descricao.toLowerCase().includes(searchTerm.toLowerCase()) ||
       receita.categoria.toLowerCase().includes(searchTerm.toLowerCase())
 
-    const matchesCategoria = categoriaFiltro === "Todas" || receita.categoria === categoriaFiltro
+    const matchesCategoria =
+      categoriaFiltro === "Todas" || receita.categoria === categoriaFiltro
 
     let matchesPeriodo = true
     if (periodoFiltro !== "Todos") {
@@ -44,7 +48,8 @@ export function ReceitasList({ receitas, Funcionarios }: ReceitasListProps) {
       switch (periodoFiltro) {
         case "Este mês":
           matchesPeriodo =
-            receitaDate.getMonth() === hoje.getMonth() && receitaDate.getFullYear() === hoje.getFullYear()
+            receitaDate.getMonth() === hoje.getMonth() &&
+            receitaDate.getFullYear() === hoje.getFullYear()
           break
         case "Últimos 3 meses":
           const tresMesesAtras = new Date()
@@ -60,7 +65,10 @@ export function ReceitasList({ receitas, Funcionarios }: ReceitasListProps) {
     return matchesSearch && matchesCategoria && matchesPeriodo
   })
 
-  const totalReceitas = receitasFiltradas.reduce((sum, receita) => sum + receita.valor, 0)
+  const totalReceitas = receitasFiltradas.reduce(
+    (sum, receita) => sum + receita.valor,
+    0
+  )
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -71,21 +79,22 @@ export function ReceitasList({ receitas, Funcionarios }: ReceitasListProps) {
 
   return (
     <div className="space-y-6">
+      {/* Barra de busca e filtros */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-green-700" />
           <Input
             placeholder="Buscar receitas..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
+            className="pl-10 border-green-200 focus-visible:ring-green-600"
           />
         </div>
 
         <div className="flex gap-2">
           <Select value={categoriaFiltro} onValueChange={setCategoriaFiltro}>
-            <SelectTrigger className="w-48">
-              <Filter className="h-4 w-4 mr-2" />
+            <SelectTrigger className="w-48 border-green-200 focus:ring-green-600">
+              <Filter className="h-4 w-4 mr-2 text-green-700" />
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -98,7 +107,7 @@ export function ReceitasList({ receitas, Funcionarios }: ReceitasListProps) {
           </Select>
 
           <Select value={periodoFiltro} onValueChange={setPeriodoFiltro}>
-            <SelectTrigger className="w-40">
+            <SelectTrigger className="w-40 border-green-200 focus:ring-green-600">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -111,14 +120,20 @@ export function ReceitasList({ receitas, Funcionarios }: ReceitasListProps) {
         </div>
       </div>
 
-      <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
-        <span className="text-sm font-medium">{receitasFiltradas.length} receita(s) encontrada(s)</span>
-        <span className="text-lg font-bold text-green-600">Total: {formatCurrency(totalReceitas)}</span>
+      {/* Total de receitas */}
+      <div className="flex items-center justify-between p-4 bg-green-50 border border-green-100 rounded-lg">
+        <span className="text-sm font-medium text-green-700">
+          {receitasFiltradas.length} receita(s) encontrada(s)
+        </span>
+        <span className="text-lg font-bold text-green-600">
+          Total: {formatCurrency(totalReceitas)}
+        </span>
       </div>
 
+      {/* Lista de receitas */}
       {receitasFiltradas.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-muted-foreground">
+          <p className="text-green-600">
             {searchTerm || categoriaFiltro !== "Todas" || periodoFiltro !== "Todos"
               ? "Nenhuma receita encontrada com os filtros aplicados."
               : "Nenhuma receita cadastrada ainda."}
@@ -126,10 +141,9 @@ export function ReceitasList({ receitas, Funcionarios }: ReceitasListProps) {
         </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {receitasFiltradas.map((receita) => {
-            const Funcionarios = receita.FuncionariosId ? Funcionarios.find((c) => c.id === receita.FuncionariosId) : undefined
-            return <ReceitaCard key={receita.id} receita={receita} Funcionarios={Funcionarios} />
-          })}
+          {receitasFiltradas.map((receita) => (
+            <ReceitaCard key={receita.id} receita={receita} />
+          ))}
         </div>
       )}
     </div>

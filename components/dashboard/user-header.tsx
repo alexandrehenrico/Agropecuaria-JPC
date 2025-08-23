@@ -159,7 +159,7 @@ export function UserHeader({ showWelcome = true, variant = 'default', className 
 
           {showWelcome && (
             <p className="text-green-800 font-medium mb-2">
-              Bem-vindo ao sistema Agropecuária JPC
+              Bem-vindo ao sistema Fazenda Progresso
             </p>
           )}
 

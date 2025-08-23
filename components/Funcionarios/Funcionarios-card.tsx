@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { ExternalLink, MessageCircle, Mail, Phone, ChevronDown, UserCheck, Calendar, User } from "lucide-react"
+import { ExternalLink, MessageCircle, Mail, Phone, ChevronDown, UserCheck, Calendar } from "lucide-react"
 import { createWhatsAppUrl, messageTemplates } from "@/lib/whatsapp"
 import type { Funcionarios } from "@/lib/types"
 
@@ -32,7 +32,7 @@ export function FuncionariosCard({ Funcionarios, onClick, className }: Funcionar
     return name.charAt(0).toUpperCase()
   }
 
-  const getStatusColor = () => "bg-green-100 text-green-800 border-green-200"
+  const getStatusColor = () => "bg-green-100 text-green-700 border-green-200"
 
   const handleWhatsApp = (template?: keyof typeof messageTemplates) => {
     const message = template
@@ -62,60 +62,60 @@ export function FuncionariosCard({ Funcionarios, onClick, className }: Funcionar
 
   return (
     <Card
-      className={`relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200 p-6 transition-all duration-200 hover:shadow-md ${
+      className={`relative overflow-hidden bg-green-50 rounded-xl border border-green-100 p-6 transition-all duration-200 hover:shadow-md ${
         onClick ? "cursor-pointer hover:scale-[1.02]" : ""
       } ${className || ""}`}
       onClick={handleCardClick}
     >
       {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-gray-300 rounded-full opacity-10 -translate-y-16 translate-x-16" />
-      <div className="absolute bottom-0 left-0 w-24 h-24 bg-black rounded-full opacity-5 translate-y-12 -translate-x-12" />
+      <div className="absolute top-0 right-0 w-32 h-32 bg-green-100 rounded-full opacity-20 -translate-y-16 translate-x-16" />
+      <div className="absolute bottom-0 left-0 w-24 h-24 bg-green-200 rounded-full opacity-10 translate-y-12 -translate-x-12" />
 
       <div className="relative flex items-center gap-4 mb-4">
         {/* Avatar simples com iniciais */}
-        <div className="relative flex items-center justify-center h-14 w-14 rounded-full bg-gradient-to-br from-gray-800 to-black text-white font-bold shadow-md">
+        <div className="relative flex items-center justify-center h-14 w-14 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 text-white font-bold shadow-md">
           {getInitials(Funcionarios.nome)}
         </div>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <h2 className="text-xl font-bold text-gray-900 truncate">{Funcionarios.nome}</h2>
+            <h2 className="text-xl font-bold text-green-900 truncate">{Funcionarios.nome}</h2>
             <Badge variant="outline" className={`${getStatusColor()} bg-white/80`}>
               Ativo
             </Badge>
           </div>
 
-          <div className="flex items-center gap-2 text-sm text-gray-600">
+          <div className="flex items-center gap-2 text-sm text-green-600">
             <Calendar className="h-4 w-4" />
-            <span className="capitalize">Funcionarios desde {formatDate(Funcionarios.dataRegistro)}</span>
+            <span className="capitalize">Funcionário desde {formatDate(Funcionarios.dataRegistro)}</span>
           </div>
         </div>
       </div>
 
       {/* Dados principais */}
       <div className="space-y-2 mb-4">
-        <h4 className="font-semibold text-gray-900">Serviço Prestado</h4>
-        <p className="text-sm text-muted-foreground leading-relaxed">{Funcionarios.servico}</p>
+        <h4 className="font-semibold text-green-900">Serviço Prestado</h4>
+        <p className="text-sm text-green-700 leading-relaxed">{Funcionarios.servico}</p>
       </div>
 
       {/* Contatos */}
       <div className="space-y-2 mb-4">
         <div className="flex items-center gap-2 text-sm">
-          <Mail className="h-4 w-4 text-muted-foreground" />
-          <span className="truncate text-gray-700">{Funcionarios.email}</span>
+          <Mail className="h-4 w-4 text-green-700" />
+          <span className="truncate text-green-700">{Funcionarios.email}</span>
         </div>
 
         <div className="flex items-center gap-2 text-sm">
-          <Phone className="h-4 w-4 text-muted-foreground" />
-          <span className="text-gray-700">{Funcionarios.telefone}</span>
+          <Phone className="h-4 w-4 text-green-700" />
+          <span className="text-green-700">{Funcionarios.telefone}</span>
         </div>
 
         {Funcionarios.linkSite && (
           <div className="flex items-center gap-2 text-sm">
-            <ExternalLink className="h-4 w-4 text-muted-foreground" />
+            <ExternalLink className="h-4 w-4 text-green-700" />
             <button
               onClick={handleSiteVisit}
-              className="text-primary hover:underline truncate transition-colors duration-200 text-left"
+              className="text-emerald-600 hover:text-emerald-700 hover:underline truncate transition-colors duration-200 text-left"
             >
               {Funcionarios.linkSite}
             </button>
@@ -125,10 +125,10 @@ export function FuncionariosCard({ Funcionarios, onClick, className }: Funcionar
 
       {/* Registrado por */}
       {Funcionarios.registradoPor && (
-        <div className="pt-3 border-t border-gray-100 mb-4">
+        <div className="pt-3 border-t border-green-100 mb-4">
           <div className="flex items-center gap-2">
-            <UserCheck className="h-3 w-3 text-muted-foreground" />
-            <span className="text-xs text-muted-foreground">Registrado por {Funcionarios.registradoPor}</span>
+            <UserCheck className="h-3 w-3 text-green-600" />
+            <span className="text-xs text-green-600">Registrado por {Funcionarios.registradoPor}</span>
           </div>
         </div>
       )}
@@ -139,7 +139,7 @@ export function FuncionariosCard({ Funcionarios, onClick, className }: Funcionar
           <DropdownMenuTrigger asChild>
             <Button
               size="sm"
-              className="flex-1 bg-green-600 hover:bg-green-700 text-white transition-colors duration-200"
+              className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white transition-colors duration-200"
               onClick={(e) => e.stopPropagation()}
             >
               <MessageCircle className="h-4 w-4 mr-2" />
@@ -148,11 +148,8 @@ export function FuncionariosCard({ Funcionarios, onClick, className }: Funcionar
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="w-48">
-            <DropdownMenuItem onClick={() => handleWhatsApp("followUp")}>📋 Acompanhamento</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleWhatsApp("support")}>🛠️ Suporte Técnico</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleWhatsApp("invoice")}>💰 Fatura/Cobrança</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleWhatsApp("newProject")}>🚀 Novo Projeto</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleWhatsApp()}>💬 Mensagem Simples</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleWhatsApp("followUp")}>Acompanhamento</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleWhatsApp()}>Mensagem Simples</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
@@ -163,7 +160,7 @@ export function FuncionariosCard({ Funcionarios, onClick, className }: Funcionar
           }}
           variant="outline"
           size="sm"
-          className="flex-1 transition-colors duration-200 hover:bg-gray-50"
+          className="flex-1 border-green-200 text-green-700 hover:bg-green-50 transition-colors duration-200"
         >
           <Mail className="h-4 w-4 mr-2" />
           Email
