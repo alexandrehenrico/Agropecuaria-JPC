@@ -8,8 +8,10 @@ import "./globals.css"
 export const metadata: Metadata = {
   title: "Sistema Fazenda Progresso",
   description: "Sistema de Gestão Interno Fazenda Progresso",
-  generator: "v0.app",
+  generator: "visionxma.com",
 }
+
+
 
 export default function RootLayout({
   children,
@@ -18,15 +20,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <style>{`
+<head>
+  {/* Favicon */}
+  <link rel="icon" type="image/png" sizes="32x32" href="https://i.imgur.com/mO3SjEN.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="https://i.imgur.com/mO3SjEN.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/mO3SjEN.png" />
+
+  {/* Fontes */}
+  <style>{`
 html {
   font-family: ${GeistSans.style.fontFamily};
   --font-sans: ${GeistSans.variable};
   --font-mono: ${GeistMono.variable};
 }
-        `}</style>
-      </head>
+  `}</style>
+</head>
       <body>
         <AuthProvider>{children}</AuthProvider>
       </body>
