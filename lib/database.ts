@@ -1,27 +1,27 @@
 import { collection, addDoc, getDocs, query, orderBy, Timestamp, doc, updateDoc } from "firebase/firestore"
 import { db, auth } from "./firebase"
-import type { Cliente, Receita, Despesa, Senha, Projeto, AtividadeProjeto, Orcamento, Recibo } from "./types"
+import type { Funcionarios, Receita, Despesa, Senha, Projeto, AtividadeProjeto, Orcamento, Recibo } from "./types"
 
-// Clientes
-export const adicionarCliente = async (cliente: Omit<Cliente, "id">) => {
+// Funcionarios
+export const adicionarFuncionarios = async (Funcionarios: Omit<Funcionarios, "id">) => {
   try {
     if (!auth.currentUser) {
       throw new Error("Usuário não autenticado")
     }
 
-    const docRef = await addDoc(collection(db, "clientes"), {
-      ...cliente,
-      dataRegistro: Timestamp.fromDate(cliente.dataRegistro),
+    const docRef = await addDoc(collection(db, "Funcionarios"), {
+      ...Funcionarios,
+      dataRegistro: Timestamp.fromDate(Funcionarios.dataRegistro),
       registradoPor: auth.currentUser.displayName || auth.currentUser.email || "Usuário",
     })
     return docRef.id
   } catch (error) {
-    console.error("Erro ao adicionar cliente:", error)
+    console.error("Erro ao adicionar Funcionario:", error)
     throw error
   }
 }
 
-export const obterClientes = async (): Promise<Cliente[]> => {
+export const obterFuncionarios = async (): Promise<Funcionarios[]> => {
   try {
     // Aguarda a inicialização do auth
     await new Promise((resolve) => {
@@ -36,15 +36,15 @@ export const obterClientes = async (): Promise<Cliente[]> => {
       return []
     }
 
-    const q = query(collection(db, "clientes"), orderBy("dataRegistro", "desc"))
+    const q = query(collection(db, "Funcionarios"), orderBy("dataRegistro", "desc"))
     const querySnapshot = await getDocs(q)
     return querySnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
       dataRegistro: doc.data().dataRegistro.toDate(),
-    })) as Cliente[]
+    })) as Funcionarios[]
   } catch (error) {
-    console.error("Erro ao obter clientes:", error)
+    console.error("Erro ao obter Funcionarios:", error)
     return []
   }
 }
@@ -309,164 +309,3 @@ export const atualizarAtividadeProjeto = async (atividadeId: string, concluida: 
   }
 }
 
-// Orçamentos
-export const adicionarOrcamento = async (orcamento: Omit<Orcamento, "id">) => {
-  try {
-    if (!auth.currentUser) {
-      throw new Error("Usuário não autenticado")
-    }
-
-    const docRef = await addDoc(collection(db, "orcamentos"), {
-      ...orcamento,
-      dataCriacao: Timestamp.fromDate(orcamento.dataCriacao),
-      dataVencimento: Timestamp.fromDate(orcamento.dataVencimento),
-      registradoPor: auth.currentUser.displayName || auth.currentUser.email || "Usuário",
-    })
-    return docRef.id
-  } catch (error) {
-    console.error("Erro ao adicionar orçamento:", error)
-    throw error
-  }
-}
-
-export const obterOrcamentos = async (): Promise<Orcamento[]> => {
-  try {
-    if (!auth.currentUser) {
-      console.log("[v0] Usuário não autenticado, retornando array vazio")
-      return []
-    }
-
-    const q = query(collection(db, "orcamentos"), orderBy("dataCriacao", "desc"))
-    const querySnapshot = await getDocs(q)
-    return querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-      dataCriacao: doc.data().dataCriacao.toDate(),
-      dataVencimento: doc.data().dataVencimento.toDate(),
-    })) as Orcamento[]
-  } catch (error) {
-    console.error("Erro ao obter orçamentos:", error)
-    return []
-  }
-}
-
-export const atualizarOrcamento = async (orcamentoId: string, dados: Partial<Orcamento>) => {
-  try {
-    if (!auth.currentUser) {
-      throw new Error("Usuário não autenticado")
-    }
-
-    const updateData: any = { ...dados }
-    if (dados.dataVencimento) {
-      updateData.dataVencimento = Timestamp.fromDate(dados.dataVencimento)
-    }
-
-    const docRef = doc(db, "orcamentos", orcamentoId)
-    await updateDoc(docRef, updateData)
-  } catch (error) {
-    console.error("Erro ao atualizar orçamento:", error)
-    throw error
-  }
-}
-
-export const atualizarStatusOrcamento = async (orcamentoId: string, status: Orcamento['status']) => {
-  try {
-    if (!auth.currentUser) {
-      throw new Error("Usuário não autenticado")
-    }
-
-    const docRef = doc(db, "orcamentos", orcamentoId)
-    await updateDoc(docRef, { status })
-  } catch (error) {
-    console.error("Erro ao atualizar status do orçamento:", error)
-    throw error
-  }
-}
-// Adicione estas funções ao final do seu arquivo /lib/database.ts
-
-// Recibos
-export const adicionarRecibo = async (recibo: Omit<Recibo, "id">) => {
-  try {
-    if (!auth.currentUser) {
-      throw new Error("Usuário não autenticado")
-    }
-
-    const docRef = await addDoc(collection(db, "recibos"), {
-      ...recibo,
-      dataPagamento: Timestamp.fromDate(recibo.dataPagamento),
-      dataVencimento: recibo.dataVencimento ? Timestamp.fromDate(recibo.dataVencimento) : null,
-      dataCriacao: Timestamp.fromDate(recibo.dataCriacao),
-      registradoPor: auth.currentUser.displayName || auth.currentUser.email || "Usuário",
-    })
-    return docRef.id
-  } catch (error) {
-    console.error("Erro ao adicionar recibo:", error)
-    throw error
-  }
-}
-
-export const obterRecibos = async (): Promise<Recibo[]> => {
-  try {
-    // Aguarda a inicialização do auth
-    await new Promise((resolve) => {
-      const unsubscribe = auth.onAuthStateChanged((user) => {
-        unsubscribe()
-        resolve(user)
-      })
-    })
-
-    if (!auth.currentUser) {
-      console.log("[v0] Usuário não autenticado, retornando array vazio")
-      return []
-    }
-
-    const q = query(collection(db, "recibos"), orderBy("dataCriacao", "desc"))
-    const querySnapshot = await getDocs(q)
-    return querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-      dataPagamento: doc.data().dataPagamento.toDate(),
-      dataVencimento: doc.data().dataVencimento ? doc.data().dataVencimento.toDate() : undefined,
-      dataCriacao: doc.data().dataCriacao.toDate(),
-    })) as Recibo[]
-  } catch (error) {
-    console.error("Erro ao obter recibos:", error)
-    return []
-  }
-}
-
-export const atualizarRecibo = async (reciboId: string, dados: Partial<Recibo>) => {
-  try {
-    if (!auth.currentUser) {
-      throw new Error("Usuário não autenticado")
-    }
-
-    const updateData: any = { ...dados }
-    if (dados.dataPagamento) {
-      updateData.dataPagamento = Timestamp.fromDate(dados.dataPagamento)
-    }
-    if (dados.dataVencimento) {
-      updateData.dataVencimento = Timestamp.fromDate(dados.dataVencimento)
-    }
-
-    const docRef = doc(db, "recibos", reciboId)
-    await updateDoc(docRef, updateData)
-  } catch (error) {
-    console.error("Erro ao atualizar recibo:", error)
-    throw error
-  }
-}
-
-export const atualizarStatusRecibo = async (reciboId: string, status: Recibo['status']) => {
-  try {
-    if (!auth.currentUser) {
-      throw new Error("Usuário não autenticado")
-    }
-
-    const docRef = doc(db, "recibos", reciboId)
-    await updateDoc(docRef, { status })
-  } catch (error) {
-    console.error("Erro ao atualizar status do recibo:", error)
-    throw error
-  }
-}

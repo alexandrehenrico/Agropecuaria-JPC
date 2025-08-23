@@ -6,15 +6,15 @@ import { Badge } from "@/components/ui/badge"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { ExternalLink, MessageCircle, Mail, Phone, ChevronDown, UserCheck, Calendar, User } from "lucide-react"
 import { createWhatsAppUrl, messageTemplates } from "@/lib/whatsapp"
-import type { Cliente } from "@/lib/types"
+import type { Funcionarios } from "@/lib/types"
 
-interface ClienteCardProps {
-  cliente: Cliente
+interface FuncionariosCardProps {
+  Funcionarios: Funcionarios
   onClick?: () => void
   className?: string
 }
 
-export function ClienteCard({ cliente, onClick, className }: ClienteCardProps) {
+export function FuncionariosCard({ Funcionarios, onClick, className }: FuncionariosCardProps) {
   const formatDate = (date: Date | string) => {
     const dateObj = typeof date === "string" ? new Date(date) : date
     return new Intl.DateTimeFormat("pt-BR", {
@@ -36,21 +36,21 @@ export function ClienteCard({ cliente, onClick, className }: ClienteCardProps) {
 
   const handleWhatsApp = (template?: keyof typeof messageTemplates) => {
     const message = template
-      ? messageTemplates[template](cliente.nome, cliente.servico)
-      : `Olá ${cliente.nome}! Espero que esteja tudo bem. Gostaria de conversar sobre o projeto: ${cliente.servico}`
+      ? messageTemplates[template](Funcionarios.nome, Funcionarios.servico)
+      : `Olá ${Funcionarios.nome}! Espero que esteja tudo bem. Gostaria de conversar sobre o projeto: ${Funcionarios.servico}`
 
-    const whatsappUrl = createWhatsAppUrl(cliente.telefone, message)
+    const whatsappUrl = createWhatsAppUrl(Funcionarios.telefone, message)
     window.open(whatsappUrl, "_blank")
   }
 
   const handleEmail = () => {
-    const assunto = encodeURIComponent(`Projeto: ${cliente.servico}`)
-    const corpo = encodeURIComponent(`Olá ${cliente.nome},\n\nEspero que esteja tudo bem!\n\n`)
-    window.open(`mailto:${cliente.email}?subject=${assunto}&body=${corpo}`)
+    const assunto = encodeURIComponent(`Projeto: ${Funcionarios.servico}`)
+    const corpo = encodeURIComponent(`Olá ${Funcionarios.nome},\n\nEspero que esteja tudo bem!\n\n`)
+    window.open(`mailto:${Funcionarios.email}?subject=${assunto}&body=${corpo}`)
   }
 
   const handleSiteVisit = () => {
-    if (cliente.linkSite) window.open(cliente.linkSite, "_blank")
+    if (Funcionarios.linkSite) window.open(Funcionarios.linkSite, "_blank")
   }
 
   const handleCardClick = (e: React.MouseEvent) => {
@@ -74,12 +74,12 @@ export function ClienteCard({ cliente, onClick, className }: ClienteCardProps) {
       <div className="relative flex items-center gap-4 mb-4">
         {/* Avatar simples com iniciais */}
         <div className="relative flex items-center justify-center h-14 w-14 rounded-full bg-gradient-to-br from-gray-800 to-black text-white font-bold shadow-md">
-          {getInitials(cliente.nome)}
+          {getInitials(Funcionarios.nome)}
         </div>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <h2 className="text-xl font-bold text-gray-900 truncate">{cliente.nome}</h2>
+            <h2 className="text-xl font-bold text-gray-900 truncate">{Funcionarios.nome}</h2>
             <Badge variant="outline" className={`${getStatusColor()} bg-white/80`}>
               Ativo
             </Badge>
@@ -87,7 +87,7 @@ export function ClienteCard({ cliente, onClick, className }: ClienteCardProps) {
 
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <Calendar className="h-4 w-4" />
-            <span className="capitalize">Cliente desde {formatDate(cliente.dataRegistro)}</span>
+            <span className="capitalize">Funcionarios desde {formatDate(Funcionarios.dataRegistro)}</span>
           </div>
         </div>
       </div>
@@ -95,40 +95,40 @@ export function ClienteCard({ cliente, onClick, className }: ClienteCardProps) {
       {/* Dados principais */}
       <div className="space-y-2 mb-4">
         <h4 className="font-semibold text-gray-900">Serviço Prestado</h4>
-        <p className="text-sm text-muted-foreground leading-relaxed">{cliente.servico}</p>
+        <p className="text-sm text-muted-foreground leading-relaxed">{Funcionarios.servico}</p>
       </div>
 
       {/* Contatos */}
       <div className="space-y-2 mb-4">
         <div className="flex items-center gap-2 text-sm">
           <Mail className="h-4 w-4 text-muted-foreground" />
-          <span className="truncate text-gray-700">{cliente.email}</span>
+          <span className="truncate text-gray-700">{Funcionarios.email}</span>
         </div>
 
         <div className="flex items-center gap-2 text-sm">
           <Phone className="h-4 w-4 text-muted-foreground" />
-          <span className="text-gray-700">{cliente.telefone}</span>
+          <span className="text-gray-700">{Funcionarios.telefone}</span>
         </div>
 
-        {cliente.linkSite && (
+        {Funcionarios.linkSite && (
           <div className="flex items-center gap-2 text-sm">
             <ExternalLink className="h-4 w-4 text-muted-foreground" />
             <button
               onClick={handleSiteVisit}
               className="text-primary hover:underline truncate transition-colors duration-200 text-left"
             >
-              {cliente.linkSite}
+              {Funcionarios.linkSite}
             </button>
           </div>
         )}
       </div>
 
       {/* Registrado por */}
-      {cliente.registradoPor && (
+      {Funcionarios.registradoPor && (
         <div className="pt-3 border-t border-gray-100 mb-4">
           <div className="flex items-center gap-2">
             <UserCheck className="h-3 w-3 text-muted-foreground" />
-            <span className="text-xs text-muted-foreground">Registrado por {cliente.registradoPor}</span>
+            <span className="text-xs text-muted-foreground">Registrado por {Funcionarios.registradoPor}</span>
           </div>
         </div>
       )}

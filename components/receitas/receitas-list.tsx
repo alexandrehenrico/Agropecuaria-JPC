@@ -5,11 +5,11 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ReceitaCard } from "./receita-card"
 import { Search, Filter } from "lucide-react"
-import type { Receita, Cliente } from "@/lib/types"
+import type { Receita, Funcionarios } from "@/lib/types"
 
 interface ReceitasListProps {
   receitas: Receita[]
-  clientes: Cliente[]
+  Funcionarios: Funcionarios[]
 }
 
 const categorias = [
@@ -24,7 +24,7 @@ const categorias = [
   "Outros",
 ]
 
-export function ReceitasList({ receitas, clientes }: ReceitasListProps) {
+export function ReceitasList({ receitas, Funcionarios }: ReceitasListProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [categoriaFiltro, setCategoriaFiltro] = useState("Todas")
   const [periodoFiltro, setPeriodoFiltro] = useState("Todos")
@@ -127,8 +127,8 @@ export function ReceitasList({ receitas, clientes }: ReceitasListProps) {
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {receitasFiltradas.map((receita) => {
-            const cliente = receita.clienteId ? clientes.find((c) => c.id === receita.clienteId) : undefined
-            return <ReceitaCard key={receita.id} receita={receita} cliente={cliente} />
+            const Funcionarios = receita.FuncionariosId ? Funcionarios.find((c) => c.id === receita.FuncionariosId) : undefined
+            return <ReceitaCard key={receita.id} receita={receita} Funcionarios={Funcionarios} />
           })}
         </div>
       )}

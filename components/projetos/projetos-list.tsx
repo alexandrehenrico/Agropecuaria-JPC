@@ -6,11 +6,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ProjetoCard } from "./projeto-card"
 import { ProjetoAtividadesModal } from "./projeto-atividades-modal"
 import { Search, Filter, FolderKanban } from "lucide-react"
-import type { Projeto, Cliente } from "@/lib/types"
+import type { Projeto, Funcionarios } from "@/lib/types"
 
 interface ProjetosListProps {
   projetos: Projeto[]
-  clientes: Cliente[]
+  Funcionarios: Funcionarios[]
   onStatusChange?: () => void
 }
 
@@ -21,7 +21,7 @@ const statusOptions = [
   { value: "entregue", label: "Entregue" },
 ]
 
-export function ProjetosList({ projetos, clientes, onStatusChange }: ProjetosListProps) {
+export function ProjetosList({ projetos, Funcionarios, onStatusChange }: ProjetosListProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFiltro, setStatusFiltro] = useState("todos")
   const [projetoSelecionado, setProjetoSelecionado] = useState<Projeto | null>(null)
@@ -140,12 +140,12 @@ export function ProjetosList({ projetos, clientes, onStatusChange }: ProjetosLis
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {projetosFiltrados.map((projeto) => {
-            const cliente = projeto.clienteId ? clientes.find((c) => c.id === projeto.clienteId) : undefined
+            const Funcionarios = projeto.FuncionariosId ? Funcionarios.find((c) => c.id === projeto.FuncionariosId) : undefined
             return (
               <ProjetoCard
                 key={projeto.id}
                 projeto={projeto}
-                cliente={cliente}
+                Funcionarios={Funcionarios}
                 onStatusChange={onStatusChange}
                 onViewActivities={handleViewActivities}
               />

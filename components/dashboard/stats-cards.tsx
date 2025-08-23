@@ -40,7 +40,7 @@ export function StatsCards({ data, className }: StatsCardsProps) {
       case 'negative':
         return 'bg-red-100 text-red-700 border-red-200'
       default:
-        return 'bg-gray-100 text-gray-700 border-gray-200'
+        return 'bg-emerald-100 text-emerald-700 border-emerald-200'
     }
   }
 
@@ -51,7 +51,7 @@ export function StatsCards({ data, className }: StatsCardsProps) {
       case 'negative':
         return 'bg-red-100'
       default:
-        return 'bg-gray-100'
+        return 'bg-emerald-100'
     }
   }
 
@@ -62,7 +62,7 @@ export function StatsCards({ data, className }: StatsCardsProps) {
       case 'negative':
         return 'text-red-600'
       default:
-        return 'text-gray-600'
+        return 'text-emerald-600'
     }
   }
 
@@ -75,7 +75,7 @@ export function StatsCards({ data, className }: StatsCardsProps) {
         return -(data.despesasMes || 0)
       case 'lucro':
         return ((data.lucro / Math.max(data.totalReceitas, 1)) * 100)
-      case 'clientes':
+      case 'Funcionarios':
         return 5.2 // Exemplo
       default:
         return 0
@@ -107,14 +107,7 @@ export function StatsCards({ data, className }: StatsCardsProps) {
       variation: getVariation('lucro'),
       type: 'lucro'
     },
-    {
-      title: "Total Clientes",
-      value: data.totalClientes.toString(),
-      icon: Users,
-      trend: "neutral",
-      variation: getVariation('clientes'),
-      type: 'clientes'
-    },
+
   ]
 
   return (
@@ -122,13 +115,13 @@ export function StatsCards({ data, className }: StatsCardsProps) {
       {cards.map((card) => (
         <Card 
           key={card.title}
-          className="relative overflow-hidden transition-all duration-200 hover:shadow-lg group cursor-pointer"
+          className="relative overflow-hidden transition-all duration-200 hover:shadow-lg group cursor-pointer border-green-200 bg-gradient-to-br from-green-50 to-emerald-50"
         >
           {/* Background decoration */}
-          <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full opacity-20 -translate-y-12 translate-x-12 group-hover:scale-110 transition-transform duration-200" />
+          <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-green-200 to-emerald-300 rounded-full opacity-15 -translate-y-12 translate-x-12 group-hover:scale-110 transition-transform duration-200" />
           
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-            <CardTitle className="text-sm font-medium text-gray-700">
+            <CardTitle className="text-sm font-medium text-green-800">
               {card.title}
             </CardTitle>
             <div className={`p-2 rounded-lg ${getIconBackground(card.trend)} transition-colors duration-200`}>
@@ -138,7 +131,7 @@ export function StatsCards({ data, className }: StatsCardsProps) {
           
           <CardContent className="space-y-3">
             <div className="flex items-end justify-between">
-              <div className="text-2xl font-bold text-gray-900 group-hover:text-black transition-colors duration-200">
+              <div className="text-2xl font-bold text-green-900 group-hover:text-green-950 transition-colors duration-200">
                 {card.value}
               </div>
             </div>
@@ -153,18 +146,18 @@ export function StatsCards({ data, className }: StatsCardsProps) {
                   {formatPercentage(card.variation)}
                 </Badge>
                 
-                <span className="text-xs text-muted-foreground">
+                <span className="text-xs text-green-600">
                   vs mês anterior
                 </span>
               </div>
             )}
 
-            {card.type === 'clientes' && Math.abs(card.variation) === 0 && (
+            {card.type === 'Funcionarios' && Math.abs(card.variation) === 0 && (
               <div className="flex items-center justify-between">
-                <Badge variant="outline" className="text-xs bg-gray-100 text-gray-700 border-gray-200">
+                <Badge variant="outline" className="text-xs bg-emerald-100 text-emerald-700 border-emerald-200">
                   Estável
                 </Badge>
-                <span className="text-xs text-muted-foreground">
+                <span className="text-xs text-green-600">
                   vs mês anterior
                 </span>
               </div>

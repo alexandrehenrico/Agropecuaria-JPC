@@ -8,10 +8,10 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { adicionarProjeto, obterClientes } from "@/lib/database"
+import { adicionarProjeto, obterFuncionarios } from "@/lib/database"
 import { useToast } from "@/hooks/use-toast"
 import { FolderKanban } from "lucide-react"
-import type { Cliente } from "@/lib/types"
+import type { Funcionarios } from "@/lib/types"
 
 interface ProjetoFormProps {
   onProjetoAdicionado: () => void
@@ -20,11 +20,11 @@ interface ProjetoFormProps {
 export function ProjetoForm({ onProjetoAdicionado }: ProjetoFormProps) {
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
-  const [clientes, setClientes] = useState<Cliente[]>([])
+  const [Funcionarios, setFuncionarios] = useState<Funcionarios[]>([])
   const [formData, setFormData] = useState({
     nome: "",
     descricao: "",
-    clienteId: "none",
+    FuncionariosId: "none",
     status: "prospeccao" as const,
     valor: "",
     dataInicio: new Date().toISOString().split("T")[0],
@@ -33,11 +33,11 @@ export function ProjetoForm({ onProjetoAdicionado }: ProjetoFormProps) {
   })
 
   useEffect(() => {
-    const carregarClientes = async () => {
-      const clientesData = await obterClientes()
-      setClientes(clientesData)
+    const carregarFuncionarios = async () => {
+      const FuncionariosData = await obterFuncionarios()
+      setFuncionarios(FuncionariosData)
     }
-    carregarClientes()
+    carregarFuncionarios()
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -53,8 +53,8 @@ export function ProjetoForm({ onProjetoAdicionado }: ProjetoFormProps) {
         observacoes: formData.observacoes,
       }
 
-      if (formData.clienteId !== "none") {
-        projetoData.clienteId = formData.clienteId
+      if (formData.FuncionariosId !== "none") {
+        projetoData.FuncionariosId = formData.FuncionariosId
       }
 
       if (formData.valor) {
@@ -75,7 +75,7 @@ export function ProjetoForm({ onProjetoAdicionado }: ProjetoFormProps) {
       setFormData({
         nome: "",
         descricao: "",
-        clienteId: "none",
+        FuncionariosId: "none",
         status: "prospeccao",
         valor: "",
         dataInicio: new Date().toISOString().split("T")[0],
@@ -133,19 +133,19 @@ export function ProjetoForm({ onProjetoAdicionado }: ProjetoFormProps) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="clienteId">Cliente (Opcional)</Label>
+              <Label htmlFor="FuncionariosId">Funcionarios (Opcional)</Label>
               <Select
-                value={formData.clienteId}
-                onValueChange={(value) => setFormData({ ...formData, clienteId: value })}
+                value={formData.FuncionariosId}
+                onValueChange={(value) => setFormData({ ...formData, FuncionariosId: value })}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Selecione um cliente (opcional)" />
+                  <SelectValue placeholder="Selecione um Funcionarios (opcional)" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="none">Nenhum cliente</SelectItem>
-                  {clientes.map((cliente) => (
-                    <SelectItem key={cliente.id} value={cliente.id}>
-                      {cliente.nome}
+                  <SelectItem value="none">Nenhum Funcionarios</SelectItem>
+                  {Funcionarios.map((Funcionarios) => (
+                    <SelectItem key={Funcionarios.id} value={Funcionarios.id}>
+                      {Funcionarios.nome}
                     </SelectItem>
                   ))}
                 </SelectContent>

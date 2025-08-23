@@ -1,4 +1,4 @@
-// ========== SIDEBAR COMPONENT (atualizado) ==========
+// ========== SIDEBAR COMPONENT (atualizado com tons de verde) ==========
 "use client"
 
 import Link from "next/link"
@@ -9,13 +9,11 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 
 const navigation = [
-  { name: "Dashboard", href: "/", icon: LayoutDashboard },
-  { name: "Clientes", href: "/clientes", icon: Users },
+  { name: "Visão Geral", href: "/", icon: LayoutDashboard },
+  { name: "Funcionarios", href: "/Funcionarios", icon: Users },
   { name: "Projetos", href: "/projetos", icon: FolderKanban },
-  { name: "Orçamentos", href: "/orcamentos", icon: FileText },
   { name: "Receitas", href: "/receitas", icon: TrendingUp },
   { name: "Despesas", href: "/despesas", icon: TrendingDown },
-  { name: "Recibos", href: "/recibos", icon: Receipt },
   { name: "Senhas", href: "/senhas", icon: Shield },
 ]
 
@@ -50,40 +48,29 @@ export function Sidebar() {
       <div className="lg:hidden fixed top-4 left-4 z-50">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="p-2 rounded-md bg-white shadow-md border border-gray-200 hover:bg-gray-50 transition"
+          className="p-2 rounded-md bg-white shadow-md border border-green-200 hover:bg-green-50 transition"
         >
-          {isOpen ? <X className="h-5 w-5 text-gray-700" /> : <Menu className="h-5 w-5 text-gray-700" />}
+          {isOpen ? <X className="h-5 w-5 text-green-700" /> : <Menu className="h-5 w-5 text-green-700" />}
         </button>
       </div>
 
       {/* Sidebar */}
       <div
         className={cn(
-          "fixed inset-y-0 left-0 z-40 w-64 bg-gradient-to-br from-gray-50 to-gray-100 border-r border-gray-200 transform transition-transform duration-200 ease-in-out lg:translate-x-0",
+          "fixed inset-y-0 left-0 z-40 w-64 bg-gradient-to-br from-green-50 to-emerald-100 border-r border-green-200 transform transition-transform duration-200 ease-in-out lg:translate-x-0",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <div className="flex flex-col h-full relative overflow-hidden">
           {/* Decorações de fundo */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gray-300 rounded-full opacity-10 -translate-y-16 translate-x-16" />
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-black rounded-full opacity-5 translate-y-12 -translate-x-12" />
+          <div className="absolute top-0 right-0 w-32 h-32 bg-green-300 rounded-full opacity-15 -translate-y-16 translate-x-16" />
+          <div className="absolute bottom-0 left-0 w-24 h-24 bg-emerald-500 rounded-full opacity-10 translate-y-12 -translate-x-12" />
 
           {/* Logo e título */}
-          <div className="relative flex flex-col items-center justify-center px-4 py-6 border-b border-gray-200 z-10">
-            <Image 
-              src="/images/visionx-logo.png" 
-              alt="VisionX Logo"
-              width={120} 
-              height={120}
-              className="object-contain mb-3"
-              priority
-              onError={(e) => {
-                e.target.style.display = 'none'
-              }}
-            />
+          <div className="relative flex flex-col items-center justify-center px-4 py-6 border-b border-green-200 z-10">
             <div className="text-center">
-              <h1 className="text-sm font-semibold text-gray-900">Sistema de Gestão</h1>
-              <p className="text-xs text-gray-600">Interno VisionX</p>
+              <h1 className="text-sm font-semibold text-green-900">Sistema de Gestão</h1>
+              <p className="text-xs text-green-700">Interno Agropecuária JPC</p>
             </div>
           </div>
 
@@ -99,8 +86,8 @@ export function Sidebar() {
                   className={cn(
                     "flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-150",
                     isActive
-                      ? "bg-black text-white"
-                      : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                      ? "bg-green-600 text-white shadow-md"
+                      : "text-green-700 hover:bg-green-100 hover:text-green-800"
                   )}
                 >
                   <item.icon className="mr-3 h-5 w-5" />
@@ -111,8 +98,8 @@ export function Sidebar() {
           </nav>
 
           {/* Rodapé apenas com mensagem motivacional */}
-          <div className="relative px-4 py-4 border-t border-gray-200 z-10 bg-white/70 backdrop-blur-md">
-            <div className="text-xs text-gray-600 italic text-center">
+          <div className="relative px-4 py-4 border-t border-green-200 z-10 bg-green-50/70 backdrop-blur-md">
+            <div className="text-xs text-green-700 italic text-center">
               {motivationalMessages[messageIndex]}
             </div>
           </div>

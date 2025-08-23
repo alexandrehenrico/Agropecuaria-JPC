@@ -4,13 +4,13 @@ import { getAuth } from "firebase/auth"
 import { getStorage } from "firebase/storage"
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDBPRwam-s7G9TvyRdbfTyj31jP6nfL8Vw",
-  authDomain: "gestaovision-eabff.firebaseapp.com",
-  projectId: "gestaovision-eabff",
-  storageBucket: "gestaovision-eabff.appspot.com", // ✅ corrigido
-  messagingSenderId: "372178187682",
-  appId: "1:372178187682:web:a9aa4e3e7bbb4ec0e86efb",
-  measurementId: "G-D9RXKBJRK4",
+  apiKey: "AIzaSyAcfGY-ZWrEJmTG4ekAYJ-9DvSnaz6MR7g",
+  authDomain: "sistemajpc1212.firebaseapp.com",
+  projectId: "sistemajpc1212",
+  storageBucket: "sistemajpc1212.firebasestorage.app", // ✅ corrigido
+  messagingSenderId: "15679647371",
+  appId: "1:15679647371:web:5e465eb7d8db6322dbae8e",
+  measurementId: "G-9V9SQFBLGP",
 }
 
 const app = initializeApp(firebaseConfig)

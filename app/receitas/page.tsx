@@ -5,19 +5,19 @@ import { ProtectedRoute } from "@/components/auth/protected-route"
 import { Sidebar } from "@/components/layout/sidebar"
 import { ReceitaForm } from "@/components/receitas/receita-form"
 import { ReceitasList } from "@/components/receitas/receitas-list"
-import { obterReceitas, obterClientes } from "@/lib/database"
-import type { Receita, Cliente } from "@/lib/types"
+import { obterReceitas, obterFuncionarios } from "@/lib/database"
+import type { Receita, Funcionarios } from "@/lib/types"
 
 export default function ReceitasPage() {
   const [receitas, setReceitas] = useState<Receita[]>([])
-  const [clientes, setClientes] = useState<Cliente[]>([])
+  const [Funcionarios, setFuncionarios] = useState<Funcionarios[]>([])
   const [loading, setLoading] = useState(true)
 
   const carregarDados = async () => {
     try {
-      const [receitasData, clientesData] = await Promise.all([obterReceitas(), obterClientes()])
+      const [receitasData, FuncionariosData] = await Promise.all([obterReceitas(), obterFuncionarios()])
       setReceitas(receitasData)
-      setClientes(clientesData)
+      setFuncionarios(FuncionariosData)
     } catch (error) {
       console.error("Erro ao carregar dados:", error)
     } finally {
@@ -61,7 +61,7 @@ export default function ReceitasPage() {
 
             <div>
               <h2 className="text-xl font-semibold mb-4">Lista de Receitas ({receitas.length})</h2>
-              <ReceitasList receitas={receitas} clientes={clientes} />
+              <ReceitasList receitas={receitas} Funcionarios={Funcionarios} />
             </div>
           </div>
         </main>

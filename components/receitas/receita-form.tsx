@@ -8,10 +8,10 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { adicionarReceita, obterClientes } from "@/lib/database"
+import { adicionarReceita, obterFuncionarios } from "@/lib/database"
 import { useToast } from "@/hooks/use-toast"
 import { DollarSign } from "lucide-react"
-import type { Cliente } from "@/lib/types"
+import type { Funcionarios } from "@/lib/types"
 
 interface ReceitaFormProps {
   onReceitaAdicionada: () => void
@@ -31,21 +31,21 @@ const categorias = [
 export function ReceitaForm({ onReceitaAdicionada }: ReceitaFormProps) {
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
-  const [clientes, setClientes] = useState<Cliente[]>([])
+  const [Funcionarios, setFuncionarios] = useState<Funcionarios[]>([])
   const [formData, setFormData] = useState({
     descricao: "",
     valor: "",
-    clienteId: "none",
+    FuncionariosId: "none",
     categoria: "Desenvolvimento Web",
     data: new Date().toISOString().split("T")[0],
   })
 
   useEffect(() => {
-    const carregarClientes = async () => {
-      const clientesData = await obterClientes()
-      setClientes(clientesData)
+    const carregarFuncionarios = async () => {
+      const FuncionariosData = await obterFuncionarios()
+      setFuncionarios(FuncionariosData)
     }
-    carregarClientes()
+    carregarFuncionarios()
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -60,8 +60,8 @@ export function ReceitaForm({ onReceitaAdicionada }: ReceitaFormProps) {
         data: new Date(formData.data),
       }
 
-      if (formData.clienteId !== "none") {
-        receitaData.clienteId = formData.clienteId
+      if (formData.FuncionariosId !== "none") {
+        receitaData.FuncionariosId = formData.FuncionariosId
       }
 
       await adicionarReceita(receitaData)
@@ -74,7 +74,7 @@ export function ReceitaForm({ onReceitaAdicionada }: ReceitaFormProps) {
       setFormData({
         descricao: "",
         valor: "",
-        clienteId: "none",
+        FuncionariosId: "none",
         categoria: "Desenvolvimento Web",
         data: new Date().toISOString().split("T")[0],
       })
@@ -178,19 +178,19 @@ export function ReceitaForm({ onReceitaAdicionada }: ReceitaFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="clienteId">Cliente (Opcional)</Label>
+            <Label htmlFor="FuncionariosId">Funcionarios (Opcional)</Label>
             <Select
-              value={formData.clienteId}
-              onValueChange={(value) => setFormData({ ...formData, clienteId: value })}
+              value={formData.FuncionariosId}
+              onValueChange={(value) => setFormData({ ...formData, FuncionariosId: value })}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Selecione um cliente (opcional)" />
+                <SelectValue placeholder="Selecione um Funcionarios (opcional)" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="none">Nenhum cliente</SelectItem>
-                {clientes.map((cliente) => (
-                  <SelectItem key={cliente.id} value={cliente.id}>
-                    {cliente.nome}
+                <SelectItem value="none">Nenhum Funcionarios</SelectItem>
+                {Funcionarios.map((Funcionarios) => (
+                  <SelectItem key={Funcionarios.id} value={Funcionarios.id}>
+                    {Funcionarios.nome}
                   </SelectItem>
                 ))}
               </SelectContent>

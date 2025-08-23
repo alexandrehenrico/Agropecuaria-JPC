@@ -17,17 +17,39 @@ interface DespesaFormProps {
 }
 
 const categorias = [
-  "Hospedagem/Servidor",
-  "Software/Licenças",
-  "Marketing/Publicidade",
-  "Equipamentos",
-  "Internet/Telefone",
-  "Escritório/Aluguel",
-  "Transporte",
-  "Alimentação",
-  "Educação/Cursos",
-  "Impostos/Taxas",
-  "Outros",
+"Salário",
+"Diárias de Serviço",
+"Reforma de Cerca", 
+"Construção de Cerca", 
+"Roço de Juquira",
+"Mexida com Gado",
+"Limpeza de Açude",
+"Aplicação de Herbicida", 
+"Limpeza de Curral",
+"Serviço Gerais",
+"Reforma de Curral",
+"Pintura de Curral",
+"Aplicação de Herbicida em Pindoba",
+"Acero de Pé de Cerca",
+"Montagem de Cocheira",
+"Aração de Girico",
+"Maquinas Pesadas – Açude",
+"Maquinas Pesadas – Desmatamento",
+"Sementes",
+"Sal Mineral",
+"Milho",
+"Grampo",
+"Arame Liso",
+"Medicamentos",
+"Ferramentas de Trabalho",
+"Animal de Serviço",
+"Montaria P/ animal de Serviço",
+"Casa de Cocho",
+"Energia Elétrica",
+"Combustível Carro",
+"Combustível Moto",
+"Combustível Maquinas",
+"Diesel – Pindoba",
 ]
 
 export function DespesaForm({ onDespesaAdicionada }: DespesaFormProps) {
@@ -36,7 +58,7 @@ export function DespesaForm({ onDespesaAdicionada }: DespesaFormProps) {
   const [formData, setFormData] = useState({
     descricao: "",
     valor: "",
-    categoria: "Hospedagem/Servidor",
+    categoria: "Salário",
     data: new Date().toISOString().split("T")[0],
   })
 
@@ -60,7 +82,7 @@ export function DespesaForm({ onDespesaAdicionada }: DespesaFormProps) {
       setFormData({
         descricao: "",
         valor: "",
-        categoria: "Hospedagem/Servidor",
+        categoria: "Salário",
         data: new Date().toISOString().split("T")[0],
       })
 

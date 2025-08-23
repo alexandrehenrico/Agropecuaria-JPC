@@ -7,15 +7,15 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { adicionarCliente } from "@/lib/database"
+import { adicionarFuncionarios } from "@/lib/database"
 import { useToast } from "@/hooks/use-toast"
 import { UserPlus } from "lucide-react"
 
-interface ClienteFormProps {
-  onClienteAdicionado: () => void
+interface FuncionariosFormProps {
+  onFuncionariosAdicionado: () => void
 }
 
-export function ClienteForm({ onClienteAdicionado }: ClienteFormProps) {
+export function FuncionariosForm({ onFuncionariosAdicionado }: FuncionariosFormProps) {
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
@@ -31,14 +31,14 @@ export function ClienteForm({ onClienteAdicionado }: ClienteFormProps) {
     setLoading(true)
 
     try {
-      await adicionarCliente({
+      await adicionarFuncionarios({
         ...formData,
         dataRegistro: new Date(),
       })
 
       toast({
-        title: "Cliente adicionado",
-        description: "Cliente foi adicionado com sucesso!",
+        title: "Funcionarios adicionado",
+        description: "Funcionarios foi adicionado com sucesso!",
       })
 
       setFormData({
@@ -49,11 +49,11 @@ export function ClienteForm({ onClienteAdicionado }: ClienteFormProps) {
         servico: "",
       })
 
-      onClienteAdicionado()
+      onFuncionariosAdicionado()
     } catch (error) {
       toast({
         title: "Erro",
-        description: "Erro ao adicionar cliente. Tente novamente.",
+        description: "Erro ao adicionar Funcionario. Tente novamente.",
         variant: "destructive",
       })
     } finally {
@@ -77,10 +77,10 @@ export function ClienteForm({ onClienteAdicionado }: ClienteFormProps) {
       <CardHeader className="relative">
         <div className="flex items-center gap-2">
           <UserPlus className="h-5 w-5 text-gray-700" />
-          <CardTitle className="text-xl font-bold text-gray-900">Adicionar Novo Cliente</CardTitle>
+          <CardTitle className="text-xl font-bold text-gray-900">Adicionar Novo Funcionario</CardTitle>
         </div>
         <p className="text-sm text-muted-foreground mt-1">
-          Preencha os campos abaixo para registrar um novo cliente no sistema.
+          Preencha os campos abaixo para registrar um novo Funcionarios no sistema.
         </p>
       </CardHeader>
 
@@ -95,7 +95,7 @@ export function ClienteForm({ onClienteAdicionado }: ClienteFormProps) {
                 value={formData.nome}
                 onChange={handleChange}
                 required
-                placeholder="Nome do cliente"
+                placeholder="Nome do Funcionarios"
               />
             </div>
             <div className="space-y-2">
@@ -145,7 +145,7 @@ export function ClienteForm({ onClienteAdicionado }: ClienteFormProps) {
               value={formData.servico}
               onChange={handleChange}
               required
-              placeholder="Descreva o serviço prestado para este cliente"
+              placeholder="Descreva o serviço prestado para este Funcionarios"
               rows={3}
             />
           </div>
@@ -155,7 +155,7 @@ export function ClienteForm({ onClienteAdicionado }: ClienteFormProps) {
             disabled={loading}
             className="w-full bg-green-600 hover:bg-green-700 text-white transition-colors duration-200"
           >
-            {loading ? "Adicionando..." : "Adicionar Cliente"}
+            {loading ? "Adicionando..." : "Adicionar Funcionario"}
           </Button>
         </form>
       </CardContent>

@@ -5,22 +5,22 @@ import { ProtectedRoute } from "@/components/auth/protected-route"
 import { Sidebar } from "@/components/layout/sidebar"
 import { ProjetoForm } from "@/components/projetos/projeto-form"
 import { ProjetosList } from "@/components/projetos/projetos-list"
-import { obterProjetos, obterClientes } from "@/lib/database"
-import type { Projeto, Cliente } from "@/lib/types"
+import { obterProjetos, obterFuncionarios } from "@/lib/database"
+import type { Projeto, Funcionarios } from "@/lib/types"
 
 export default function ProjetosPage() {
   const [projetos, setProjetos] = useState<Projeto[]>([])
-  const [clientes, setClientes] = useState<Cliente[]>([])
+  const [Funcionarios, setFuncionarios] = useState<Funcionarios[]>([])
   const [loading, setLoading] = useState(true)
 
   const carregarDados = async () => {
     try {
-      const [projetosData, clientesData] = await Promise.all([
+      const [projetosData, FuncionariosData] = await Promise.all([
         obterProjetos(),
-        obterClientes(),
+        obterFuncionarios(),
       ])
       setProjetos(projetosData)
-      setClientes(clientesData)
+      setFuncionarios(FuncionariosData)
     } catch (error) {
       console.error("Erro ao carregar dados:", error)
     } finally {
@@ -64,7 +64,7 @@ export default function ProjetosPage() {
 
             <div>
               <h2 className="text-xl font-semibold mb-4">Lista de Projetos ({projetos.length})</h2>
-              <ProjetosList projetos={projetos} clientes={clientes} onStatusChange={carregarDados} />
+              <ProjetosList projetos={projetos} Funcionarios={Funcionarios} onStatusChange={carregarDados} />
             </div>
           </div>
         </main>

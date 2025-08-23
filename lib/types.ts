@@ -1,4 +1,4 @@
-export interface Cliente {
+export interface Funcionarios {
   id: string
   nome: string
   email: string
@@ -13,7 +13,7 @@ export interface Receita {
   id: string
   descricao: string
   valor: number
-  clienteId?: string
+  FuncionariosId?: string
   categoria: string
   data: Date
   registradoPor?: string
@@ -32,7 +32,7 @@ export interface DashboardData {
   totalReceitas: number
   totalDespesas: number
   lucro: number
-  totalClientes: number
+  totalFuncionarios: number
   receitasMes: number
   despesasMes: number
 }
@@ -53,7 +53,7 @@ export interface Projeto {
   id: string
   nome: string
   descricao: string
-  clienteId?: string
+  FuncionariosId?: string
   status: 'prospeccao' | 'desenvolvimento' | 'entregue'
   valor?: number
   dataInicio: Date
@@ -85,10 +85,10 @@ export interface ItemOrcamento {
 export interface Orcamento {
   id: string
   numeroOrcamento: string
-  clienteId?: string
-  nomeCliente: string
-  emailCliente: string
-  telefoneCliente: string
+  FuncionariosId?: string
+  nomeFuncionarios: string
+  emailFuncionarios: string
+  telefoneFuncionarios: string
   titulo: string
   descricao?: string
   itens: ItemOrcamento[]
@@ -105,10 +105,10 @@ export interface Orcamento {
 export interface Recibo {
   id: string
   numeroRecibo: string
-  clienteId?: string
-  nomeCliente: string
-  emailCliente: string
-  telefoneCliente: string
+  FuncionariosId?: string
+  nomeFuncionarios: string
+  emailFuncionarios: string
+  telefoneFuncionarios: string
   descricaoServico: string
   valorPago: number
   formaPagamento: 'dinheiro' | 'pix' | 'cartao' | 'transferencia' | 'boleto'

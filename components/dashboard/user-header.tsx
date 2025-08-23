@@ -1,4 +1,4 @@
-// ========== USER HEADER COMPONENT (atualizado) ==========
+// ========== USER HEADER COMPONENT (atualizado com tons de verde) ==========
 "use client"
 
 import { useAuth } from "@/contexts/auth-context"
@@ -98,20 +98,20 @@ export function UserHeader({ showWelcome = true, variant = 'default', className 
       <div className={`flex items-center gap-3 ${className || ''}`}>
         <Avatar className="h-8 w-8">
           <AvatarImage src={user.photoURL || undefined} />
-          <AvatarFallback className="text-sm font-semibold bg-gradient-to-br from-gray-800 to-black text-white">
+          <AvatarFallback className="text-sm font-semibold bg-gradient-to-br from-green-700 to-green-800 text-white">
             {getInitials(displayName)}
           </AvatarFallback>
         </Avatar>
         <div className="flex flex-col flex-1 min-w-0">
-          <span className="text-sm font-medium text-gray-900">{firstName}</span>
-          <span className="text-xs text-muted-foreground truncate max-w-xs">{user.email}</span>
+          <span className="text-sm font-medium text-green-900">{firstName}</span>
+          <span className="text-xs text-green-600 truncate max-w-xs">{user.email}</span>
         </div>
         
         {/* Menu dropdown com logout */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-              <ChevronDown className="h-4 w-4" />
+            <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-green-100">
+              <ChevronDown className="h-4 w-4 text-green-700" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
@@ -128,16 +128,16 @@ export function UserHeader({ showWelcome = true, variant = 'default', className 
   }
 
   return (
-    <div className={`relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200 p-6 mb-6 transition-all duration-200 hover:shadow-md ${className || ''}`}>
+    <div className={`relative overflow-hidden bg-gradient-to-br from-green-50 to-emerald-100 rounded-xl border border-green-200 p-6 mb-6 transition-all duration-200 hover:shadow-md ${className || ''}`}>
       {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-gray-300 rounded-full opacity-10 -translate-y-16 translate-x-16" />
-      <div className="absolute bottom-0 left-0 w-24 h-24 bg-black rounded-full opacity-5 translate-y-12 -translate-x-12" />
+      <div className="absolute top-0 right-0 w-32 h-32 bg-green-300 rounded-full opacity-15 -translate-y-16 translate-x-16" />
+      <div className="absolute bottom-0 left-0 w-24 h-24 bg-emerald-600 rounded-full opacity-10 translate-y-12 -translate-x-12" />
 
       <div className="relative flex items-center gap-4">
         <div className="relative">
           <Avatar className="h-16 w-16 border-4 border-white shadow-lg">
             <AvatarImage src={user.photoURL || undefined} />
-            <AvatarFallback className="text-xl font-bold bg-gradient-to-br from-gray-800 to-black text-white">
+            <AvatarFallback className="text-xl font-bold bg-gradient-to-br from-green-700 to-green-800 text-white">
               {getInitials(displayName)}
             </AvatarFallback>
           </Avatar>
@@ -148,22 +148,22 @@ export function UserHeader({ showWelcome = true, variant = 'default', className 
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-2xl font-bold text-green-900">
               {getGreeting()}, {firstName}!
             </h2>
-            <Badge variant="outline" className="bg-white/80 text-gray-700 border-gray-300">
+            <Badge variant="outline" className="bg-white/80 text-green-700 border-green-300">
               <User className="h-3 w-3 mr-1" />
               Online
             </Badge>
           </div>
 
           {showWelcome && (
-            <p className="text-gray-700 font-medium mb-2">
-              Bem-vindo ao sistema VisionX
+            <p className="text-green-800 font-medium mb-2">
+              Bem-vindo ao sistema Agropecuária JPC
             </p>
           )}
 
-          <div className="flex items-center gap-2 text-sm text-gray-600">
+          <div className="flex items-center gap-2 text-sm text-green-700">
             <Clock className="h-4 w-4" />
             <span className="capitalize">{getCurrentDate()}</span>
           </div>
@@ -172,8 +172,8 @@ export function UserHeader({ showWelcome = true, variant = 'default', className 
         <div className="flex items-center gap-4">
           {/* Email info */}
           <div className="hidden sm:flex flex-col items-end text-right min-w-0">
-            <div className="text-sm text-muted-foreground mb-1">Email</div>
-            <div className="text-sm font-medium text-gray-700 truncate max-w-xs">
+            <div className="text-sm text-green-600 mb-1">Email</div>
+            <div className="text-sm font-medium text-green-800 truncate max-w-xs">
               {user.email}
             </div>
           </div>
@@ -192,7 +192,7 @@ export function UserHeader({ showWelcome = true, variant = 'default', className 
       </div>
 
       {/* Mensagem motivacional */}
-      <div className={`mt-4 text-sm text-gray-600 font-medium italic text-center transition-opacity duration-500 ${fade ? 'opacity-0' : 'opacity-100'}`}>
+      <div className={`mt-4 text-sm text-green-700 font-medium italic text-center transition-opacity duration-500 ${fade ? 'opacity-0' : 'opacity-100'}`}>
         {motivationalMessages[currentMessageIndex]}
       </div>
     </div>

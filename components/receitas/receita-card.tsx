@@ -3,16 +3,16 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, User, Tag, UserCheck } from "lucide-react"
-import type { Receita, Cliente } from "@/lib/types"
+import type { Receita, Funcionarios } from "@/lib/types"
 
 interface ReceitaCardProps {
   receita: Receita
-  cliente?: Cliente
+  Funcionarios?: Funcionarios
   onClick?: () => void
   className?: string
 }
 
-export function ReceitaCard({ receita, cliente, onClick, className }: ReceitaCardProps) {
+export function ReceitaCard({ receita, Funcionarios, onClick, className }: ReceitaCardProps) {
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("pt-BR", {
       style: "currency",
@@ -81,14 +81,14 @@ export function ReceitaCard({ receita, cliente, onClick, className }: ReceitaCar
           </Badge>
         </div>
 
-        {cliente && (
+        {Funcionarios && (
           <div className="flex items-center gap-2 text-sm">
             <User className="h-4 w-4 text-muted-foreground" />
             <div className="flex items-center gap-2">
-              <span className="text-gray-700 font-medium">{cliente.nome}</span>
-              {cliente.email && (
+              <span className="text-gray-700 font-medium">{Funcionarios.nome}</span>
+              {Funcionarios.email && (
                 <Badge variant="outline" className="text-xs bg-blue-50 text-blue-700 border-blue-200">
-                  {cliente.email}
+                  {Funcionarios.email}
                 </Badge>
               )}
             </div>

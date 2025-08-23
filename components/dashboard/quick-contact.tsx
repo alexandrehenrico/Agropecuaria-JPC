@@ -6,16 +6,16 @@ import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { MessageCircle, Clock, Zap } from "lucide-react"
 import { createWhatsAppUrl, messageTemplates } from "@/lib/whatsapp"
-import type { Cliente } from "@/lib/types"
+import type { Funcionarios } from "@/lib/types"
 
 interface QuickContactProps {
-  clientes: Cliente[]
+  Funcionarios: Funcionarios[]
   maxItems?: number
   className?: string
   variant?: 'default' | 'compact'
 }
 
-export function QuickContact({ clientes, maxItems = 3, className, variant = 'default' }: QuickContactProps) {
+export function QuickContact({ Funcionarios, maxItems = 3, className, variant = 'default' }: QuickContactProps) {
   const formatDate = (date: Date | string) => {
     const dateObj = typeof date === 'string' ? new Date(date) : date
     const now = new Date()
@@ -36,7 +36,7 @@ export function QuickContact({ clientes, maxItems = 3, className, variant = 'def
     return nome.charAt(0).toUpperCase()
   }
 
-  const clientesRecentes = clientes
+  const FuncionariosRecentes = Funcionarios
     .sort((a, b) => {
       const dateA = typeof a.dataRegistro === 'string' ? new Date(a.dataRegistro) : a.dataRegistro
       const dateB = typeof b.dataRegistro === 'string' ? new Date(b.dataRegistro) : b.dataRegistro
@@ -44,22 +44,22 @@ export function QuickContact({ clientes, maxItems = 3, className, variant = 'def
     })
     .slice(0, maxItems)
 
-  const handleQuickWhatsApp = (cliente: Cliente) => {
-    const message = messageTemplates.followUp(cliente.nome, cliente.servico)
-    const whatsappUrl = createWhatsAppUrl(cliente.telefone, message)
+  const handleQuickWhatsApp = (Funcionarios: Funcionarios) => {
+    const message = messageTemplates.followUp(Funcionarios.nome, Funcionarios.servico)
+    const whatsappUrl = createWhatsAppUrl(Funcionarios.telefone, message)
     window.open(whatsappUrl, "_blank")
   }
 
-  if (clientesRecentes.length === 0) {
+  if (FuncionariosRecentes.length === 0) {
     return (
-      <Card className={className}>
+      <Card className={`border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 ${className}`}>
         <CardContent className="flex flex-col items-center justify-center py-12 px-6 text-center">
-          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-            <MessageCircle className="h-8 w-8 text-gray-400" />
+          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+            <MessageCircle className="h-8 w-8 text-green-500" />
           </div>
-          <h3 className="font-medium text-gray-900 mb-2">Nenhum cliente ainda</h3>
-          <p className="text-sm text-muted-foreground max-w-48">
-            Cadastre seus primeiros clientes para aparecerem aqui
+          <h3 className="font-medium text-green-900 mb-2">Nenhum funcionario ainda</h3>
+          <p className="text-sm text-green-700 max-w-48">
+            Cadastre seus primeiros Funcionarios para aparecerem aqui
           </p>
         </CardContent>
       </Card>
@@ -68,34 +68,34 @@ export function QuickContact({ clientes, maxItems = 3, className, variant = 'def
 
   if (variant === 'compact') {
     return (
-      <Card className={`${className || ''}`}>
+      <Card className={`border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 ${className || ''}`}>
         <CardHeader className="pb-3">
-          <CardTitle className="text-base flex items-center gap-2">
-            <Zap className="h-4 w-4" />
+          <CardTitle className="text-base flex items-center gap-2 text-green-900">
+            <Zap className="h-4 w-4 text-green-700" />
             Contato Rápido
-            <Badge variant="secondary" className="ml-auto text-xs">
-              {clientesRecentes.length}
+            <Badge variant="secondary" className="ml-auto text-xs bg-green-100 text-green-700">
+              {FuncionariosRecentes.length}
             </Badge>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-2 px-3 py-4">
-          {clientesRecentes.map((cliente) => (
-            <div key={cliente.id} className="flex items-center gap-2 p-3 hover:bg-gray-50 rounded-lg transition-colors duration-200">
+          {FuncionariosRecentes.map((Funcionarios) => (
+            <div key={Funcionarios.id} className="flex items-center gap-2 p-3 hover:bg-green-100 rounded-lg transition-colors duration-200">
               <Avatar className="h-10 w-10 flex-shrink-0">
                 <AvatarImage src={undefined} />
-                <AvatarFallback className="text-xs bg-gradient-to-br from-gray-800 to-black text-white">
-                  {getInitials(cliente.nome)}
+                <AvatarFallback className="text-xs bg-gradient-to-br from-green-700 to-green-800 text-white">
+                  {getInitials(Funcionarios.nome)}
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium truncate">{cliente.nome}</p>
-                <p className="text-xs text-muted-foreground truncate">{cliente.servico}</p>
+                <p className="text-sm font-medium truncate text-green-900">{Funcionarios.nome}</p>
+                <p className="text-xs text-green-700 truncate">{Funcionarios.servico}</p>
               </div>
               <Button
                 size="sm"
                 variant="ghost"
-                onClick={() => handleQuickWhatsApp(cliente)}
-                className="h-10 w-10 p-0 hover:bg-green-100 flex-shrink-0"
+                onClick={() => handleQuickWhatsApp(Funcionarios)}
+                className="h-10 w-10 p-0 hover:bg-green-200 flex-shrink-0"
               >
                 <MessageCircle className="h-4 w-4 text-green-600" />
               </Button>
@@ -107,24 +107,24 @@ export function QuickContact({ clientes, maxItems = 3, className, variant = 'def
   }
 
   return (
-    <Card className={`transition-all duration-200 hover:shadow-md ${className || ''}`}>
+    <Card className={`transition-all duration-200 hover:shadow-md border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 ${className || ''}`}>
       <CardHeader className="pb-4">
-        <CardTitle className="flex items-center gap-2 text-gray-900">
-          <div className="p-2 bg-gray-100 rounded-lg">
-            <MessageCircle className="h-5 w-5 text-gray-700" />
+        <CardTitle className="flex items-center gap-2 text-green-900">
+          <div className="p-2 bg-green-100 rounded-lg">
+            <MessageCircle className="h-5 w-5 text-green-700" />
           </div>
           Contato Rápido
-          <Badge variant="secondary" className="ml-auto bg-gray-100 text-gray-700">
-            {clientesRecentes.length} cliente{clientesRecentes.length !== 1 ? 's' : ''}
+          <Badge variant="secondary" className="ml-auto bg-green-100 text-green-700">
+            {FuncionariosRecentes.length} Funcionarios{FuncionariosRecentes.length !== 1 ? 's' : ''}
           </Badge>
         </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          {clientesRecentes.map((cliente, index) => (
+          {FuncionariosRecentes.map((Funcionarios, index) => (
             <div 
-              key={cliente.id} 
-              className="group bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 rounded-xl border border-gray-200 transition-all duration-200 hover:shadow-sm"
+              key={Funcionarios.id} 
+              className="group bg-gradient-to-r from-green-50 to-emerald-50 hover:from-green-100 hover:to-emerald-100 rounded-xl border border-green-200 transition-all duration-200 hover:shadow-sm"
             >
               {/* Layout Desktop */}
               <div className="hidden sm:flex items-center justify-between p-4">
@@ -132,8 +132,8 @@ export function QuickContact({ clientes, maxItems = 3, className, variant = 'def
                   <div className="relative">
                     <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
                       <AvatarImage src={undefined} />
-                      <AvatarFallback className="text-sm font-semibold bg-gradient-to-br from-gray-800 to-black text-white">
-                        {getInitials(cliente.nome)}
+                      <AvatarFallback className="text-sm font-semibold bg-gradient-to-br from-green-700 to-green-800 text-white">
+                        {getInitials(Funcionarios.nome)}
                       </AvatarFallback>
                     </Avatar>
                     {index === 0 && (
@@ -145,24 +145,24 @@ export function QuickContact({ clientes, maxItems = 3, className, variant = 'def
                   
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <p className="font-semibold text-sm text-gray-900 truncate">{cliente.nome}</p>
+                      <p className="font-semibold text-sm text-green-900 truncate">{Funcionarios.nome}</p>
                       {index === 0 && (
                         <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200">
                           Mais recente
                         </Badge>
                       )}
                     </div>
-                    <p className="text-xs text-muted-foreground truncate mb-1">{cliente.servico}</p>
-                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <p className="text-xs text-green-700 truncate mb-1">{Funcionarios.servico}</p>
+                    <div className="flex items-center gap-1 text-xs text-green-600">
                       <Clock className="h-3 w-3" />
-                      <span>{formatDate(cliente.dataRegistro)}</span>
+                      <span>{formatDate(Funcionarios.dataRegistro)}</span>
                     </div>
                   </div>
                 </div>
 
                 <Button
                   size="sm"
-                  onClick={() => handleQuickWhatsApp(cliente)}
+                  onClick={() => handleQuickWhatsApp(Funcionarios)}
                   className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white border-0 shadow-sm transition-all duration-200 group-hover:scale-105 ml-3 h-8 w-8 p-0"
                 >
                   <MessageCircle className="h-4 w-4" />
@@ -175,8 +175,8 @@ export function QuickContact({ clientes, maxItems = 3, className, variant = 'def
                   <div className="relative flex-shrink-0">
                     <Avatar className="h-12 w-12 border-2 border-white shadow-sm">
                       <AvatarImage src={undefined} />
-                      <AvatarFallback className="text-sm font-semibold bg-gradient-to-br from-gray-800 to-black text-white">
-                        {getInitials(cliente.nome)}
+                      <AvatarFallback className="text-sm font-semibold bg-gradient-to-br from-green-700 to-green-800 text-white">
+                        {getInitials(Funcionarios.nome)}
                       </AvatarFallback>
                     </Avatar>
                     {index === 0 && (
@@ -188,7 +188,7 @@ export function QuickContact({ clientes, maxItems = 3, className, variant = 'def
                   
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-2">
-                      <p className="font-semibold text-base sm:text-sm text-gray-900 truncate">{cliente.nome}</p>
+                      <p className="font-semibold text-base sm:text-sm text-green-900 truncate">{Funcionarios.nome}</p>
                       {index === 0 && (
                         <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200 w-fit">
                           Mais recente
@@ -196,19 +196,19 @@ export function QuickContact({ clientes, maxItems = 3, className, variant = 'def
                       )}
                     </div>
                     
-                    <p className="text-sm sm:text-xs text-muted-foreground mb-2 leading-relaxed">
-                      {cliente.servico}
+                    <p className="text-sm sm:text-xs text-green-700 mb-2 leading-relaxed">
+                      {Funcionarios.servico}
                     </p>
                     
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <div className="flex items-center gap-1 text-xs text-green-600">
                         <Clock className="h-3 w-3" />
-                        <span>{formatDate(cliente.dataRegistro)}</span>
+                        <span>{formatDate(Funcionarios.dataRegistro)}</span>
                       </div>
                       
                       <Button
                         size="sm"
-                        onClick={() => handleQuickWhatsApp(cliente)}
+                        onClick={() => handleQuickWhatsApp(Funcionarios)}
                         className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white border-0 shadow-sm transition-all duration-200 h-8 w-8 p-0"
                       >
                         <MessageCircle className="h-4 w-4" />

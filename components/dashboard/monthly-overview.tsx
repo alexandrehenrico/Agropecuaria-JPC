@@ -84,8 +84,8 @@ export function MonthlyOverview({ receitas, despesas, className, months = 6 }: M
     if (active && payload && payload.length) {
       const data = payload[0].payload
       return (
-        <div className="bg-white p-4 border border-gray-200 rounded-lg shadow-lg">
-          <p className="font-semibold text-gray-900 mb-2">{`${data.fullMonth} ${data.year}`}</p>
+        <div className="bg-white p-4 border border-green-200 rounded-lg shadow-lg">
+          <p className="font-semibold text-green-900 mb-2">{`${data.fullMonth} ${data.year}`}</p>
           <div className="space-y-1">
             <p className="text-green-600 flex items-center gap-2">
               <TrendingUp className="h-3 w-3" />
@@ -108,13 +108,13 @@ export function MonthlyOverview({ receitas, despesas, className, months = 6 }: M
 
   if (monthlyData.every(data => data.receitas === 0 && data.despesas === 0)) {
     return (
-      <Card className={className}>
+      <Card className={`border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 ${className}`}>
         <CardContent className="flex flex-col items-center justify-center py-16 text-center">
-          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-            <BarChart3 className="h-8 w-8 text-gray-400" />
+          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+            <BarChart3 className="h-8 w-8 text-green-500" />
           </div>
-          <h3 className="font-semibold text-gray-900 mb-2">Nenhum dado financeiro</h3>
-          <p className="text-sm text-muted-foreground max-w-64">
+          <h3 className="font-semibold text-green-900 mb-2">Nenhum dado financeiro</h3>
+          <p className="text-sm text-green-700 max-w-64">
             Cadastre receitas e despesas para visualizar o gráfico mensal
           </p>
         </CardContent>
@@ -123,16 +123,16 @@ export function MonthlyOverview({ receitas, despesas, className, months = 6 }: M
   }
 
   return (
-    <Card className={`transition-all duration-200 hover:shadow-md ${className || ''}`}>
+    <Card className={`transition-all duration-200 hover:shadow-md border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 ${className || ''}`}>
       <CardHeader className="pb-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-gray-100 rounded-lg">
-              <BarChart3 className="h-5 w-5 text-gray-700" />
+            <div className="p-2 bg-green-100 rounded-lg">
+              <BarChart3 className="h-5 w-5 text-green-700" />
             </div>
             <div>
-              <CardTitle className="text-gray-900">Visão Geral Mensal</CardTitle>
-              <p className="text-sm text-muted-foreground">Últimos {months} meses</p>
+              <CardTitle className="text-green-900">Dashboard Mensal</CardTitle>
+              <p className="text-sm text-green-700">Últimos {months} meses</p>
             </div>
           </div>
           
@@ -141,7 +141,7 @@ export function MonthlyOverview({ receitas, despesas, className, months = 6 }: M
               variant={viewType === 'combined' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setViewType('combined')}
-              className="text-xs"
+              className={`text-xs ${viewType === 'combined' ? 'bg-green-600 hover:bg-green-700 text-white' : 'border-green-300 text-green-700 hover:bg-green-100'}`}
             >
               <TrendingUp className="h-3 w-3 mr-1" />
               Combinado
@@ -150,7 +150,7 @@ export function MonthlyOverview({ receitas, despesas, className, months = 6 }: M
               variant={viewType === 'bar' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setViewType('bar')}
-              className="text-xs"
+              className={`text-xs ${viewType === 'bar' ? 'bg-green-600 hover:bg-green-700 text-white' : 'border-green-300 text-green-700 hover:bg-green-100'}`}
             >
               <BarChart3 className="h-3 w-3 mr-1" />
               Barras
@@ -161,24 +161,24 @@ export function MonthlyOverview({ receitas, despesas, className, months = 6 }: M
       
       <CardContent className="space-y-6">
         {/* Estatísticas Resumo */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 p-4 bg-gradient-to-r from-green-50 to-emerald-100 rounded-xl border border-green-200">
           <div className="text-center">
-            <p className="text-xs text-muted-foreground mb-1">Total Receitas</p>
+            <p className="text-xs text-green-700 mb-1">Total Receitas</p>
             <p className="font-semibold text-green-600 text-sm">{formatCurrency(totalReceitas)}</p>
           </div>
           <div className="text-center">
-            <p className="text-xs text-muted-foreground mb-1">Total Despesas</p>
+            <p className="text-xs text-green-700 mb-1">Total Despesas</p>
             <p className="font-semibold text-red-600 text-sm">{formatCurrency(totalDespesas)}</p>
           </div>
           <div className="text-center">
-            <p className="text-xs text-muted-foreground mb-1">Lucro Total</p>
+            <p className="text-xs text-green-700 mb-1">Lucro Total</p>
             <p className={`font-semibold text-sm ${lucroTotal >= 0 ? 'text-green-600' : 'text-red-600'}`}>
               {formatCurrency(lucroTotal)}
             </p>
           </div>
           <div className="text-center">
-            <p className="text-xs text-muted-foreground mb-1">Melhor Mês</p>
-            <p className="font-semibold text-blue-600 text-sm">{melhorMes.month}</p>
+            <p className="text-xs text-green-700 mb-1">Melhor Mês</p>
+            <p className="font-semibold text-emerald-600 text-sm">{melhorMes.month}</p>
           </div>
         </div>
 
@@ -188,21 +188,21 @@ export function MonthlyOverview({ receitas, despesas, className, months = 6 }: M
             <div className="flex items-center gap-4 text-xs">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-green-600 rounded"></div>
-                <span className="text-muted-foreground">Receitas</span>
+                <span className="text-green-700">Receitas</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-red-600 rounded"></div>
-                <span className="text-muted-foreground">Despesas</span>
+                <span className="text-green-700">Despesas</span>
               </div>
               {viewType === 'combined' && (
                 <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-blue-600 rounded"></div>
-                  <span className="text-muted-foreground">Lucro</span>
+                  <div className="w-3 h-3 bg-emerald-600 rounded"></div>
+                  <span className="text-green-700">Lucro</span>
                 </div>
               )}
             </div>
             
-            <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-300">
+            <Badge variant="outline" className="bg-green-50 text-green-700 border-green-300">
               <Calendar className="h-3 w-3 mr-1" />
               Média: {formatCurrency(mediaReceitas - mediaDespesas)}/mês
             </Badge>
@@ -215,12 +215,12 @@ export function MonthlyOverview({ receitas, despesas, className, months = 6 }: M
                   dataKey="month" 
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fontSize: 12, fill: '#666' }}
+                  tick={{ fontSize: 12, fill: '#166534' }}
                 />
                 <YAxis 
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fontSize: 12, fill: '#666' }}
+                  tick={{ fontSize: 12, fill: '#166534' }}
                   tickFormatter={formatCurrency}
                 />
                 <Tooltip content={<CustomTooltip />} />
@@ -229,9 +229,9 @@ export function MonthlyOverview({ receitas, despesas, className, months = 6 }: M
                 <Line 
                   type="monotone" 
                   dataKey="lucro" 
-                  stroke="#2563eb" 
+                  stroke="#059669" 
                   strokeWidth={3}
-                  dot={{ fill: '#2563eb', strokeWidth: 2, r: 4 }}
+                  dot={{ fill: '#059669', strokeWidth: 2, r: 4 }}
                   name="Lucro"
                 />
               </ComposedChart>
@@ -241,12 +241,12 @@ export function MonthlyOverview({ receitas, despesas, className, months = 6 }: M
                   dataKey="month" 
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fontSize: 12, fill: '#666' }}
+                  tick={{ fontSize: 12, fill: '#166534' }}
                 />
                 <YAxis 
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fontSize: 12, fill: '#666' }}
+                  tick={{ fontSize: 12, fill: '#166534' }}
                   tickFormatter={formatCurrency}
                 />
                 <Tooltip content={<CustomTooltip />} />

@@ -55,7 +55,7 @@ export function LoginForm() {
           </div>
           <CardTitle className="text-2xl font-bold text-gray-900">Bem-vindo de volta</CardTitle>
           <CardDescription className="text-gray-600">
-            Acesse o Sistema de Gestão Interno VisionX
+            Acesse o Sistema de Gestão Interno Agropecuária JPC
           </CardDescription>
         </CardHeader>
 

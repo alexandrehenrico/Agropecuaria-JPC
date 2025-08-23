@@ -8,19 +8,19 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Calendar, User, DollarSign, Clock, UserCheck, FolderKanban, CheckSquare } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { atualizarStatusProjeto, obterAtividadesProjeto } from "@/lib/database"
-import type { Projeto, Cliente, AtividadeProjeto } from "@/lib/types"
+import type { Projeto, Funcionarios, AtividadeProjeto } from "@/lib/types"
 import { useEffect } from "react"
 
 interface ProjetoCardProps {
   projeto: Projeto
-  cliente?: Cliente
+  Funcionarios?: Funcionarios
   onStatusChange?: () => void
   onViewActivities?: (projeto: Projeto) => void
   onClick?: () => void
   className?: string
 }
 
-export function ProjetoCard({ projeto, cliente, onStatusChange, onViewActivities, onClick, className }: ProjetoCardProps) {
+export function ProjetoCard({ projeto, Funcionarios, onStatusChange, onViewActivities, onClick, className }: ProjetoCardProps) {
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
   const [atividades, setAtividades] = useState<AtividadeProjeto[]>([])
@@ -184,11 +184,11 @@ export function ProjetoCard({ projeto, cliente, onStatusChange, onViewActivities
           )}
         </div>
 
-        {/* Cliente */}
-        {cliente && (
+        {/* Funcionarios */}
+        {Funcionarios && (
           <div className="flex items-center gap-2 text-sm">
             <User className="h-4 w-4 text-muted-foreground" />
-            <span className="text-gray-700 font-medium">{cliente.nome}</span>
+            <span className="text-gray-700 font-medium">{Funcionarios.nome}</span>
           </div>
         )}
 
