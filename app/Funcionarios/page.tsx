@@ -3,13 +3,13 @@
 import { useEffect, useState } from "react"
 import { ProtectedRoute } from "@/components/auth/protected-route"
 import { Sidebar } from "@/components/layout/sidebar"
-import { FuncionariosForm } from "@/components/Funcionarios/Funcionarios-form"
+import { FuncionarioForm } from "@/components/Funcionarios/Funcionarios-form"
 import { FuncionariosList } from "@/components/Funcionarios/Funcionarios-list"
 import { obterFuncionarios } from "@/lib/database"
-import type { Funcionarios } from "@/lib/types"
+import type { Funcionario } from "@/lib/types"
 
 export default function FuncionariosPage() {
-  const [funcionarios, setFuncionarios] = useState<Funcionarios[]>([])
+  const [funcionarios, setFuncionarios] = useState<Funcionario[]>([])
   const [loading, setLoading] = useState(true)
 
   const carregarFuncionarios = async () => {
@@ -55,13 +55,13 @@ export default function FuncionariosPage() {
               <p className="text-green-700">Gerencie seus funcionários e finanças</p>
             </div>
 
-            <FuncionariosForm onFuncionariosAdicionado={carregarFuncionarios} />
+            <FuncionarioForm onFuncionarioAdicionado={carregarFuncionarios} />
 
             <div>
               <h2 className="text-xl font-semibold mb-4 text-green-800">
                 Lista de Funcionários ({funcionarios.length})
               </h2>
-              <FuncionariosList Funcionarios={funcionarios} />
+              <FuncionariosList funcionarios={funcionarios} />
             </div>
           </div>
         </main>

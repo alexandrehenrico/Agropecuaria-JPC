@@ -4,17 +4,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { TrendingUp, TrendingDown, UserPlus, Activity, Clock } from "lucide-react"
-import type { Receita, Despesa, Funcionarios } from "@/lib/types"
+import type { Receita, Despesa, Funcionario } from "@/lib/types"
 
 interface RecentActivitiesProps {
   receitas: Receita[]
   despesas: Despesa[]
-  Funcionarios: Funcionarios[]
+  funcionarios: Funcionario[]
   maxItems?: number
   className?: string
 }
 
-export function RecentActivities({ receitas, despesas, Funcionarios, maxItems = 5, className }: RecentActivitiesProps) {
+export function RecentActivities({ receitas, despesas, funcionarios, maxItems = 5, className }: RecentActivitiesProps) {
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("pt-BR", {
       style: "currency",
@@ -45,7 +45,7 @@ export function RecentActivities({ receitas, despesas, Funcionarios, maxItems = 
         return <TrendingUp className="h-4 w-4 text-green-600" />
       case 'despesa':
         return <TrendingDown className="h-4 w-4 text-red-600" />
-      case 'Funcionarios':
+      case 'funcionario':
         return <UserPlus className="h-4 w-4 text-emerald-600" />
       default:
         return <Activity className="h-4 w-4 text-green-600" />
@@ -58,7 +58,7 @@ export function RecentActivities({ receitas, despesas, Funcionarios, maxItems = 
         return 'bg-green-100 text-green-800 border-green-200'
       case 'despesa':
         return 'bg-red-100 text-red-800 border-red-200'
-      case 'Funcionarios':
+      case 'funcionario':
         return 'bg-emerald-100 text-emerald-800 border-emerald-200'
       default:
         return 'bg-green-100 text-green-800 border-green-200'
@@ -89,12 +89,12 @@ export function RecentActivities({ receitas, despesas, Funcionarios, maxItems = 
       date: d.data,
       category: d.categoria,
     })),
-    ...Funcionarios.slice(0, 3).map((c) => ({
-      type: "Funcionarios" as const,
+    ...funcionarios.slice(0, 3).map((c) => ({
+      type: "funcionario" as const,
       description: c.nome,
       value: 0,
       date: c.dataRegistro,
-      category: c.servico,
+      category: c.atividade,
     })),
   ]
     .sort((a, b) => {
@@ -143,7 +143,7 @@ export function RecentActivities({ receitas, despesas, Funcionarios, maxItems = 
             >
               {/* Ícone/Avatar */}
               <div className="flex-shrink-0">
-                {activity.type === 'Funcionarios' ? (
+                {activity.type === 'funcionario' ? (
                   <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
                     <AvatarFallback className="text-xs font-semibold bg-gradient-to-br from-green-700 to-green-800 text-white">
                       {getInitials(activity.description)}
@@ -163,7 +163,7 @@ export function RecentActivities({ receitas, despesas, Funcionarios, maxItems = 
                     variant="outline" 
                     className={`text-xs font-medium ${getActivityColor(activity.type)}`}
                   >
-                    {activity.type === "receita" ? "Receita" : activity.type === "despesa" ? "Despesa" : "Novo Funcionario"}
+                    {activity.type === "receita" ? "Receita" : activity.type === "despesa" ? "Despesa" : "Novo Funcionário"}
                   </Badge>
                   
                   {index === 0 && (
@@ -186,7 +186,7 @@ export function RecentActivities({ receitas, despesas, Funcionarios, maxItems = 
                   </div>
 
                   <div className="flex items-center gap-3 flex-shrink-0">
-                    {activity.type !== "Funcionarios" && (
+                    {activity.type !== "funcionario" && (
                       <span
                         className={`text-sm font-bold ${activity.type === "receita" ? "text-green-600" : "text-red-600"}`}
                       >

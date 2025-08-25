@@ -6,18 +6,18 @@ import { Sidebar } from "@/components/layout/sidebar"
 import { ReceitaForm } from "@/components/receitas/receita-form"
 import { ReceitasList } from "@/components/receitas/receitas-list"
 import { obterReceitas, obterFuncionarios } from "@/lib/database"
-import type { Receita, Funcionarios } from "@/lib/types"
+import type { Receita, Funcionario } from "@/lib/types"
 
 export default function ReceitasPage() {
   const [receitas, setReceitas] = useState<Receita[]>([])
-  const [Funcionarios, setFuncionarios] = useState<Funcionarios[]>([])
+  const [funcionarios, setFuncionarios] = useState<Funcionario[]>([])
   const [loading, setLoading] = useState(true)
 
   const carregarDados = async () => {
     try {
-      const [receitasData, FuncionariosData] = await Promise.all([obterReceitas(), obterFuncionarios()])
+      const [receitasData, funcionariosData] = await Promise.all([obterReceitas(), obterFuncionarios()])
       setReceitas(receitasData)
-      setFuncionarios(FuncionariosData)
+      setFuncionarios(funcionariosData)
     } catch (error) {
       console.error("Erro ao carregar dados:", error)
     } finally {
@@ -61,7 +61,7 @@ export default function ReceitasPage() {
 
             <div>
               <h2 className="text-xl font-semibold mb-4 text-green-900">Lista de Receitas ({receitas.length})</h2>
-              <ReceitasList receitas={receitas} Funcionarios={Funcionarios} />
+              <ReceitasList receitas={receitas} funcionarios={funcionarios} />
             </div>
           </div>
         </main>

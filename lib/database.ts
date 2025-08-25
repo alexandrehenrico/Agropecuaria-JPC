@@ -1,184 +1,94 @@
-import { collection, addDoc, getDocs, query, orderBy, Timestamp, doc, updateDoc } from "firebase/firestore"
-import { db, auth } from "./firebase"
-import type { Funcionarios, Receita, Despesa, Senha, Projeto, AtividadeProjeto, Orcamento, Recibo } from "./types"
+"use client"
 
-// Funcionarios
-export const adicionarFuncionarios = async (Funcionarios: Omit<Funcionarios, "id">) => {
-  try {
-    if (!auth.currentUser) {
-      throw new Error("Usuário não autenticado")
-    }
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Calendar, Tag, User } from "lucide-react"
+import type { Despesa } from "@/lib/types"
 
-    const docRef = await addDoc(collection(db, "Funcionarios"), {
-      ...Funcionarios,
-      dataRegistro: Timestamp.fromDate(Funcionarios.dataRegistro),
-      registradoPor: auth.currentUser.displayName || auth.currentUser.email || "Usuário",
-    })
-    return docRef.id
-  } catch (error) {
-    console.error("Erro ao adicionar Funcionario:", error)
-    throw error
-  }
+interface DespesaCardProps {
+  despesa: Despesa
+  onClick?: () => void
+  className?: string
 }
 
-export const obterFuncionarios = async (): Promise<Funcionarios[]> => {
-  try {
-    // Aguarda a inicialização do auth
-    await new Promise((resolve) => {
-      const unsubscribe = auth.onAuthStateChanged((user) => {
-        unsubscribe()
-        resolve(user)
-      })
-    })
-
-    if (!auth.currentUser) {
-      console.log("[v0] Usuário não autenticado, retornando array vazio")
-      return []
-    }
-
-    const q = query(collection(db, "Funcionarios"), orderBy("dataRegistro", "desc"))
-    const querySnapshot = await getDocs(q)
-    return querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-      dataRegistro: doc.data().dataRegistro.toDate(),
-    })) as Funcionarios[]
-  } catch (error) {
-    console.error("Erro ao obter Funcionarios:", error)
-    return []
+export function DespesaCard({ despesa, onClick, className }: DespesaCardProps) {
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(value)
   }
-}
 
-// Receitas
-export const adicionarReceita = async (receita: Omit<Receita, "id">) => {
-  try {
-    if (!auth.currentUser) {
-      throw new Error("Usuário não autenticado")
-    }
-
-    const docRef = await addDoc(collection(db, "receitas"), {
-      ...receita,
-      data: Timestamp.fromDate(receita.data),
-      registradoPor: auth.currentUser.displayName || auth.currentUser.email || "Usuário",
-    })
-    return docRef.id
-  } catch (error) {
-    console.error("Erro ao adicionar receita:", error)
-    throw error
+  const formatDate = (date: Date | string) => {
+    const dateObj = typeof date === "string" ? new Date(date) : date
+    return new Intl.DateTimeFormat("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    }).format(dateObj)
   }
-}
 
-export const obterReceitas = async (): Promise<Receita[]> => {
-  try {
-    // Aguarda a inicialização do auth
-    await new Promise((resolve) => {
-      const unsubscribe = auth.onAuthStateChanged((user) => {
-        unsubscribe()
-        resolve(user)
-      })
-    })
-
-    if (!auth.currentUser) {
-      console.log("[v0] Usuário não autenticado, retornando array vazio")
-      return []
+  const getCategoriaColor = (categoria: string) => {
+    const colors: Record<string, string> = {
+      "Impostos/Taxas": "bg-red-100 text-red-800 border-red-200",
+      Alimentação: "bg-green-100 text-green-800 border-green-200",
+      Transporte: "bg-blue-100 text-blue-800 border-blue-200",
+      Saúde: "bg-purple-100 text-purple-800 border-purple-200",
+      Lazer: "bg-yellow-100 text-yellow-800 border-yellow-200",
     }
-
-    const q = query(collection(db, "receitas"), orderBy("data", "desc"))
-    const querySnapshot = await getDocs(q)
-    return querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-      data: doc.data().data.toDate(),
-    })) as Receita[]
-  } catch (error) {
-    console.error("Erro ao obter receitas:", error)
-    return []
+    return colors[categoria] || "bg-gray-100 text-gray-800 border-gray-200"
   }
+
+  return (
+    <Card
+      className={`relative overflow-hidden bg-gradient-to-br from-green-50 to-emerald-100 rounded-xl border border-green-200 shadow-sm transition-all duration-200 ${
+        onClick ? "cursor-pointer hover:scale-[1.02] hover:shadow-md" : ""
+      } ${className || ""}`}
+      onClick={onClick}
+    >
+      {/* Decorações de fundo */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-green-300 rounded-full opacity-15 -translate-y-12 translate-x-12" />
+      <div className="absolute bottom-0 left-0 w-24 h-24 bg-emerald-500 rounded-full opacity-10 translate-y-10 -translate-x-10" />
+
+      <CardHeader className="pb-3">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex-1 min-w-0">
+            <h3 className="font-semibold text-sm leading-tight text-green-900 truncate">
+              {despesa.descricao}
+            </h3>
+          </div>
+          <div className="text-right flex-shrink-0">
+            <div className="text-lg font-bold text-red-600">
+              -{formatCurrency(despesa.valor)}
+            </div>
+          </div>
+        </div>
+      </CardHeader>
+
+      <CardContent className="pt-0 space-y-3">
+        <div className="flex items-center gap-2 text-sm text-green-700">
+          <Calendar className="h-4 w-4 text-green-700" />
+          <span>{formatDate(despesa.data)}</span>
+        </div>
+
+        <div className="flex items-center gap-2 text-sm">
+          <Tag className="h-4 w-4 text-green-700" />
+          <Badge variant="outline" className={`${getCategoriaColor(despesa.categoria)} font-medium`}>
+            {despesa.categoria}
+          </Badge>
+        </div>
+
+        {despesa.registradoPor && (
+          <div className="pt-2 border-t border-green-200">
+            <div className="flex items-center gap-2">
+              <User className="h-3 w-3 text-green-700" />
+              <span className="text-xs text-green-700">
+                Registrado por {despesa.registradoPor}
+              </span>
+            </div>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  )
 }
-
-// Despesas
-export const adicionarDespesa = async (despesa: Omit<Despesa, "id">) => {
-  try {
-    if (!auth.currentUser) {
-      throw new Error("Usuário não autenticado")
-    }
-
-    const docRef = await addDoc(collection(db, "despesas"), {
-      ...despesa,
-      data: Timestamp.fromDate(despesa.data),
-      registradoPor: auth.currentUser.displayName || auth.currentUser.email || "Usuário",
-    })
-    return docRef.id
-  } catch (error) {
-    console.error("Erro ao adicionar despesa:", error)
-    throw error
-  }
-}
-
-export const obterDespesas = async (): Promise<Despesa[]> => {
-  try {
-    // Aguarda a inicialização do auth
-    await new Promise((resolve) => {
-      const unsubscribe = auth.onAuthStateChanged((user) => {
-        unsubscribe()
-        resolve(user)
-      })
-    })
-
-    if (!auth.currentUser) {
-      console.log("[v0] Usuário não autenticado, retornando array vazio")
-      return []
-    }
-
-    const q = query(collection(db, "despesas"), orderBy("data", "desc"))
-    const querySnapshot = await getDocs(q)
-    return querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-      data: doc.data().data.toDate(),
-    })) as Despesa[]
-  } catch (error) {
-    console.error("Erro ao obter despesas:", error)
-    return []
-  }
-}
-
-// Senhas
-export const adicionarSenha = async (senha: Omit<Senha, "id">) => {
-  try {
-    if (!auth.currentUser) {
-      throw new Error("Usuário não autenticado")
-    }
-
-    const docRef = await addDoc(collection(db, "senhas"), {
-      ...senha,
-      dataRegistro: Timestamp.fromDate(senha.dataRegistro),
-      registradoPor: auth.currentUser.displayName || auth.currentUser.email || "Usuário",
-    })
-    return docRef.id
-  } catch (error) {
-    console.error("Erro ao adicionar senha:", error)
-    throw error
-  }
-}
-
-export const obterSenhas = async (): Promise<Senha[]> => {
-  try {
-    if (!auth.currentUser) {
-      console.log("[v0] Usuário não autenticado, retornando array vazio")
-      return []
-    }
-
-    const q = query(collection(db, "senhas"), orderBy("dataRegistro", "desc"))
-    const querySnapshot = await getDocs(q)
-    return querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-      dataRegistro: doc.data().dataRegistro.toDate(),
-    })) as Senha[]
-  } catch (error) {
-    console.error("Erro ao obter senhas:", error)
-    return []
-  }
-}
-

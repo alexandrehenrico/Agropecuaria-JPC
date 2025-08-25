@@ -6,11 +6,11 @@ import { Sidebar } from "@/components/layout/sidebar"
 import { DespesaForm } from "@/components/despesas/despesa-form"
 import { DespesasList } from "@/components/despesas/despesas-list"
 import { obterDespesas, obterFuncionarios } from "@/lib/database"
-import type { Despesa, Funcionarios } from "@/lib/types"
+import type { Despesa, Funcionario } from "@/lib/types"
 
 export default function DespesasPage() {
   const [despesas, setDespesas] = useState<Despesa[]>([])
-  const [funcionarios, setFuncionarios] = useState<Funcionarios[]>([])
+  const [funcionarios, setFuncionarios] = useState<Funcionario[]>([])
   const [loading, setLoading] = useState(true)
 
   const carregarDespesas = async () => {

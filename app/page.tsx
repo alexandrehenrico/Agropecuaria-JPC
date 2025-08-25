@@ -9,10 +9,10 @@ import { RecentActivities } from "@/components/dashboard/recent-activities"
 import { MonthlyOverview } from "@/components/dashboard/monthly-overview"
 import { QuickContact } from "@/components/dashboard/quick-contact"
 import { obterFuncionarios, obterReceitas, obterDespesas } from "@/lib/database"
-import type { Funcionarios, Receita, Despesa, DashboardData } from "@/lib/types"
+import type { Funcionario, Receita, Despesa, DashboardData } from "@/lib/types"
 
 export default function HomePage() {
-  const [Funcionarios, setFuncionarios] = useState<Funcionarios[]>([])
+  const [funcionarios, setFuncionarios] = useState<Funcionario[]>([])
   const [receitas, setReceitas] = useState<Receita[]>([])
   const [despesas, setDespesas] = useState<Despesa[]>([])
   const [loading, setLoading] = useState(true)
@@ -22,19 +22,19 @@ export default function HomePage() {
     const carregarDados = async () => {
       try {
         setError(null)
-        const [FuncionariosData, receitasData, despesasData] = await Promise.all([
+        const [funcionariosData, receitasData, despesasData] = await Promise.all([
           obterFuncionarios(),
           obterReceitas(),
           obterDespesas(),
         ])
 
         console.log('Dados carregados:', { 
-          Funcionarios: FuncionariosData.length, 
+          funcionarios: funcionariosData.length, 
           receitas: receitasData.length, 
           despesas: despesasData.length 
         })
 
-        setFuncionarios(FuncionariosData)
+        setFuncionarios(funcionariosData)
         setReceitas(receitasData)
         setDespesas(despesasData)
       } catch (error) {
@@ -52,7 +52,7 @@ export default function HomePage() {
     totalReceitas: receitas.reduce((sum, r) => sum + r.valor, 0),
     totalDespesas: despesas.reduce((sum, d) => sum + d.valor, 0),
     lucro: receitas.reduce((sum, r) => sum + r.valor, 0) - despesas.reduce((sum, d) => sum + d.valor, 0),
-    totalFuncionarios: Funcionarios.length,
+    totalFuncionarios: funcionarios.length,
     receitasMes: receitas
       .filter((r) => {
         const now = new Date()
@@ -115,7 +115,7 @@ export default function HomePage() {
               <h1 className="text-3xl font-bold text-green-900">Visão Geral Fazenda Progresso</h1>
               <p className="text-green-700">Sistema de Gestão Interna - Visão Geral Financeira</p>
               <p className="text-xs text-green-700 mt-2">
-                Debug: {Funcionarios.length} Funcionarios, {receitas.length} receitas, {despesas.length} despesas
+                Debug: {funcionarios.length} funcionários, {receitas.length} receitas, {despesas.length} despesas
               </p>
             </div>
 
@@ -125,10 +125,10 @@ export default function HomePage() {
               <div className="lg:col-span-2">
                 <MonthlyOverview receitas={receitas} despesas={despesas} />
               </div>
-              <QuickContact Funcionarios={Funcionarios} />
+              <QuickContact funcionarios={funcionarios} />
             </div>
 
-            <RecentActivities receitas={receitas} despesas={despesas} Funcionarios={Funcionarios} />
+            <RecentActivities receitas={receitas} despesas={despesas} funcionarios={funcionarios} />
           </div>
         </main>
       </div>

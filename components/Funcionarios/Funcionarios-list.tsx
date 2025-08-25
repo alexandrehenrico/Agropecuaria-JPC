@@ -2,22 +2,22 @@
 
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
-import { FuncionariosCard } from "./Funcionarios-card"
+import { FuncionarioCard } from "./Funcionarios-card"
 import { Search, Users } from "lucide-react"
-import type { Funcionarios } from "@/lib/types"
+import type { Funcionario } from "@/lib/types"
 
 interface FuncionariosListProps {
-  Funcionarios: Funcionarios[]
+  funcionarios: Funcionario[]
 }
 
-export function FuncionariosList({ Funcionarios }: FuncionariosListProps) {
+export function FuncionariosList({ funcionarios }: FuncionariosListProps) {
   const [searchTerm, setSearchTerm] = useState("")
 
-  const FuncionariosFiltrados = Funcionarios.filter(
-    (Funcionarios) =>
-      Funcionarios.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      Funcionarios.contato.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      Funcionarios.atividade.toLowerCase().includes(searchTerm.toLowerCase()),
+  const funcionariosFiltrados = funcionarios.filter(
+    (funcionario) =>
+      funcionario.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      funcionario.contato.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      funcionario.atividade.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
   return (
@@ -40,7 +40,7 @@ export function FuncionariosList({ Funcionarios }: FuncionariosListProps) {
       </div>
 
       {/* Lista ou mensagem de vazio */}
-      {FuncionariosFiltrados.length === 0 ? (
+      {funcionariosFiltrados.length === 0 ? (
         <div className="text-center py-16 bg-green-50 rounded-xl border border-green-100">
           <p className="text-green-600 text-lg">
             {searchTerm
@@ -50,8 +50,8 @@ export function FuncionariosList({ Funcionarios }: FuncionariosListProps) {
         </div>
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {FuncionariosFiltrados.map((Funcionarios) => (
-            <FuncionariosCard key={Funcionarios.id} Funcionarios={Funcionarios} />
+          {funcionariosFiltrados.map((funcionario) => (
+            <FuncionarioCard key={funcionario.id} funcionario={funcionario} />
           ))}
         </div>
       )}

@@ -11,11 +11,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { adicionarDespesa } from "@/lib/database"
 import { useToast } from "@/hooks/use-toast"
 import { Wallet } from "lucide-react"
-import type { Funcionarios } from "@/lib/types"
+import type { Funcionario } from "@/lib/types"
 
 interface DespesaFormProps {
   onDespesaAdicionada: () => void
-  funcionarios?: Funcionarios[]
+  funcionarios?: Funcionario[]
 }
 
 const categorias = [

@@ -5,17 +5,16 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { adicionarFuncionarios } from "@/lib/database"
+import { adicionarFuncionario } from "@/lib/database"
 import { useToast } from "@/hooks/use-toast"
 import { UserPlus } from "lucide-react"
 
-interface FuncionariosFormProps {
-  onFuncionariosAdicionado: () => void
+interface FuncionarioFormProps {
+  onFuncionarioAdicionado: () => void
 }
 
-export function FuncionariosForm({ onFuncionariosAdicionado }: FuncionariosFormProps) {
+export function FuncionarioForm({ onFuncionarioAdicionado }: FuncionarioFormProps) {
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
@@ -36,7 +35,7 @@ export function FuncionariosForm({ onFuncionariosAdicionado }: FuncionariosFormP
         dataRegistro: new Date(),
       }
       
-      await adicionarFuncionarios(funcionarioData)
+      await adicionarFuncionario(funcionarioData)
 
       toast({
         title: "Funcionário adicionado",
@@ -50,7 +49,7 @@ export function FuncionariosForm({ onFuncionariosAdicionado }: FuncionariosFormP
         salarioFixo: "",
       })
 
-      onFuncionariosAdicionado()
+      onFuncionarioAdicionado()
     } catch (error) {
       toast({
         title: "Erro",
@@ -62,7 +61,7 @@ export function FuncionariosForm({ onFuncionariosAdicionado }: FuncionariosFormP
     }
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,

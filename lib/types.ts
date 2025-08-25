@@ -1,4 +1,4 @@
-export interface Funcionarios {
+export interface Funcionario {
   id: string
   nome: string
   contato: string

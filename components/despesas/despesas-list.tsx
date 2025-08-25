@@ -5,11 +5,11 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { DespesaCard } from "./despesa-card"
 import { Search, Filter } from "lucide-react"
-import type { Despesa, Funcionarios } from "@/lib/types"
+import type { Despesa, Funcionario } from "@/lib/types"
 
 interface DespesasListProps {
   despesas: Despesa[]
-  funcionarios?: Funcionarios[]
+  funcionarios?: Funcionario[]
 }
 
 const categorias = [
