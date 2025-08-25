@@ -122,7 +122,7 @@ export async function excluirReceita(id: string): Promise<void> {
 // Funcionários
 export async function obterFuncionarios(): Promise<Funcionario[]> {
   try {
-    const q = query(collection(db, 'funcionarios'), orderBy('nome'))
+    const q = query(collection(db, 'Funcionarios'), orderBy('nome'))
     const querySnapshot = await getDocs(q)
     return querySnapshot.docs.map(doc => ({
       id: doc.id,
@@ -136,7 +136,7 @@ export async function obterFuncionarios(): Promise<Funcionario[]> {
 
 export async function adicionarFuncionario(funcionario: Omit<Funcionario, 'id'>): Promise<string> {
   try {
-    const docRef = await addDoc(collection(db, 'funcionarios'), {
+    const docRef = await addDoc(collection(db, 'Funcionarios'), {
       ...funcionario,
       registradoPor: auth.currentUser?.email || 'Usuário desconhecido'
     })
@@ -149,7 +149,7 @@ export async function adicionarFuncionario(funcionario: Omit<Funcionario, 'id'>)
 
 export async function atualizarFuncionario(id: string, funcionario: Partial<Funcionario>): Promise<void> {
   try {
-    const docRef = doc(db, 'funcionarios', id)
+    const docRef = doc(db, 'Funcionarios', id)
     await updateDoc(docRef, funcionario)
   } catch (error) {
     console.error('Erro ao atualizar funcionário:', error)
@@ -159,7 +159,7 @@ export async function atualizarFuncionario(id: string, funcionario: Partial<Func
 
 export async function excluirFuncionario(id: string): Promise<void> {
   try {
-    await deleteDoc(doc(db, 'funcionarios', id))
+    await deleteDoc(doc(db, 'Funcionarios', id))
   } catch (error) {
     console.error('Erro ao excluir funcionário:', error)
     throw error
@@ -169,7 +169,7 @@ export async function excluirFuncionario(id: string): Promise<void> {
 // Senhas
 export async function obterSenhas(): Promise<Senha[]> {
   try {
-    const q = query(collection(db, 'senhas'), orderBy('servico'))
+    const q = query(collection(db, 'senhas'), orderBy('titulo'))
     const querySnapshot = await getDocs(q)
     return querySnapshot.docs.map(doc => ({
       id: doc.id,
