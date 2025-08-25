@@ -22,22 +22,37 @@ export function RecentActivities({ receitas, despesas, funcionarios, maxItems = 
     }).format(value)
   }
 
-  const formatDate = (date: Date | string) => {
-    const dateObj = typeof date === 'string' ? new Date(date) : date
-    const now = new Date()
-    const diffInHours = Math.floor((now.getTime() - dateObj.getTime()) / (1000 * 60 * 60))
-    const diffInDays = Math.floor(diffInHours / 24)
-    
-    if (diffInHours < 1) return 'Agora mesmo'
-    if (diffInHours < 24) return `${diffInHours}h atrás`
-    if (diffInDays === 1) return 'Ontem'
-    if (diffInDays < 7) return `${diffInDays} dias atrás`
-    
-    return new Intl.DateTimeFormat("pt-BR", {
-      day: '2-digit',
-      month: '2-digit'
-    }).format(dateObj)
+// Aceita Date | string | Firestore Timestamp
+const formatDate = (date: any) => {
+  let dateObj: Date
+
+  if (!date) return "Data inválida"
+
+  if (typeof date === "string") {
+    dateObj = new Date(date)
+  } else if (date instanceof Date) {
+    dateObj = date
+  } else if (date?.seconds) {
+    // Firestore Timestamp
+    dateObj = new Date(date.seconds * 1000)
+  } else {
+    return "Data inválida"
   }
+
+  const now = new Date()
+  const diffInHours = Math.floor((now.getTime() - dateObj.getTime()) / (1000 * 60 * 60))
+  const diffInDays = Math.floor(diffInHours / 24)
+
+  if (diffInHours < 1) return 'Agora mesmo'
+  if (diffInHours < 24) return `${diffInHours}h atrás`
+  if (diffInDays === 1) return 'Ontem'
+  if (diffInDays < 7) return `${diffInDays} dias atrás`
+
+  return new Intl.DateTimeFormat("pt-BR", {
+    day: '2-digit',
+    month: '2-digit'
+  }).format(dateObj)
+}
 
   const getActivityIcon = (type: string) => {
     switch (type) {
