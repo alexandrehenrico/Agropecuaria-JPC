@@ -11,9 +11,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { adicionarDespesa } from "@/lib/database"
 import { useToast } from "@/hooks/use-toast"
 import { Wallet } from "lucide-react"
+import type { Funcionarios } from "@/lib/types"
 
 interface DespesaFormProps {
   onDespesaAdicionada: () => void
+  funcionarios?: Funcionarios[]
 }
 
 const categorias = [
@@ -52,12 +54,13 @@ const categorias = [
 "Diesel – Pindoba",
 ]
 
-export function DespesaForm({ onDespesaAdicionada }: DespesaFormProps) {
+export function DespesaForm({ onDespesaAdicionada, funcionarios = [] }: DespesaFormProps) {
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     descricao: "",
     valor: "",
+    funcionarioId: "",
     categoria: "Salário",
     data: new Date().toISOString().split("T")[0],
   })
@@ -67,12 +70,15 @@ export function DespesaForm({ onDespesaAdicionada }: DespesaFormProps) {
     setLoading(true)
 
     try {
-      await adicionarDespesa({
+      const despesaData = {
         descricao: formData.descricao,
         valor: Number.parseFloat(formData.valor),
+        funcionarioId: formData.funcionarioId || undefined,
         categoria: formData.categoria,
         data: new Date(formData.data),
-      })
+      }
+      
+      await adicionarDespesa(despesaData)
 
       toast({
         title: "Despesa adicionada",
@@ -82,6 +88,7 @@ export function DespesaForm({ onDespesaAdicionada }: DespesaFormProps) {
       setFormData({
         descricao: "",
         valor: "",
+        funcionarioId: "",
         categoria: "Salário",
         data: new Date().toISOString().split("T")[0],
       })
@@ -137,7 +144,7 @@ export function DespesaForm({ onDespesaAdicionada }: DespesaFormProps) {
             />
           </div>
 
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <div className="space-y-2">
               <Label htmlFor="valor" className="text-green-900">Valor (R$) *</Label>
               <Input
@@ -152,6 +159,26 @@ export function DespesaForm({ onDespesaAdicionada }: DespesaFormProps) {
                 placeholder="0,00"
                 className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="funcionarioId" className="text-green-900">Funcionário (Opcional)</Label>
+              <Select
+                value={formData.funcionarioId}
+                onValueChange={(value) => setFormData({ ...formData, funcionarioId: value })}
+              >
+                <SelectTrigger className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500">
+                  <SelectValue placeholder="Selecione um funcionário" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">Nenhum funcionário</SelectItem>
+                  {funcionarios.map((funcionario) => (
+                    <SelectItem key={funcionario.id} value={funcionario.id}>
+                      {funcionario.nome} - {funcionario.atividade}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">

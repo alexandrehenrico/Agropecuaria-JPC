@@ -5,17 +5,22 @@ import { ProtectedRoute } from "@/components/auth/protected-route"
 import { Sidebar } from "@/components/layout/sidebar"
 import { DespesaForm } from "@/components/despesas/despesa-form"
 import { DespesasList } from "@/components/despesas/despesas-list"
-import { obterDespesas } from "@/lib/database"
-import type { Despesa } from "@/lib/types"
+import { obterDespesas, obterFuncionarios } from "@/lib/database"
+import type { Despesa, Funcionarios } from "@/lib/types"
 
 export default function DespesasPage() {
   const [despesas, setDespesas] = useState<Despesa[]>([])
+  const [funcionarios, setFuncionarios] = useState<Funcionarios[]>([])
   const [loading, setLoading] = useState(true)
 
   const carregarDespesas = async () => {
     try {
-      const despesasData = await obterDespesas()
+      const [despesasData, funcionariosData] = await Promise.all([
+        obterDespesas(),
+        obterFuncionarios()
+      ])
       setDespesas(despesasData)
+      setFuncionarios(funcionariosData)
     } catch (error) {
       console.error("Erro ao carregar despesas:", error)
     } finally {
@@ -55,11 +60,11 @@ export default function DespesasPage() {
               <p className="text-green-700">Gerencie suas despesas e custos operacionais</p>
             </div>
 
-            <DespesaForm onDespesaAdicionada={carregarDespesas} />
+            <DespesaForm onDespesaAdicionada={carregarDespesas} funcionarios={funcionarios} />
 
             <div>
               <h2 className="text-xl font-semibold mb-4 text-green-900">Lista de Despesas ({despesas.length})</h2>
-              <DespesasList despesas={despesas} />
+              <DespesasList despesas={despesas} funcionarios={funcionarios} />
             </div>
           </div>
         </main>

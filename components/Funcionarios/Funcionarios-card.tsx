@@ -4,8 +4,7 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { ExternalLink, MessageCircle, Mail, Phone, ChevronDown, UserCheck, Calendar } from "lucide-react"
-import { createWhatsAppUrl, messageTemplates } from "@/lib/whatsapp"
+import { User, Phone, UserCheck, Calendar, DollarSign } from "lucide-react"
 import type { Funcionarios } from "@/lib/types"
 
 interface FuncionariosCardProps {
@@ -15,6 +14,13 @@ interface FuncionariosCardProps {
 }
 
 export function FuncionariosCard({ Funcionarios, onClick, className }: FuncionariosCardProps) {
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(value)
+  }
+
   const formatDate = (date: Date | string) => {
     const dateObj = typeof date === "string" ? new Date(date) : date
     return new Intl.DateTimeFormat("pt-BR", {
@@ -33,25 +39,6 @@ export function FuncionariosCard({ Funcionarios, onClick, className }: Funcionar
   }
 
   const getStatusColor = () => "bg-green-100 text-green-700 border-green-200"
-
-  const handleWhatsApp = (template?: keyof typeof messageTemplates) => {
-    const message = template
-      ? messageTemplates[template](Funcionarios.nome, Funcionarios.servico)
-      : `Olá ${Funcionarios.nome}! Espero que esteja tudo bem. Gostaria de conversar sobre o projeto: ${Funcionarios.servico}`
-
-    const whatsappUrl = createWhatsAppUrl(Funcionarios.telefone, message)
-    window.open(whatsappUrl, "_blank")
-  }
-
-  const handleEmail = () => {
-    const assunto = encodeURIComponent(`Projeto: ${Funcionarios.servico}`)
-    const corpo = encodeURIComponent(`Olá ${Funcionarios.nome},\n\nEspero que esteja tudo bem!\n\n`)
-    window.open(`mailto:${Funcionarios.email}?subject=${assunto}&body=${corpo}`)
-  }
-
-  const handleSiteVisit = () => {
-    if (Funcionarios.linkSite) window.open(Funcionarios.linkSite, "_blank")
-  }
 
   const handleCardClick = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).closest("button") || (e.target as HTMLElement).closest("[role='menuitem']")) {
@@ -94,31 +81,23 @@ export function FuncionariosCard({ Funcionarios, onClick, className }: Funcionar
 
       {/* Dados principais */}
       <div className="space-y-2 mb-4">
-        <h4 className="font-semibold text-green-900">Serviço Prestado</h4>
-        <p className="text-sm text-green-700 leading-relaxed">{Funcionarios.servico}</p>
-      </div>
-
-      {/* Contatos */}
-      <div className="space-y-2 mb-4">
         <div className="flex items-center gap-2 text-sm">
-          <Mail className="h-4 w-4 text-green-700" />
-          <span className="truncate text-green-700">{Funcionarios.email}</span>
+          <User className="h-4 w-4 text-green-700" />
+          <span className="font-medium text-green-900">Atividade:</span>
+          <span className="text-green-700">{Funcionarios.atividade}</span>
         </div>
 
         <div className="flex items-center gap-2 text-sm">
           <Phone className="h-4 w-4 text-green-700" />
-          <span className="text-green-700">{Funcionarios.telefone}</span>
+          <span className="font-medium text-green-900">Contato:</span>
+          <span className="text-green-700">{Funcionarios.contato}</span>
         </div>
 
-        {Funcionarios.linkSite && (
+        {Funcionarios.salarioFixo && (
           <div className="flex items-center gap-2 text-sm">
-            <ExternalLink className="h-4 w-4 text-green-700" />
-            <button
-              onClick={handleSiteVisit}
-              className="text-emerald-600 hover:text-emerald-700 hover:underline truncate transition-colors duration-200 text-left"
-            >
-              {Funcionarios.linkSite}
-            </button>
+            <DollarSign className="h-4 w-4 text-green-700" />
+            <span className="font-medium text-green-900">Salário Fixo:</span>
+            <span className="text-green-700 font-semibold">{formatCurrency(Funcionarios.salarioFixo)}</span>
           </div>
         )}
       </div>
@@ -132,40 +111,6 @@ export function FuncionariosCard({ Funcionarios, onClick, className }: Funcionar
           </div>
         </div>
       )}
-
-      {/* Ações */}
-      <div className="flex gap-2 pt-2">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              size="sm"
-              className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white transition-colors duration-200"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <MessageCircle className="h-4 w-4 mr-2" />
-              WhatsApp
-              <ChevronDown className="h-3 w-3 ml-1" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-48">
-            <DropdownMenuItem onClick={() => handleWhatsApp("followUp")}>Acompanhamento</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleWhatsApp()}>Mensagem Simples</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-
-        <Button
-          onClick={(e) => {
-            e.stopPropagation()
-            handleEmail()
-          }}
-          variant="outline"
-          size="sm"
-          className="flex-1 border-green-200 text-green-700 hover:bg-green-50 transition-colors duration-200"
-        >
-          <Mail className="h-4 w-4 mr-2" />
-          Email
-        </Button>
-      </div>
     </Card>
   )
 }

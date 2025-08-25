@@ -16,8 +16,8 @@ export function FuncionariosList({ Funcionarios }: FuncionariosListProps) {
   const FuncionariosFiltrados = Funcionarios.filter(
     (Funcionarios) =>
       Funcionarios.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      Funcionarios.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      Funcionarios.servico.toLowerCase().includes(searchTerm.toLowerCase()),
+      Funcionarios.contato.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      Funcionarios.atividade.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
   return (
@@ -31,7 +31,7 @@ export function FuncionariosList({ Funcionarios }: FuncionariosListProps) {
         <div className="relative w-full sm:w-80">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-green-600" />
           <Input
-            placeholder="Buscar funcionários por nome, email ou serviço..."
+            placeholder="Buscar funcionários por nome, contato ou atividade..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10 rounded-xl shadow-sm border-green-200 focus:border-emerald-500 focus:ring-emerald-500"

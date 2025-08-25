@@ -20,10 +20,9 @@ export function FuncionariosForm({ onFuncionariosAdicionado }: FuncionariosFormP
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     nome: "",
-    email: "",
-    telefone: "",
-    linkSite: "",
-    servico: "",
+    contato: "",
+    atividade: "",
+    salarioFixo: "",
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,10 +30,13 @@ export function FuncionariosForm({ onFuncionariosAdicionado }: FuncionariosFormP
     setLoading(true)
 
     try {
-      await adicionarFuncionarios({
+      const funcionarioData = {
         ...formData,
+        salarioFixo: formData.salarioFixo ? Number.parseFloat(formData.salarioFixo) : undefined,
         dataRegistro: new Date(),
-      })
+      }
+      
+      await adicionarFuncionarios(funcionarioData)
 
       toast({
         title: "Funcionário adicionado",
@@ -43,10 +45,9 @@ export function FuncionariosForm({ onFuncionariosAdicionado }: FuncionariosFormP
 
       setFormData({
         nome: "",
-        email: "",
-        telefone: "",
-        linkSite: "",
-        servico: "",
+        contato: "",
+        atividade: "",
+        salarioFixo: "",
       })
 
       onFuncionariosAdicionado()
@@ -95,20 +96,19 @@ export function FuncionariosForm({ onFuncionariosAdicionado }: FuncionariosFormP
                 value={formData.nome}
                 onChange={handleChange}
                 required
-                placeholder="Nome do Funcionário"
+                placeholder="Nome completo do funcionário"
                 className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-green-900">Email *</Label>
+              <Label htmlFor="contato" className="text-green-900">Contato *</Label>
               <Input
-                id="email"
-                name="email"
-                type="email"
-                value={formData.email}
+                id="contato"
+                name="contato"
+                value={formData.contato}
                 onChange={handleChange}
                 required
-                placeholder="email@exemplo.com"
+                placeholder="Telefone, email ou outro contato"
                 className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
               />
             </div>
@@ -116,43 +116,31 @@ export function FuncionariosForm({ onFuncionariosAdicionado }: FuncionariosFormP
 
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="telefone" className="text-green-900">Telefone *</Label>
+              <Label htmlFor="atividade" className="text-green-900">Atividade *</Label>
               <Input
-                id="telefone"
-                name="telefone"
-                value={formData.telefone}
+                id="atividade"
+                name="atividade"
+                value={formData.atividade}
                 onChange={handleChange}
                 required
-                placeholder="(11) 99999-9999"
+                placeholder="Função ou atividade exercida"
                 className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="linkSite" className="text-green-900">Link do Site</Label>
+              <Label htmlFor="salarioFixo" className="text-green-900">Salário Fixo (Opcional)</Label>
               <Input
-                id="linkSite"
-                name="linkSite"
-                type="url"
-                value={formData.linkSite}
+                id="salarioFixo"
+                name="salarioFixo"
+                type="number"
+                step="0.01"
+                min="0"
+                value={formData.salarioFixo}
                 onChange={handleChange}
-                placeholder="https://exemplo.com"
+                placeholder="0,00"
                 className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
               />
             </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="servico" className="text-green-900">Serviço Prestado *</Label>
-            <Textarea
-              id="servico"
-              name="servico"
-              value={formData.servico}
-              onChange={handleChange}
-              required
-              placeholder="Descreva o serviço prestado para este funcionário"
-              rows={3}
-              className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
-            />
           </div>
 
           <Button

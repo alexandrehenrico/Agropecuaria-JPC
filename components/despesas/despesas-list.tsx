@@ -5,10 +5,11 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { DespesaCard } from "./despesa-card"
 import { Search, Filter } from "lucide-react"
-import type { Despesa } from "@/lib/types"
+import type { Despesa, Funcionarios } from "@/lib/types"
 
 interface DespesasListProps {
   despesas: Despesa[]
+  funcionarios?: Funcionarios[]
 }
 
 const categorias = [
@@ -48,17 +49,29 @@ const categorias = [
 "Diesel – Pindoba",
 ]
 
-export function DespesasList({ despesas }: DespesasListProps) {
+export function DespesasList({ despesas, funcionarios = [] }: DespesasListProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [categoriaFiltro, setCategoriaFiltro] = useState("Todas")
   const [periodoFiltro, setPeriodoFiltro] = useState("Todos")
+  const [funcionarioFiltro, setFuncionarioFiltro] = useState("Todos")
+
+  const getFuncionarioNome = (funcionarioId?: string) => {
+    if (!funcionarioId) return null
+    const funcionario = funcionarios.find(f => f.id === funcionarioId)
+    return funcionario?.nome || null
+  }
 
   const despesasFiltradas = despesas.filter((despesa) => {
     const matchesSearch =
       despesa.descricao.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      despesa.categoria.toLowerCase().includes(searchTerm.toLowerCase())
+      despesa.categoria.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (despesa.funcionarioId && getFuncionarioNome(despesa.funcionarioId)?.toLowerCase().includes(searchTerm.toLowerCase()))
 
     const matchesCategoria = categoriaFiltro === "Todas" || despesa.categoria === categoriaFiltro
+
+    const matchesFuncionario = funcionarioFiltro === "Todos" || 
+      (funcionarioFiltro === "Sem funcionário" && !despesa.funcionarioId) ||
+      despesa.funcionarioId === funcionarioFiltro
 
     let matchesPeriodo = true
     if (periodoFiltro !== "Todos") {
@@ -81,7 +94,7 @@ export function DespesasList({ despesas }: DespesasListProps) {
       }
     }
 
-    return matchesSearch && matchesCategoria && matchesPeriodo
+    return matchesSearch && matchesCategoria && matchesPeriodo && matchesFuncionario
   })
 
   const totalDespesas = despesasFiltradas.reduce((sum, despesa) => sum + despesa.valor, 0)
@@ -120,7 +133,7 @@ export function DespesasList({ despesas }: DespesasListProps) {
           />
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <Select value={categoriaFiltro} onValueChange={setCategoriaFiltro}>
             <SelectTrigger className="w-48 flex items-center border-green-200 focus:border-emerald-500 focus:ring-emerald-500">
               <Filter className="h-4 w-4 mr-2 text-green-700" />
@@ -134,6 +147,23 @@ export function DespesasList({ despesas }: DespesasListProps) {
               ))}
             </SelectContent>
           </Select>
+
+          {funcionarios.length > 0 && (
+            <Select value={funcionarioFiltro} onValueChange={setFuncionarioFiltro}>
+              <SelectTrigger className="w-48 border-green-200 focus:border-emerald-500 focus:ring-emerald-500">
+                <SelectValue placeholder="Funcionário" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Todos">Todos funcionários</SelectItem>
+                <SelectItem value="Sem funcionário">Sem funcionário</SelectItem>
+                {funcionarios.map((funcionario) => (
+                  <SelectItem key={funcionario.id} value={funcionario.id}>
+                    {funcionario.nome}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
 
           <Select value={periodoFiltro} onValueChange={setPeriodoFiltro}>
             <SelectTrigger className="w-40 border-green-200 focus:border-emerald-500 focus:ring-emerald-500">
@@ -168,7 +198,7 @@ export function DespesasList({ despesas }: DespesasListProps) {
       {despesasFiltradas.length === 0 ? (
         <div className="text-center py-12 bg-gradient-to-br from-green-50 to-emerald-100 rounded-xl border border-green-200">
           <p className="text-green-700 text-lg">
-            {searchTerm || categoriaFiltro !== "Todas" || periodoFiltro !== "Todos"
+            {searchTerm || categoriaFiltro !== "Todas" || periodoFiltro !== "Todos" || funcionarioFiltro !== "Todos"
               ? "Nenhuma despesa encontrada com os filtros aplicados."
               : "Nenhuma despesa cadastrada ainda."}
           </p>
@@ -176,7 +206,7 @@ export function DespesasList({ despesas }: DespesasListProps) {
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {despesasFiltradas.map((despesa) => (
-            <DespesaCard key={despesa.id} despesa={despesa} />
+            <DespesaCard key={despesa.id} despesa={despesa} funcionarios={funcionarios} />
           ))}
         </div>
       )}
