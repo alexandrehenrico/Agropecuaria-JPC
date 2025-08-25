@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { MessageCircle, Clock, Zap } from "lucide-react"
 import { createWhatsAppUrl, messageTemplates } from "@/lib/whatsapp"
 import type { Funcionario } from "@/lib/types"
+import { Timestamp } from "firebase/firestore"
 
 interface QuickContactProps {
   funcionarios: Funcionario[]
