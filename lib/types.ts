@@ -1,10 +1,9 @@
 export interface Funcionarios {
   id: string
   nome: string
-  email: string
-  telefone: string
-  linkSite: string
-  servico: string
+  contato: string
+  atividade: string
+  salarioFixo?: number
   dataRegistro: Date
   registradoPor?: string
 }
