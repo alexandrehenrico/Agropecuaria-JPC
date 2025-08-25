@@ -9,6 +9,8 @@ import { createWhatsAppUrl, messageTemplates } from "@/lib/whatsapp"
 import type { Funcionario } from "@/lib/types"
 import { Timestamp } from "firebase/firestore"
 
+// ... resto do seu código
+
 interface QuickContactProps {
   funcionarios: Funcionario[]
   maxItems?: number
