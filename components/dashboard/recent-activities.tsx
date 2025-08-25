@@ -4,17 +4,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { TrendingUp, TrendingDown, UserPlus, Activity, Clock } from "lucide-react"
-import type { Receita, Despesa, Funcionario } from "@/lib/types"
+import type { Receita, Despesa, Funcionarios } from "@/lib/types"
 
 interface RecentActivitiesProps {
   receitas: Receita[]
   despesas: Despesa[]
-  funcionarios: Funcionario[]
+  Funcionarios: Funcionarios[]
   maxItems?: number
   className?: string
 }
 
-export function RecentActivities({ receitas, despesas, funcionarios, maxItems = 5, className }: RecentActivitiesProps) {
+export function RecentActivities({ receitas, despesas, Funcionarios, maxItems = 5, className }: RecentActivitiesProps) {
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("pt-BR", {
       style: "currency",
@@ -22,37 +22,22 @@ export function RecentActivities({ receitas, despesas, funcionarios, maxItems = 
     }).format(value)
   }
 
-// Aceita Date | string | Firestore Timestamp
-const formatDate = (date: any) => {
-  let dateObj: Date
-
-  if (!date) return "Data inválida"
-
-  if (typeof date === "string") {
-    dateObj = new Date(date)
-  } else if (date instanceof Date) {
-    dateObj = date
-  } else if (date?.seconds) {
-    // Firestore Timestamp
-    dateObj = new Date(date.seconds * 1000)
-  } else {
-    return "Data inválida"
+  const formatDate = (date: Date | string) => {
+    const dateObj = typeof date === 'string' ? new Date(date) : date
+    const now = new Date()
+    const diffInHours = Math.floor((now.getTime() - dateObj.getTime()) / (1000 * 60 * 60))
+    const diffInDays = Math.floor(diffInHours / 24)
+    
+    if (diffInHours < 1) return 'Agora mesmo'
+    if (diffInHours < 24) return `${diffInHours}h atrás`
+    if (diffInDays === 1) return 'Ontem'
+    if (diffInDays < 7) return `${diffInDays} dias atrás`
+    
+    return new Intl.DateTimeFormat("pt-BR", {
+      day: '2-digit',
+      month: '2-digit'
+    }).format(dateObj)
   }
-
-  const now = new Date()
-  const diffInHours = Math.floor((now.getTime() - dateObj.getTime()) / (1000 * 60 * 60))
-  const diffInDays = Math.floor(diffInHours / 24)
-
-  if (diffInHours < 1) return 'Agora mesmo'
-  if (diffInHours < 24) return `${diffInHours}h atrás`
-  if (diffInDays === 1) return 'Ontem'
-  if (diffInDays < 7) return `${diffInDays} dias atrás`
-
-  return new Intl.DateTimeFormat("pt-BR", {
-    day: '2-digit',
-    month: '2-digit'
-  }).format(dateObj)
-}
 
   const getActivityIcon = (type: string) => {
     switch (type) {
@@ -60,7 +45,7 @@ const formatDate = (date: any) => {
         return <TrendingUp className="h-4 w-4 text-green-600" />
       case 'despesa':
         return <TrendingDown className="h-4 w-4 text-red-600" />
-      case 'funcionario':
+      case 'Funcionarios':
         return <UserPlus className="h-4 w-4 text-emerald-600" />
       default:
         return <Activity className="h-4 w-4 text-green-600" />
@@ -73,7 +58,7 @@ const formatDate = (date: any) => {
         return 'bg-green-100 text-green-800 border-green-200'
       case 'despesa':
         return 'bg-red-100 text-red-800 border-red-200'
-      case 'funcionario':
+      case 'Funcionarios':
         return 'bg-emerald-100 text-emerald-800 border-emerald-200'
       default:
         return 'bg-green-100 text-green-800 border-green-200'
@@ -104,12 +89,12 @@ const formatDate = (date: any) => {
       date: d.data,
       category: d.categoria,
     })),
-    ...funcionarios.slice(0, 3).map((c) => ({
-      type: "funcionario" as const,
+    ...Funcionarios.slice(0, 3).map((c) => ({
+      type: "Funcionarios" as const,
       description: c.nome,
       value: 0,
       date: c.dataRegistro,
-      category: c.atividade,
+      category: c.servico,
     })),
   ]
     .sort((a, b) => {
@@ -158,7 +143,7 @@ const formatDate = (date: any) => {
             >
               {/* Ícone/Avatar */}
               <div className="flex-shrink-0">
-                {activity.type === 'funcionario' ? (
+                {activity.type === 'Funcionarios' ? (
                   <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
                     <AvatarFallback className="text-xs font-semibold bg-gradient-to-br from-green-700 to-green-800 text-white">
                       {getInitials(activity.description)}
@@ -178,7 +163,7 @@ const formatDate = (date: any) => {
                     variant="outline" 
                     className={`text-xs font-medium ${getActivityColor(activity.type)}`}
                   >
-                    {activity.type === "receita" ? "Receita" : activity.type === "despesa" ? "Despesa" : "Novo Funcionário"}
+                    {activity.type === "receita" ? "Receita" : activity.type === "despesa" ? "Despesa" : "Novo Funcionario"}
                   </Badge>
                   
                   {index === 0 && (
@@ -201,7 +186,7 @@ const formatDate = (date: any) => {
                   </div>
 
                   <div className="flex items-center gap-3 flex-shrink-0">
-                    {activity.type !== "funcionario" && (
+                    {activity.type !== "Funcionarios" && (
                       <span
                         className={`text-sm font-bold ${activity.type === "receita" ? "text-green-600" : "text-red-600"}`}
                       >

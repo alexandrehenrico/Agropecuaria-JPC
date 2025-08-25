@@ -3,16 +3,15 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, Tag, User } from "lucide-react"
-import type { Despesa, Funcionario } from "@/lib/types"
+import type { Despesa } from "@/lib/types"
 
 interface DespesaCardProps {
   despesa: Despesa
-  funcionarios?: Funcionario[]
   onClick?: () => void
   className?: string
 }
 
-export function DespesaCard({ despesa, funcionarios = [], onClick, className }: DespesaCardProps) {
+export function DespesaCard({ despesa, onClick, className }: DespesaCardProps) {
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("pt-BR", {
       style: "currency",
@@ -38,12 +37,6 @@ export function DespesaCard({ despesa, funcionarios = [], onClick, className }: 
       Lazer: "bg-yellow-100 text-yellow-800 border-yellow-200",
     }
     return colors[categoria] || "bg-gray-100 text-gray-800 border-gray-200"
-  }
-
-  const getFuncionarioNome = (funcionarioId?: string) => {
-    if (!funcionarioId) return null
-    const funcionario = funcionarios.find(f => f.id === funcionarioId)
-    return funcionario?.nome || null
   }
 
   return (
@@ -84,13 +77,6 @@ export function DespesaCard({ despesa, funcionarios = [], onClick, className }: 
             {despesa.categoria}
           </Badge>
         </div>
-
-        {despesa.funcionarioId && getFuncionarioNome(despesa.funcionarioId) && (
-          <div className="flex items-center gap-2 text-sm">
-            <User className="h-4 w-4 text-green-700" />
-            <span className="text-green-700">Funcionário: {getFuncionarioNome(despesa.funcionarioId)}</span>
-          </div>
-        )}
 
         {despesa.registradoPor && (
           <div className="pt-2 border-t border-green-200">

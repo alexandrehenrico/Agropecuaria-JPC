@@ -9,11 +9,10 @@ import {
 } from "@/components/ui/select"
 import { ReceitaCard } from "./receita-card"
 import { Search, Filter } from "lucide-react"
-import type { Receita, Funcionario } from "@/lib/types"
+import type { Receita } from "@/lib/types"
 
 interface ReceitasListProps {
   receitas: Receita[]
-  funcionarios?: Funcionario[]
 }
 
 const categorias = [
@@ -28,7 +27,7 @@ const categorias = [
   "Outros",
 ]
 
-export function ReceitasList({ receitas, funcionarios = [] }: ReceitasListProps) {
+export function ReceitasList({ receitas }: ReceitasListProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [categoriaFiltro, setCategoriaFiltro] = useState("Todas")
   const [periodoFiltro, setPeriodoFiltro] = useState("Todos")

@@ -1,9 +1,10 @@
-export interface Funcionario {
+export interface Funcionarios {
   id: string
   nome: string
-  contato: string
-  atividade: string
-  salarioFixo?: number
+  email: string
+  telefone: string
+  linkSite: string
+  servico: string
   dataRegistro: Date
   registradoPor?: string
 }
@@ -12,7 +13,7 @@ export interface Receita {
   id: string
   descricao: string
   valor: number
-  funcionarioId?: string
+  FuncionariosId?: string
   categoria: string
   data: Date
   registradoPor?: string
@@ -22,7 +23,6 @@ export interface Despesa {
   id: string
   descricao: string
   valor: number
-  funcionarioId?: string
   categoria: string
   data: Date
   registradoPor?: string
@@ -53,7 +53,7 @@ export interface Projeto {
   id: string
   nome: string
   descricao: string
-  funcionarioId?: string
+  FuncionariosId?: string
   status: 'prospeccao' | 'desenvolvimento' | 'entregue'
   valor?: number
   dataInicio: Date
@@ -85,10 +85,10 @@ export interface ItemOrcamento {
 export interface Orcamento {
   id: string
   numeroOrcamento: string
-  funcionarioId?: string
-  nomeFuncionario: string
-  emailFuncionario: string
-  telefoneFuncionario: string
+  FuncionariosId?: string
+  nomeFuncionarios: string
+  emailFuncionarios: string
+  telefoneFuncionarios: string
   titulo: string
   descricao?: string
   itens: ItemOrcamento[]
@@ -105,10 +105,10 @@ export interface Orcamento {
 export interface Recibo {
   id: string
   numeroRecibo: string
-  funcionarioId?: string
-  nomeFuncionario: string
-  emailFuncionario: string
-  telefoneFuncionario: string
+  FuncionariosId?: string
+  nomeFuncionarios: string
+  emailFuncionarios: string
+  telefoneFuncionarios: string
   descricaoServico: string
   valorPago: number
   formaPagamento: 'dinheiro' | 'pix' | 'cartao' | 'transferencia' | 'boleto'

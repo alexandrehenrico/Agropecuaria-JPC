@@ -2,22 +2,22 @@
 
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
-import { FuncionarioCard } from "./Funcionarios-card"
+import { FuncionariosCard } from "./Funcionarios-card"
 import { Search, Users } from "lucide-react"
-import type { Funcionario } from "@/lib/types"
+import type { Funcionarios } from "@/lib/types"
 
 interface FuncionariosListProps {
-  funcionarios: Funcionario[]
+  Funcionarios: Funcionarios[]
 }
 
-export function FuncionariosList({ funcionarios }: FuncionariosListProps) {
+export function FuncionariosList({ Funcionarios }: FuncionariosListProps) {
   const [searchTerm, setSearchTerm] = useState("")
 
-  const funcionariosFiltrados = funcionarios.filter(
-    (funcionario) =>
-      funcionario.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      funcionario.contato.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      funcionario.atividade.toLowerCase().includes(searchTerm.toLowerCase()),
+  const FuncionariosFiltrados = Funcionarios.filter(
+    (Funcionarios) =>
+      Funcionarios.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      Funcionarios.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      Funcionarios.servico.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
   return (
@@ -31,7 +31,7 @@ export function FuncionariosList({ funcionarios }: FuncionariosListProps) {
         <div className="relative w-full sm:w-80">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-green-600" />
           <Input
-            placeholder="Buscar funcionários por nome, contato ou atividade..."
+            placeholder="Buscar funcionários por nome, email ou serviço..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10 rounded-xl shadow-sm border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
@@ -40,7 +40,7 @@ export function FuncionariosList({ funcionarios }: FuncionariosListProps) {
       </div>
 
       {/* Lista ou mensagem de vazio */}
-      {funcionariosFiltrados.length === 0 ? (
+      {FuncionariosFiltrados.length === 0 ? (
         <div className="text-center py-16 bg-green-50 rounded-xl border border-green-100">
           <p className="text-green-600 text-lg">
             {searchTerm
@@ -50,8 +50,8 @@ export function FuncionariosList({ funcionarios }: FuncionariosListProps) {
         </div>
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {funcionariosFiltrados.map((funcionario) => (
-            <FuncionarioCard key={funcionario.id} funcionario={funcionario} />
+          {FuncionariosFiltrados.map((Funcionarios) => (
+            <FuncionariosCard key={Funcionarios.id} Funcionarios={Funcionarios} />
           ))}
         </div>
       )}

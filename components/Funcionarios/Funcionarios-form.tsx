@@ -5,23 +5,25 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { adicionarFuncionario } from "@/lib/database"
+import { adicionarFuncionarios } from "@/lib/database"
 import { useToast } from "@/hooks/use-toast"
 import { UserPlus } from "lucide-react"
 
-interface FuncionarioFormProps {
-  onFuncionarioAdicionado: () => void
+interface FuncionariosFormProps {
+  onFuncionariosAdicionado: () => void
 }
 
-export function FuncionarioForm({ onFuncionarioAdicionado }: FuncionarioFormProps) {
+export function FuncionariosForm({ onFuncionariosAdicionado }: FuncionariosFormProps) {
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     nome: "",
-    contato: "",
-    atividade: "",
-    salarioFixo: "",
+    email: "",
+    telefone: "",
+    linkSite: "",
+    servico: "",
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -29,13 +31,10 @@ export function FuncionarioForm({ onFuncionarioAdicionado }: FuncionarioFormProp
     setLoading(true)
 
     try {
-      const funcionarioData = {
+      await adicionarFuncionarios({
         ...formData,
-        salarioFixo: formData.salarioFixo ? Number.parseFloat(formData.salarioFixo) : undefined,
         dataRegistro: new Date(),
-      }
-      
-      await adicionarFuncionario(funcionarioData)
+      })
 
       toast({
         title: "Funcionário adicionado",
@@ -44,12 +43,13 @@ export function FuncionarioForm({ onFuncionarioAdicionado }: FuncionarioFormProp
 
       setFormData({
         nome: "",
-        contato: "",
-        atividade: "",
-        salarioFixo: "",
+        email: "",
+        telefone: "",
+        linkSite: "",
+        servico: "",
       })
 
-      onFuncionarioAdicionado()
+      onFuncionariosAdicionado()
     } catch (error) {
       toast({
         title: "Erro",
@@ -61,7 +61,7 @@ export function FuncionarioForm({ onFuncionarioAdicionado }: FuncionarioFormProp
     }
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -95,19 +95,20 @@ export function FuncionarioForm({ onFuncionarioAdicionado }: FuncionarioFormProp
                 value={formData.nome}
                 onChange={handleChange}
                 required
-                placeholder="Nome completo do funcionário"
+                placeholder="Nome do Funcionário"
                 className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="contato" className="text-green-900">Contato *</Label>
+              <Label htmlFor="email" className="text-green-900">Email *</Label>
               <Input
-                id="contato"
-                name="contato"
-                value={formData.contato}
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
                 onChange={handleChange}
                 required
-                placeholder="Telefone, email ou outro contato"
+                placeholder="email@exemplo.com"
                 className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
               />
             </div>
@@ -115,31 +116,43 @@ export function FuncionarioForm({ onFuncionarioAdicionado }: FuncionarioFormProp
 
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="atividade" className="text-green-900">Atividade *</Label>
+              <Label htmlFor="telefone" className="text-green-900">Telefone *</Label>
               <Input
-                id="atividade"
-                name="atividade"
-                value={formData.atividade}
+                id="telefone"
+                name="telefone"
+                value={formData.telefone}
                 onChange={handleChange}
                 required
-                placeholder="Função ou atividade exercida"
+                placeholder="(11) 99999-9999"
                 className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="salarioFixo" className="text-green-900">Salário Fixo (Opcional)</Label>
+              <Label htmlFor="linkSite" className="text-green-900">Link do Site</Label>
               <Input
-                id="salarioFixo"
-                name="salarioFixo"
-                type="number"
-                step="0.01"
-                min="0"
-                value={formData.salarioFixo}
+                id="linkSite"
+                name="linkSite"
+                type="url"
+                value={formData.linkSite}
                 onChange={handleChange}
-                placeholder="0,00"
+                placeholder="https://exemplo.com"
                 className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
               />
             </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="servico" className="text-green-900">Serviço Prestado *</Label>
+            <Textarea
+              id="servico"
+              name="servico"
+              value={formData.servico}
+              onChange={handleChange}
+              required
+              placeholder="Descreva o serviço prestado para este funcionário"
+              rows={3}
+              className="border-green-200 focus:border-emerald-500 focus:ring-emerald-500"
+            />
           </div>
 
           <Button

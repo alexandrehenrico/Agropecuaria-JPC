@@ -1,214 +1,184 @@
-import { 
-  collection, 
-  addDoc, 
-  getDocs, 
-  doc, 
-  updateDoc, 
-  deleteDoc, 
-  query, 
-  orderBy, 
-  where,
-  Timestamp 
-} from 'firebase/firestore'
-import { db, auth } from './firebase'
-import type { Despesa, Receita, Funcionario, Senha } from './types'
+import { collection, addDoc, getDocs, query, orderBy, Timestamp, doc, updateDoc } from "firebase/firestore"
+import { db, auth } from "./firebase"
+import type { Funcionarios, Receita, Despesa, Senha, Projeto, AtividadeProjeto, Orcamento, Recibo } from "./types"
 
-// Despesas
-export async function obterDespesas(): Promise<Despesa[]> {
+// Funcionarios
+export const adicionarFuncionarios = async (Funcionarios: Omit<Funcionarios, "id">) => {
   try {
-    const q = query(collection(db, 'despesas'), orderBy('data', 'desc'))
-    const querySnapshot = await getDocs(q)
-    return querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data(),
-      data: doc.data().data.toDate()
-    })) as Despesa[]
-  } catch (error) {
-    console.error('Erro ao obter despesas:', error)
-    throw error
-  }
-}
+    if (!auth.currentUser) {
+      throw new Error("Usuário não autenticado")
+    }
 
-export async function adicionarDespesa(despesa: Omit<Despesa, 'id'>): Promise<string> {
-  try {
-    const docRef = await addDoc(collection(db, 'despesas'), {
-      ...despesa,
-      data: Timestamp.fromDate(new Date(despesa.data)),
-      registradoPor: auth.currentUser?.email || 'Usuário desconhecido'
+    const docRef = await addDoc(collection(db, "Funcionarios"), {
+      ...Funcionarios,
+      dataRegistro: Timestamp.fromDate(Funcionarios.dataRegistro),
+      registradoPor: auth.currentUser.displayName || auth.currentUser.email || "Usuário",
     })
     return docRef.id
   } catch (error) {
-    console.error('Erro ao adicionar despesa:', error)
+    console.error("Erro ao adicionar Funcionario:", error)
     throw error
   }
 }
 
-export async function atualizarDespesa(id: string, despesa: Partial<Despesa>): Promise<void> {
+export const obterFuncionarios = async (): Promise<Funcionarios[]> => {
   try {
-    const docRef = doc(db, 'despesas', id)
-    const updateData = { ...despesa }
-    if (despesa.data) {
-      updateData.data = Timestamp.fromDate(new Date(despesa.data))
+    // Aguarda a inicialização do auth
+    await new Promise((resolve) => {
+      const unsubscribe = auth.onAuthStateChanged((user) => {
+        unsubscribe()
+        resolve(user)
+      })
+    })
+
+    if (!auth.currentUser) {
+      console.log("[v0] Usuário não autenticado, retornando array vazio")
+      return []
     }
-    await updateDoc(docRef, updateData)
-  } catch (error) {
-    console.error('Erro ao atualizar despesa:', error)
-    throw error
-  }
-}
 
-export async function excluirDespesa(id: string): Promise<void> {
-  try {
-    await deleteDoc(doc(db, 'despesas', id))
+    const q = query(collection(db, "Funcionarios"), orderBy("dataRegistro", "desc"))
+    const querySnapshot = await getDocs(q)
+    return querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+      dataRegistro: doc.data().dataRegistro.toDate(),
+    })) as Funcionarios[]
   } catch (error) {
-    console.error('Erro ao excluir despesa:', error)
-    throw error
+    console.error("Erro ao obter Funcionarios:", error)
+    return []
   }
 }
 
 // Receitas
-export async function obterReceitas(): Promise<Receita[]> {
+export const adicionarReceita = async (receita: Omit<Receita, "id">) => {
   try {
-    const q = query(collection(db, 'receitas'), orderBy('data', 'desc'))
+    if (!auth.currentUser) {
+      throw new Error("Usuário não autenticado")
+    }
+
+    const docRef = await addDoc(collection(db, "receitas"), {
+      ...receita,
+      data: Timestamp.fromDate(receita.data),
+      registradoPor: auth.currentUser.displayName || auth.currentUser.email || "Usuário",
+    })
+    return docRef.id
+  } catch (error) {
+    console.error("Erro ao adicionar receita:", error)
+    throw error
+  }
+}
+
+export const obterReceitas = async (): Promise<Receita[]> => {
+  try {
+    // Aguarda a inicialização do auth
+    await new Promise((resolve) => {
+      const unsubscribe = auth.onAuthStateChanged((user) => {
+        unsubscribe()
+        resolve(user)
+      })
+    })
+
+    if (!auth.currentUser) {
+      console.log("[v0] Usuário não autenticado, retornando array vazio")
+      return []
+    }
+
+    const q = query(collection(db, "receitas"), orderBy("data", "desc"))
     const querySnapshot = await getDocs(q)
-    return querySnapshot.docs.map(doc => ({
+    return querySnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
-      data: doc.data().data.toDate()
+      data: doc.data().data.toDate(),
     })) as Receita[]
   } catch (error) {
-    console.error('Erro ao obter receitas:', error)
-    throw error
+    console.error("Erro ao obter receitas:", error)
+    return []
   }
 }
 
-export async function adicionarReceita(receita: Omit<Receita, 'id'>): Promise<string> {
+// Despesas
+export const adicionarDespesa = async (despesa: Omit<Despesa, "id">) => {
   try {
-    const docRef = await addDoc(collection(db, 'receitas'), {
-      ...receita,
-      data: Timestamp.fromDate(new Date(receita.data)),
-      registradoPor: auth.currentUser?.email || 'Usuário desconhecido'
-    })
-    return docRef.id
-  } catch (error) {
-    console.error('Erro ao adicionar receita:', error)
-    throw error
-  }
-}
-
-export async function atualizarReceita(id: string, receita: Partial<Receita>): Promise<void> {
-  try {
-    const docRef = doc(db, 'receitas', id)
-    const updateData = { ...receita }
-    if (receita.data) {
-      updateData.data = Timestamp.fromDate(new Date(receita.data))
+    if (!auth.currentUser) {
+      throw new Error("Usuário não autenticado")
     }
-    await updateDoc(docRef, updateData)
-  } catch (error) {
-    console.error('Erro ao atualizar receita:', error)
-    throw error
-  }
-}
 
-export async function excluirReceita(id: string): Promise<void> {
-  try {
-    await deleteDoc(doc(db, 'receitas', id))
-  } catch (error) {
-    console.error('Erro ao excluir receita:', error)
-    throw error
-  }
-}
-
-// Funcionários
-export async function obterFuncionarios(): Promise<Funcionario[]> {
-  try {
-    const q = query(collection(db, 'Funcionarios'), orderBy('nome'))
-    const querySnapshot = await getDocs(q)
-    return querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    })) as Funcionario[]
-  } catch (error) {
-    console.error('Erro ao obter funcionários:', error)
-    throw error
-  }
-}
-
-export async function adicionarFuncionario(funcionario: Omit<Funcionario, 'id'>): Promise<string> {
-  try {
-    const docRef = await addDoc(collection(db, 'Funcionarios'), {
-      ...funcionario,
-      registradoPor: auth.currentUser?.email || 'Usuário desconhecido'
+    const docRef = await addDoc(collection(db, "despesas"), {
+      ...despesa,
+      data: Timestamp.fromDate(despesa.data),
+      registradoPor: auth.currentUser.displayName || auth.currentUser.email || "Usuário",
     })
     return docRef.id
   } catch (error) {
-    console.error('Erro ao adicionar funcionário:', error)
+    console.error("Erro ao adicionar despesa:", error)
     throw error
   }
 }
 
-export async function atualizarFuncionario(id: string, funcionario: Partial<Funcionario>): Promise<void> {
+export const obterDespesas = async (): Promise<Despesa[]> => {
   try {
-    const docRef = doc(db, 'Funcionarios', id)
-    await updateDoc(docRef, funcionario)
-  } catch (error) {
-    console.error('Erro ao atualizar funcionário:', error)
-    throw error
-  }
-}
+    // Aguarda a inicialização do auth
+    await new Promise((resolve) => {
+      const unsubscribe = auth.onAuthStateChanged((user) => {
+        unsubscribe()
+        resolve(user)
+      })
+    })
 
-export async function excluirFuncionario(id: string): Promise<void> {
-  try {
-    await deleteDoc(doc(db, 'Funcionarios', id))
+    if (!auth.currentUser) {
+      console.log("[v0] Usuário não autenticado, retornando array vazio")
+      return []
+    }
+
+    const q = query(collection(db, "despesas"), orderBy("data", "desc"))
+    const querySnapshot = await getDocs(q)
+    return querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+      data: doc.data().data.toDate(),
+    })) as Despesa[]
   } catch (error) {
-    console.error('Erro ao excluir funcionário:', error)
-    throw error
+    console.error("Erro ao obter despesas:", error)
+    return []
   }
 }
 
 // Senhas
-export async function obterSenhas(): Promise<Senha[]> {
+export const adicionarSenha = async (senha: Omit<Senha, "id">) => {
   try {
-    const q = query(collection(db, 'senhas'), orderBy('titulo'))
-    const querySnapshot = await getDocs(q)
-    return querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    })) as Senha[]
-  } catch (error) {
-    console.error('Erro ao obter senhas:', error)
-    throw error
-  }
-}
+    if (!auth.currentUser) {
+      throw new Error("Usuário não autenticado")
+    }
 
-export async function adicionarSenha(senha: Omit<Senha, 'id'>): Promise<string> {
-  try {
-    const docRef = await addDoc(collection(db, 'senhas'), {
+    const docRef = await addDoc(collection(db, "senhas"), {
       ...senha,
-      registradoPor: auth.currentUser?.email || 'Usuário desconhecido'
+      dataRegistro: Timestamp.fromDate(senha.dataRegistro),
+      registradoPor: auth.currentUser.displayName || auth.currentUser.email || "Usuário",
     })
     return docRef.id
   } catch (error) {
-    console.error('Erro ao adicionar senha:', error)
+    console.error("Erro ao adicionar senha:", error)
     throw error
   }
 }
 
-export async function atualizarSenha(id: string, senha: Partial<Senha>): Promise<void> {
+export const obterSenhas = async (): Promise<Senha[]> => {
   try {
-    const docRef = doc(db, 'senhas', id)
-    await updateDoc(docRef, senha)
+    if (!auth.currentUser) {
+      console.log("[v0] Usuário não autenticado, retornando array vazio")
+      return []
+    }
+
+    const q = query(collection(db, "senhas"), orderBy("dataRegistro", "desc"))
+    const querySnapshot = await getDocs(q)
+    return querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+      dataRegistro: doc.data().dataRegistro.toDate(),
+    })) as Senha[]
   } catch (error) {
-    console.error('Erro ao atualizar senha:', error)
-    throw error
+    console.error("Erro ao obter senhas:", error)
+    return []
   }
 }
 
-export async function excluirSenha(id: string): Promise<void> {
-  try {
-    await deleteDoc(doc(db, 'senhas', id))
-  } catch (error) {
-    console.error('Erro ao excluir senha:', error)
-    throw error
-  }
-}
