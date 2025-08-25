@@ -17,17 +17,37 @@ interface QuickContactProps {
 }
 
 export function QuickContact({ funcionarios, maxItems = 3, className, variant = 'default' }: QuickContactProps) {
-  const formatDate = (date: Date | string) => {
-    const dateObj = typeof date === 'string' ? new Date(date) : date
-    const now = new Date()
-    const diffInDays = Math.floor((now.getTime() - dateObj.getTime()) / (1000 * 60 * 60 * 24))
-    
-    if (diffInDays === 0) return 'Hoje'
-    if (diffInDays === 1) return 'Ontem'
-    if (diffInDays < 7) return `${diffInDays} dias atrás`
-    if (diffInDays < 30) return `${Math.floor(diffInDays / 7)} sem atrás`
-    return `${Math.floor(diffInDays / 30)} mês${Math.floor(diffInDays / 30) > 1 ? 'es' : ''} atrás`
+function formatDate(date: any) {
+  if (!date) return "Data inválida"
+
+  let dateObj: Date
+
+  // Se for string
+  if (typeof date === "string") {
+    dateObj = new Date(date)
+  } 
+  // Se for Firestore Timestamp
+  else if (date?.seconds) {
+    dateObj = new Date(date.seconds * 1000)
+  } 
+  // Se já for Date
+  else if (date instanceof Date) {
+    dateObj = date
+  } 
+  else {
+    return "Data inválida"
   }
+
+  const now = new Date()
+  const diffInDays = Math.floor(
+    (now.getTime() - dateObj.getTime()) / (1000 * 60 * 60 * 24)
+  )
+
+  if (diffInDays === 0) return "Hoje"
+  if (diffInDays === 1) return "Ontem"
+  return `${diffInDays} dias atrás`
+}
+
 
   const getInitials = (nome: string) => {
     const words = nome.split(" ")
